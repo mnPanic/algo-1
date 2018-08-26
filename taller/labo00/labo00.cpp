@@ -31,9 +31,28 @@ int f3(int x, int y) {
     return result;
 }
 
+// Ejercicio 5. Escribir la función que dado n ∈ N devuelve si es primo.
+//              Recuerden que un número es primo si los únicos
+//              divisores que tiene son 1 y el mismo.
+bool esPrimo(int n) {
+    bool primo = true;
+
+    // Veo todos los numeros de [2, n / 2].
+    // Si alguno lo divide, no es primo.
+    // Y si ninguno lo divide, es primo
+    for (int i = 2; i <= n / 2 && primo; i++) {
+        if (n % i == 0) primo = false;
+    }
+
+    return primo;
+}
 
 int main() {
-    std::cout << "El resultado con suma es: " << f3(11,10) << std::endl;
-    std::cout << "El resultado con producto es: " << f3(2,3) << std::endl;
+    int input [] = {1, 2, 3, 4, 5, 6, 41, 126, 1957, 19, 23, 89};
+
+    for (int i = 0; i < 12; i++) {
+        int n = input[i];
+        std::cout << n << " es Primo? " << esPrimo(n) << std::endl;
+    }
     return 0;
 }
