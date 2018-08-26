@@ -143,14 +143,53 @@ int sumaImparesFor(int n) {
     return suma;
 }
 
-// fib: 0 1 1 2 3 5 8 13 21 34
+// Ejercicio 8. Escribir la función sumaDivisores que dado n ∈ N,
+//              devuelve la suma de todos sus divisores entre [1, n].
+// Hint: Recordar que para la versión recursiva es necesario implementar divisoresHasta
+
+// Dice si k es divisor de n
+bool esDivisorDe(int k, int n) {
+    return n % k == 0;
+}
+
+int sumaDivisoresRecursiva(int n) {
+    // no lo pienso hacer
+    return 0;
+}
+
+int sumaDivisoresWhile(int n) {
+    int suma = 0;
+    int i = 1;
+
+    while (i <= n) {
+        if (esDivisorDe(i, n)) {
+            suma += i;
+        }
+
+        i++;
+    }
+
+    return suma;
+}
+
+int sumaDivisoresFor(int n) {
+    int suma = 0;
+
+    for (int i = 1; i <= n; i++) {
+        if (esDivisorDe(i, n)) {
+            suma += i;
+        }
+    }
+
+    return suma;
+}
 
 int main() {
     int input [] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
     for (int i = 0; i < 13; i++) {
         int n = input[i];
-        std::cout << "suma de impares hasta " << n << " es = " << sumaImparesFor(n) << std::endl;
+        std::cout << "suma de divisores hasta " << n << " es = " << sumaDivisoresWhile(n) << std::endl;
     }
     return 0;
 }
