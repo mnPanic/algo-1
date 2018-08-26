@@ -47,12 +47,72 @@ bool esPrimo(int n) {
     return primo;
 }
 
-int main() {
-    int input [] = {1, 2, 3, 4, 5, 6, 41, 126, 1957, 19, 23, 89};
 
-    for (int i = 0; i < 12; i++) {
+// Los siguientes ejercicios deben ser implementados primero en su versión recursiva,
+// luego iterativa utilizando while y por último iterativa utilizando for.
+
+// Ejercicio 6. Escribir la función de Fibonacci que dado un entero n
+//              devuelve el n-ésimo número de Fibonacci. Los números
+//              de Fibonacci empiezan con F0 = 0 y F1 = 1. Fn = Fn−1 + Fn−2
+
+int fibRecursiva(int n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    return fibRecursiva(n - 1) + fibRecursiva(n - 2);
+}
+
+int fibWhile(int n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    int fib = 1;
+    int prevFib = 0;
+
+    // comienzo de 2 porque los otros dos casos los tengo hardcodeados.
+    int i = 2;
+    while (i <= n) {
+        int temp = fib;
+
+        fib += prevFib;
+        prevFib = temp;
+
+        i++;
+    }
+
+    return fib;
+}
+
+int fibFor(int n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    int fib = 1;
+    int prevFib = 0;
+
+    // comienzo de 2 porque los otros dos casos los tengo hardcodeados.
+    for (int i = 2; i <= n; i++) {
+        int temp = fib;
+
+        fib += prevFib;
+        prevFib = temp;
+    }
+
+    return fib;
+}
+
+
+// fib: 0 1 1 2 3 5 8 13 21 34
+
+int main() {
+    int input [] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+
+    for (int i = 0; i < 13; i++) {
         int n = input[i];
-        std::cout << n << " es Primo? " << esPrimo(n) << std::endl;
+        std::cout << "fibo de " << n << "es = " << fibFor(n) << std::endl;
     }
     return 0;
 }
