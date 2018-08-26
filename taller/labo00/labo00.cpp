@@ -104,6 +104,44 @@ int fibFor(int n) {
     return fib;
 }
 
+// Ejercicio 7. Escribir la función que dado n ∈ N devuelve la suma
+//              de todos los números impares menores que n.
+bool esImpar(int n) {
+    return n % 2 == 1;
+}
+
+int sumaImparesRecursiva(int n) {
+    if (n == 0) {
+        return 0;
+    }
+
+    if (esImpar(n)) {
+        return n + sumaImparesRecursiva(n - 1);
+    } else {
+        return sumaImparesRecursiva(n - 1);
+    }
+}
+
+int sumaImparesWhile(int n) {
+    int suma = 0;
+    while (n > 0) {
+        if (esImpar(n)) {
+            suma += n;
+        }
+        n--;
+    }
+    return suma;
+}
+
+int sumaImparesFor(int n) {
+    int suma = 0;
+    for(int i = 1; i <= n; i++) {
+        if(esImpar(i)) {
+            suma += i;
+        }
+    }
+    return suma;
+}
 
 // fib: 0 1 1 2 3 5 8 13 21 34
 
@@ -112,7 +150,7 @@ int main() {
 
     for (int i = 0; i < 13; i++) {
         int n = input[i];
-        std::cout << "fibo de " << n << "es = " << fibFor(n) << std::endl;
+        std::cout << "suma de impares hasta " << n << " es = " << sumaImparesFor(n) << std::endl;
     }
     return 0;
 }
