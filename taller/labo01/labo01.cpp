@@ -32,7 +32,45 @@ void ej11() {
     }
 }
 
+// Ejercicio 15. ¿Cuál es el valor de a luego de la invocación prueba(a,a)?
+void prueba (int & x , int & y ) {
+    x = x + y ;
+    y = x - y ;
+    x = 1/ y ;
+}
+
+// En los siguientes ejercicios, ingresar los valores por entrada est´andar,
+// mostrar en la salida est´andar los valores ingresados y
+// los resultados de las funciones.
+
+// Ejercicio 16. Implementar la función swap: void swap(int& a, int& b), que cumpla con la siguiente especificación:
+// proc swap (inout a:Z, inout b:Z) {
+//      Pre {a = a_0 ∧ b = b_0}
+//      Post {a = b_0 ∧ b = a_0}
+// }
+
+void swap(int& a, int& b) {
+    int temp = b;
+    b = a;
+    a = temp;
+}
+
+void ej16() {
+    int a = 0;
+    int b = 0;
+
+    std::cout << "Ingresar valores (a, b):" << std::endl;
+    std::cin >> a;
+    std::cin >> b;
+
+    swap(a, b);
+
+    std::cout << "Los valores cambiados son:" << std::endl;
+    std::cout << "a: " << a << std::endl;
+    std::cout << "b: " << b << std::endl;
+}
+
 int main() {
-    ej11();
+    ej16();
     return 0;
 }
