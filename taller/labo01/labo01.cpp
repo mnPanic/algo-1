@@ -70,7 +70,58 @@ void ej16() {
     std::cout << "b: " << b << std::endl;
 }
 
+// Ejercicio 17. Implementar la función division que cumpla con la siguiente especificación:
+//  proc division (in dividendo Z, in divisor Z, out cociente:Z, out resto:Z) {
+//      Pre {dividendo ≥ 0 ∧ divisor > 0}
+//      Post {dividendo = divisor ∗ cociente + resto ∧ 0 ≤ resto < divisor}
+//  }
+
+void divisionIterativa(int dividendo, int divisor, int& cociente, int& resto) {
+    while (dividendo >= divisor) {
+        dividendo -= divisor;
+        cociente++;
+    }
+    resto = dividendo;
+}
+
+void divisionRecursiva(int dividendo, int divisor, int& cociente, int& resto) {
+    if(divisor > dividendo) {
+        resto = dividendo;
+    } else {
+        cociente++;
+        dividendo -= divisor;
+        divisionRecursiva(dividendo, divisor, cociente, resto);
+    }
+}
+
+void imprimir(int dividendo, int divisor, int cociente, int resto) {
+    std::cout << "dividendo: " << dividendo << std::endl;
+    std::cout << "divisor: " << divisor << std::endl;
+    std::cout << "cociente: " << cociente << std::endl;
+    std::cout << "resto: " << resto << std::endl;
+}
+
+void ej17() {
+    int dividendo = 0;
+    int divisor = 0;
+    int cociente = 0;
+    int resto = 0;
+    std::cout << "Ingresar valores (dividendo, divisor):" << std::endl;
+    std::cin >> dividendo;
+    std::cin >> divisor;
+
+    divisionIterativa(dividendo, divisor, cociente, resto);
+
+    std::cout << "Los valores resultantes (Iterativa) son:" << std::endl;
+    imprimir(dividendo, divisor, cociente, resto);
+
+    divisionRecursiva(dividendo, divisor, cociente, resto);
+
+    std::cout << "Los valores resultantes (Recursiva) son:" << std::endl;
+    imprimir(dividendo, divisor, cociente, resto);
+}
+
 int main() {
-    ej16();
+    ej17();
     return 0;
 }
