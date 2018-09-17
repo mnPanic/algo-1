@@ -18,6 +18,9 @@ int main() {
     cout << divide(v, 10) << endl;
     cout << divide(v2, 10) << endl;
 
+    cout << divideRec(v, 10) << endl;
+    cout << divideRec(v2, 10) << endl;
+
     // COMPLETAR CON MAS PRUEBAS
 
     return 0;

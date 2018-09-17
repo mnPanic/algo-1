@@ -1,16 +1,25 @@
 #include "ejercicios.h"
 
-bool divide(vector<int> v, int n){
-    cout << "Implementame!" << endl;
-
-    return false;
+bool divideA (int n, int x){
+    return (x%n == 0);
 }
 
+bool divide(vector<int> v, int n) {
+    bool divide = true;
+    for (int i = 0; i < v.size(); i++) {
+        if (!divideA(n, v[i])) divide = false;
+    }
+    return divide;
+}
 
 bool divideRec(vector<int> v, int n){
-    cout << "Implementame!" << endl;
-
-    return false;
+    if (v.size() == 0) {
+        return true;
+    } else {
+        if (!divideA(n, v[v.size() - 1])) return false;
+        v.pop_back();
+        return divideRec(v, n);
+    }
 }
 
 int maximo(vector<int> v){
