@@ -32,5 +32,7 @@ int main() {
     cout << perteneceRec(30, v) << endl;
     cout << perteneceRec(3, v) << endl;
 
+    cout << "MOSTRAR" << endl;
+    mostrarVector(v);
     return 0;
 }

@@ -65,8 +65,14 @@ bool perteneceRec(int elem, vector<int> v){
 }
 
 void mostrarVector(vector<int> v){
-    cout << "Implementame!" << endl;
+    cout << "[";
+    cout << v[0];
 
+    for (int i = 1; i < v.size(); i++) {
+        cout << ", ";
+        cout << v[i];
+    }
+    cout << "]" << endl;
 }
 
 vector<int> limpiarDuplicados(vector<int> v){
