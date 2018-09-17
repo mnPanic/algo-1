@@ -34,5 +34,13 @@ int main() {
 
     cout << "MOSTRAR" << endl;
     mostrarVector(v);
+
+    cout << "LIMPIAR" << endl;
+    vector<int> v3;
+    v3.push_back(30);
+    v3.push_back(30);
+    v3.push_back(30);
+    v3.push_back(2);
+    mostrarVector(limpiarDuplicados(v3));
     return 0;
 }

@@ -76,9 +76,12 @@ void mostrarVector(vector<int> v){
 }
 
 vector<int> limpiarDuplicados(vector<int> v){
-    cout << "Implementame!" << endl;
-
     vector<int> res;
+    for(int e : v) {
+        if(!pertenece(e, res)) {
+            res.push_back(e);
+        }
+    }
     return res;
 }
 
