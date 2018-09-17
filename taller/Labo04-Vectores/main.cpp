@@ -26,5 +26,11 @@ int main() {
     cout << maximoRec(v) << endl;
     cout << maximoRec(v2) << endl;
 
+    cout << "PERTENECE" << endl;
+    cout << pertenece(30, v) << endl;
+    cout << pertenece(3, v) << endl;
+    cout << perteneceRec(30, v) << endl;
+    cout << perteneceRec(3, v) << endl;
+
     return 0;
 }

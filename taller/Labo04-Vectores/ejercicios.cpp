@@ -47,15 +47,21 @@ int maximoRec(vector<int> v){
 }
 
 bool pertenece(int elem, vector<int> v){
-    cout << "Implementame!" << endl;
-
-    return false;
+    bool resultado = false;
+    for(int j = 0; j < v.size(); j++) {
+        if(v[j] == elem) resultado = true;
+    }
+    return resultado;
 }
 
 bool perteneceRec(int elem, vector<int> v){
-    cout << "Implementame!" << endl;
-
-    return false;
+    if (v.size() == 1) {
+        return (v[0] == elem);
+    } else{
+        if (elem == v[v.size() - 1]) return true;
+        v.pop_back();
+        return perteneceRec(elem, v);
+    }
 }
 
 void mostrarVector(vector<int> v){
