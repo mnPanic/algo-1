@@ -86,9 +86,12 @@ vector<int> limpiarDuplicados(vector<int> v){
 }
 
 vector<int> rotar(vector<int> v, int k){
-    cout << "Implementame!" << endl;
-
     vector<int> res;
+
+    for (int i = k; i < v.size() + k; i++) {
+        res.push_back(v[i%v.size()]);
+    }
+
     return res;
 }
 

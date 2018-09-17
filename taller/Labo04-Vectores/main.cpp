@@ -42,5 +42,16 @@ int main() {
     v3.push_back(30);
     v3.push_back(2);
     mostrarVector(limpiarDuplicados(v3));
+
+    cout << "ROTAR" << endl;
+    vector<int> v4;
+    v4.push_back(1);
+    v4.push_back(2);
+    v4.push_back(3);
+    v4.push_back(4);
+    v4.push_back(5);
+    v4.push_back(6);
+    mostrarVector(rotar(v4, 2));
+    //deberia dar [3, 4, 5, 6, 1, 2].
     return 0;
 }
