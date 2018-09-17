@@ -23,15 +23,27 @@ bool divideRec(vector<int> v, int n){
 }
 
 int maximo(vector<int> v){
-    cout << "Implementame!" << endl;
+    int maximo = v[0];
 
-    return 0;
+    for (int i = 1; i < v.size(); i++) {
+        if (maximo < v[i]) {
+            maximo = v[i];
+        }
+    }
+
+    return maximo;
 }
 
 int maximoRec(vector<int> v){
-    cout << "Implementame!" << endl;
+    if (v.size() == 1) {
+        return v[0];
+    } else {
+        int elem = v[v.size() - 1];
+        v.pop_back();
+        int max = maximoRec(v);
 
-    return 0;
+        return (elem > max) ? elem : max;
+    }
 }
 
 bool pertenece(int elem, vector<int> v){

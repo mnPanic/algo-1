@@ -12,16 +12,19 @@ int main() {
     v.push_back(-20);
     v.push_back(30);
     v.push_back(40);
-    vector<int> v2 = v;
+    vector<int> v2;
     v2.push_back(3);
 
     cout << divide(v, 10) << endl;
     cout << divide(v2, 10) << endl;
-
     cout << divideRec(v, 10) << endl;
     cout << divideRec(v2, 10) << endl;
 
-    // COMPLETAR CON MAS PRUEBAS
+    cout << "MAXIMO" << endl;
+    cout << maximo(v) << endl;
+    cout << maximo(v2) << endl;
+    cout << maximoRec(v) << endl;
+    cout << maximoRec(v2) << endl;
 
     return 0;
 }
