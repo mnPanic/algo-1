@@ -1,0 +1,82 @@
+\documentclass[a4paper]{article}
+\input{Algo1Macros}
+
+\usepackage{a4wide}
+\usepackage{amsmath, amscd, amssymb, amsthm, latexsym}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{enumerate}
+
+\setlength{\parskip}{0.1em}
+\usepackage{caratula} % Version modificada para usar las macros de algo1 de ~> https://github.com/bcardiff/dc-tex
+
+\begin{document}
+
+\titulo{TP de Especificación}
+\subtitulo{Juego de la vida toroidal}
+\fecha{\today}
+\materia{Algoritmos y Estructuras de Datos I}
+\grupo{Grupo: TBD}
+
+\newcommand{\senial}{\textit{se\~nal}}
+
+% Pongan cuantos integrantes quieran
+\integrante{Manuel Panichelli}{072/18}{panicmanu@gmail.com}
+\integrante{Ignacio Alonso Rehor}{195/18}{arehor.ignacio@gmail.com}
+
+\maketitle
+
+\section{Problemas}
+%\aux{Aux}{i: \ent}{\bool}{\True}
+type $toroide = \matriz{\bool}$
+\subsection{esValido}
+% Ejercicio 1 : proc esValido(in t: toroide, out result : Bool)
+% Que dado un toroide verifique si es válido
+
+% Un toroide será válido si es una Matriz valida y no es vacío
+
+\begin{proc}
+{esValido}{\In t: $toroide$,
+            \out result: $\bool$}{}
+    \pre{\True}
+    \post{result = true \Iff (\longitud{t} \neq 0 \wedge esMatriz(t))}
+\end{proc}
+
+% TODO: Mover a generales?
+% TODO: Que trucazo, no? ;)
+\pred{esMatriz}{m: \matriz{T}}{
+    \paraTodo{i,j}{(0}{\longitud{m}} $\implicaLuego$ \longitud{m[i]} = \longitud{m[j]})
+}
+
+\subsection{posicionesVivas}
+% Ejercicio 2 : proc posicionesVivas(in t: toroide, out vivas : seq<Z × Zi>)
+% Que dado un toroide devuelva todas las posiciones vivas.
+\begin{proc}
+{posicionesVivas}{\In t: $toroide$,
+                  \out vivas: \TLista{\ent \times \ent}}{}
+    \pre{esValido(t)}
+    \post{sonPosicionesVivas(vivas, t) \wedge }
+\end{proc}
+
+
+\section{Predicados y Auxiliares generales}
+
+/* Para filas y columnas suponemos que m es una matriz */\\
+\aux{filas}{m: \matriz{T}}{\ent}{\longitud{m}}
+\aux{columnas}{m: \matriz{T}}{\ent}{\IfThenElse{filas(m) > 0}{\longitud{m[0]}}{0}}
+
+\aux{cantidadAparicionesEnSeq}{x: T, s: \TLista{T}}{\ent}{
+    \sum_{i=0}^{\longitud{s}-1} (\IfThenElse{s[i] = x}{1}{0})
+}
+
+\aux{cantidadAparicionesEnMat}{x: T, m: \matriz{T}}{\ent}{
+    \sum_{i=0}^{filas(m) - 1} 
+    \sum_{j=0}^{columnas(m) - 1}
+    (\IfThenElse{s[i][j] = x}{1}{0})
+}
+
+\section{Decisiones tomadas}
+% Sólo para decisiones de alto nivel, no para explicar la solución a los ejercicios: CONSULTAR!
+Tomamos como decisión que un toroide de 1 solo casillero es válido, permitiendo que se tenga a si mismo como vecino.
+
+\end{document}
+
