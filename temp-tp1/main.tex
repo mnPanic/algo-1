@@ -51,7 +51,7 @@
     % TODO: Mover a generales?
     % TODO: Que trucazo, no? ;)
     \pred{esMatriz}{m: \matriz{T}}{
-        \paraTodo{i,j}{(0}{\longitud{m}} $\implicaLuego$ \longitud{m[i]} = \longitud{m[j]})
+        \paraTodo{i,j}{(0}{\longitud{m}} \implicaLuego \longitud{m[i]} = \longitud{m[j]})
     }
     
     \subsection{posicionesVivas}
@@ -67,13 +67,6 @@
     
     \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: $toroide$}{
         (\forall{p : \tEnt}) (p \in vivas \Then esPosicionViva(t, p))
-    }
-    
-    \pred{esPosicionViva}{t: $toroide$, p: \tEnt}{
-        % Chequea que la pos se vayan de rango i,j
-        esPosicionValida(t, p) \yLuego
-        % Chequea que t[i,j] sea una pos viva.
-        (t[p_{0}][p_{1}] = True)
     }
     
     \subsection{densidadPoblacion}
@@ -94,12 +87,38 @@
     \begin{proc}{evolucionDePosicion}{
             \In t: $toroide$,
             \In p: \tEnt,
-            \Out result: \float}{}
+            \Out result: \bool}{}
         \pre{esToroideValido(t) \wedge esPosicionValida(t, p)}
-        \post{}
+        \post{result = true \Iff viveLuegoDeUnTick(t, p)}
     \end{proc}
     
-    \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{}{}
+    
+    \subsection{evolucionToroide}
+    % Ejercicio 5 : proc evolucionToroide(inout t: toroide) Que dado un toroide lo evolucione un tick.
+    \begin{proc}{evolucionToroide}{
+            \Inout t: $toroide$}{}
+        \pre{esToroideValido(t) \wedge t =$ T_{0}$}
+        \post{esEvolucion(t, T_{0})}
+    \end{proc}
+    
+    \pred{esEvolucion}{t, T_{0}: $toroide$}{\\
+        (\forall{p: \tEnt}) esPosicionValida(p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(T_{0}, p)
+    }
+    
+    \subsection{evolucionMultiple}
+    % Ejercicio 6 : proc evolucionMultiple(in t: toroide, in k: Z, out result: toroide)
+    % Que dado un toroide t y un natural k, devuelva el toroide resultante de evolucionar t por k ticks.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     \section{Predicados y Auxiliares generales}
     
@@ -111,8 +130,101 @@
         \wedge cols(t) \geq 3))
     }
     
+    /* Supone que es una posicion válida (no se va a ir de rango) /*\\
+    \aux{valorEn}{t: $toroide$, p: \tEnt}{\bool}{
+        t[p_{0}][p_{1}]
+    }
+    
+    \pred{esPosicionViva}{t: $toroide$, p: \tEnt}{
+        % Chequea que la pos se vayan de rango i,j
+        esPosicionValida(t, p) \yLuego
+        % Chequea que t[i,j] sea una pos viva.
+        (valorEn(t, p) = True)
+    }
+    
     \aux{cantidadDePosicionesVivas}{t: $toroide$}{\ent} {
         cantidadDeAparicionesEnMat(True, t)
+    }
+    
+    \subsubsection{Vecinos}
+    % - Cualquier posici´on viva con menos de 2 vecinas vivas, muere (por soledad)
+    % - Cualquier posici´on viva con 2 o 3 vecinos vivos, vive.
+    % - Cualquier posici´on viva con m´as de 3 vecinas vivas, muere (por %superpoblaci´on)
+    % - Cualqueir posici´on muerta con exactamente 3 vecinos vivos, pasa a vivir (por reproducci´on)
+    
+    \pred{viveLuegoDeUnTick}{t: $toroide$, p: \tEnt}{
+        (\neg esSoledad(t, p) $ \wedge$ \neg esSuperpoblacion(t, p)) \wedge
+        (esSupervivencia(t, p) \vee esReproduccion(t, p))
+    }
+    
+    \pred{esSoledad}{t: $toroide$, p: \tEnt}{
+        esPosicionViva(t, p) \wedge
+        (cantidadVecinosVivos(t, p) < 2)
+    }
+    
+    \pred{esSuperpoblacion}{t: $toroide$, p: \tEnt}{
+        esPosicionViva(t, p) \wedge
+        (cantidadVecinosVivos(t, p) > 3)
+    }
+    
+    \pred{esSupervivencia}{t: $toroide$, p: \tEnt}{
+        esPosicionViva(t, p) \wedge
+        (2 \leq cantidadVecinosVivos(t, p) \leq 3)
+    }
+    
+    \pred{esReproduccion}{t: $toroide$, p: \tEnt}{
+        ($\neg$ esPosicionViva(t, p)) \wedge
+        (cantidadVecinosVivos(t, p) = 3)
+    }
+    
+    \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{\tEnt}{\\
+          (\IfThenElse{esPosicionViva(t, vecinoAr(t, p)}{1}{0})\\
+        + (\IfThenElse{esPosicionViva(t, vecinoAb(t, p)}{1}{0})\\
+        + (\IfThenElse{esPosicionViva(t, vecinoIzq(t, p)}{1}{0})\\
+        + (\IfThenElse{esPosicionViva(t, vecinoDer(t, p)}{1}{0})\\
+        + (\IfThenElse{esPosicionViva(t, vecinoIzqAr(t, p)}{1}{0})\\
+        + (\IfThenElse{esPosicionViva(t, vecinoDerAr(t, p)}{1}{0})\\
+        + (\IfThenElse{esPosicionViva(t, vecinoIzqAb(t, p)}{1}{0})\\
+        + (\IfThenElse{esPosicionViva(t, vecinoDerAb(t, p)}{1}{0})
+    }
+    
+    \aux{vecinoAr}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (0, 1))
+    }
+    
+    \aux{vecinoAb}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (0, -1))
+    }
+    
+    \aux{vecinoIzq}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (-1, 0))
+    }
+    
+    \aux{vecinoDer}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (1, 0))
+    }
+    
+    \aux{vecinoIzqAr}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (-1, 1))
+    }
+    
+    \aux{vecinoDerAr}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (1, 1))
+    }
+    
+    \aux{vecinoIzqAb}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (-1, -1))
+    }
+    
+    \aux{vecinoDerAb}{t: $toroide$, p: \tEnt}{\tEnt}{
+        trasladar(t, p, (1, -1))
+    }
+    
+    % TODO: Hacer lindo
+    % TODO: Preguntar si la funcion "dada" mod cumple que el resultado es mayor o igual a 0
+    \aux{trasladar}{t: $toroide$, p: \tEnt, d: \tEnt}{\tEnt}{
+        (mod(p_{0} + d_{0}, cols(t),
+         mod(p_{1} + d_{1}, rows(t))
     }
     
     \subsection{Matrices}
