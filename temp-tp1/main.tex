@@ -101,24 +101,27 @@
         \post{esEvolucion(t, T_{0})}
     \end{proc}
     
-    \pred{esEvolucion}{t, T_{0}: $toroide$}{\\
-        (\forall{p: \tEnt}) esPosicionValida(p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(T_{0}, p)
-    }
-    
     \subsection{evolucionMultiple}
     % Ejercicio 6 : proc evolucionMultiple(in t: toroide, in k: Z, out result: toroide)
     % Que dado un toroide t y un natural k, devuelva el toroide resultante de evolucionar t por k ticks.
     
+    \begin{proc}{evolucionMultiple}{
+            \In t : $toroide$, 
+            \In k : \ent, 
+            \Out result : $toroide$}{}
+        \pre{k \geq 1 \wedge
+             es}
+        \post{esK-EsimaEvolucion(result, t, k}
+    \end{proc}
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    \pred{esK-EsimaEvolucion}{t, T_{0}: $toroide$, k: \ent}{
+        \exists{ts: \TLista{toroide}}(\\
+        \text{/* T es la ultima evolución */}  \\
+        (T_{k} = t) \wedge              \\
+        \text{/* Todo elemento y su consecutivo cumple que uno es evolución del otro */}\\
+        (\paraTodo{i}{(0}{\longitud{ts} - 1}) \implicaLuego 
+            (esEvolucion(ts[i + 1], ts[i])
+    }
     
     \section{Predicados y Auxiliares generales}
     
@@ -127,7 +130,7 @@
     \pred{esToroideValido}{t: $toroide$}{
         (esMatriz(t) 
         \wedge (rows(t) \geq 3
-        \wedge cols(t) \geq 3))
+        \wedge  cols(t) \geq 3))
     }
     
     /* Supone que es una posicion válida (no se va a ir de rango) /*\\
@@ -144,6 +147,17 @@
     
     \aux{cantidadDePosicionesVivas}{t: $toroide$}{\ent} {
         cantidadDeAparicionesEnMat(True, t)
+    }
+    
+    \pred{esEvolucion}{t, T_{0}: toroide}{
+    % hay que chequear
+    % - que tengan la misma dimension
+    % - que sean toroides válidos
+        (\forall{p: \tEnt}) esPosicionValida(p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(T_{0}, p)
+    }
+    
+    \pred{mismaDimesion}{t_{1}, t_{2}: toroide}{
+        
     }
     
     \subsubsection{Vecinos}
@@ -177,47 +191,10 @@
         (cantidadVecinosVivos(t, p) = 3)
     }
     
-    \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{\tEnt}{\\
-          (\IfThenElse{esPosicionViva(t, vecinoAr(t, p)}{1}{0})\\
-        + (\IfThenElse{esPosicionViva(t, vecinoAb(t, p)}{1}{0})\\
-        + (\IfThenElse{esPosicionViva(t, vecinoIzq(t, p)}{1}{0})\\
-        + (\IfThenElse{esPosicionViva(t, vecinoDer(t, p)}{1}{0})\\
-        + (\IfThenElse{esPosicionViva(t, vecinoIzqAr(t, p)}{1}{0})\\
-        + (\IfThenElse{esPosicionViva(t, vecinoDerAr(t, p)}{1}{0})\\
-        + (\IfThenElse{esPosicionViva(t, vecinoIzqAb(t, p)}{1}{0})\\
-        + (\IfThenElse{esPosicionViva(t, vecinoDerAb(t, p)}{1}{0})
-    }
-    
-    \aux{vecinoAr}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (0, 1))
-    }
-    
-    \aux{vecinoAb}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (0, -1))
-    }
-    
-    \aux{vecinoIzq}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (-1, 0))
-    }
-    
-    \aux{vecinoDer}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (1, 0))
-    }
-    
-    \aux{vecinoIzqAr}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (-1, 1))
-    }
-    
-    \aux{vecinoDerAr}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (1, 1))
-    }
-    
-    \aux{vecinoIzqAb}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (-1, -1))
-    }
-    
-    \aux{vecinoDerAb}{t: $toroide$, p: \tEnt}{\tEnt}{
-        trasladar(t, p, (1, -1))
+    \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{\tEnt}{
+        \sum_{i=-1}^1 \sum_{j=-1}^1 \IfThenElse{(i, j) = (0,0)}{0}{(
+            \IfThenElse{esPosicionViva(t, trasladar(t, p, (i, j))}{1}{0}
+        )}
     }
     
     % TODO: Hacer lindo
