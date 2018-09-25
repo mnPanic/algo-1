@@ -39,7 +39,7 @@
   % Ponemos el nombre del problema
   \ %
   {\normalfont\ttfamily #2}%
-  \
+  \ 
   % Ponemos los parametros
   (#3)%
   \ifthenelse{\equal{#4}{}}{}{%
@@ -114,7 +114,7 @@
       \theejercicio}%
     \renewcommand\@currentlabel{\theejercicio}%
   }{\vspace{0.2cm}}
-}
+}  
 
 
 \newcommand{\titulotp}{
@@ -144,7 +144,7 @@
 \begin{center}
 \begin{tabular}{r cr}
  \begin{tabular}{c}
-{\large\bf\textsf{\ Algoritmos y Estructuras de Datos I\ }}\\
+{\large\bf\textsf{\ Algoritmos y Estructuras de Datos I\ }}\\ 
 Primer Cuatrimestre 2018\\
 \title{\normalsize Gu\'ia Pr\'actica #1 \\ \textbf{#2}}\\
 \@title
@@ -156,7 +156,7 @@ Primer Cuatrimestre 2018\\
  \emph{Departamento de Computaci\'on} \\
  \emph{Facultad de Ciencias Exactas y Naturales} \\
  \emph{Universidad de Buenos Aires} \\
-\end{tabular}
+\end{tabular} 
 \end{tabular}
 \end{center}
 
@@ -220,13 +220,10 @@ Primer Cuatrimestre 2018\\
 %tipos basicos
 \newcommand{\rea}{\ensuremath{\mathsf{Float}}}
 \newcommand{\cha}{\ensuremath{\mathsf{Char}}}
-\newcommand{\str}{\ensuremath{\mathsf{String}}}
 
 \newcommand{\mcd}{\mathrm{mcd}}
 \newcommand{\prm}[1]{\ensuremath{\mathsf{prm}(#1)}}
 \newcommand{\sgd}[1]{\ensuremath{\mathsf{sgd}(#1)}}
-
-\newcommand{\tuple}[2]{\ensuremath{#1 \times #2}}
 
 %listas
 \newcommand{\TLista}[1]{\ensuremath{seq \langle #1\rangle}}
@@ -254,11 +251,14 @@ Primer Cuatrimestre 2018\\
 \newcommand{\selector}[2]{#1~\ensuremath{\leftarrow}~#2}
 \newcommand{\selec}{\ensuremath{\leftarrow}}
 
+\newcommand{\breakAndSpace}[1]{\\\hspace*{#1}}
+\newcommand{\tab}{4em}
+%MODIFICACIÓN: breakline antes del cuerpo 3
 \newcommand{\pred}[3]{%
     {\normalfont\bfseries\ttfamily pred }%
     {\normalfont\ttfamily #1}%
     \ifthenelse{\equal{#2}{}}{}{\ (#2) }%
-    \{\ensuremath{#3}\}%
+    \{\breakAndSpace{\tab}\ensuremath{#3}\breakAndSpace{1em} \}%
     {\normalfont\bfseries\,\par}%
   }
 
@@ -282,7 +282,7 @@ Primer Cuatrimestre 2018\\
     {\normalfont\bfseries\,\par}%
   }
   \renewcommand{\aux}[4]{%
-    {\normalfont\bfseries\ttfamily fun\ }%
+    {\normalfont\bfseries\ttfamily aux\ }%
     {\normalfont\ttfamily ##1}%
     \ifthenelse{\equal{##2}{}}{}{\ (##2)}\ : ##3\, = \ensuremath{##4}%
     {\normalfont\bfseries\,;\par}%
@@ -303,10 +303,11 @@ Primer Cuatrimestre 2018\\
 }
 
 
+% Modificacion: Agrega un linebreak
   \newcommand{\aux}[4]{%
-    {\normalfont\bfseries\ttfamily fun\ }%
+    {\normalfont\bfseries\ttfamily aux\ }%
     {\normalfont\ttfamily #1}%
-    \ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = \ensuremath{#4}%
+    \ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = \breakAndSpace{\tab}\ensuremath{#4}%
     {\normalfont\bfseries\,;\par}%
   }
 
@@ -318,9 +319,9 @@ Primer Cuatrimestre 2018\\
 \newcommand{\procilsinres}[2]{\textsf{proc #1}\ensuremath{(#2)}}
 \newcommand{\preil}[2]{\textsf{Pre #1: }\ensuremath{#2}}
 \newcommand{\postil}[2]{\textsf{Post #1: }\ensuremath{#2}}
-\newcommand{\auxil}[2]{\textsf{fun }\ensuremath{#1 = #2}}
-\newcommand{\auxilc}[4]{\textsf{fun }\ensuremath{#1( #2 ): #3 = #4}}
-\newcommand{\auxnom}[1]{\textsf{fun }\ensuremath{#1}}
+\newcommand{\auxil}[2]{\textsf{aux }\ensuremath{#1 = #2}}
+\newcommand{\auxilc}[4]{\textsf{aux }\ensuremath{#1( #2 ): #3 = #4}}
+\newcommand{\auxnom}[1]{\textsf{aux }\ensuremath{#1}}
 \newcommand{\auxpred}[3]{\textsf{pred }\ensuremath{#1( #2 ) \{ #3 \}}}
 
 \newcommand{\comentario}[1]{{/*\ #1\ */}}
@@ -396,7 +397,7 @@ Primer Cuatrimestre 2018\\
       \protected@edef\tmp@a{\theejercicio}% expand as far as we can
       \@xa\g@addto@macro\@xa\primerafila\@xa{\tmp@a}%
       \egroup% restore old value of \tmp@a, effect of \g@addto.. is
-
+      
       \stepcounter{columnainicial}
     }
     {% Tiene incisos
@@ -406,7 +407,7 @@ Primer Cuatrimestre 2018\\
       \protected@edef\tmp@a{\arabic{enumi}}% expand as far as we can
       \@xa\g@addto@macro\@xa\primerafila\@xa{\tmp@a}%
       \egroup% restore old value of \tmp@a, effect of \g@addto.. is
-      % global
+      % global 
       % Ahora el formato
       \g@addto@macro\primerafila{{|c|}}%
       % Ahora el numero de ejercicio
@@ -414,7 +415,7 @@ Primer Cuatrimestre 2018\\
       \protected@edef\tmp@a{\theejercicio}% expand as far as we can
       \@xa\g@addto@macro\@xa\primerafila\@xa{\tmp@a}%
       \egroup% restore old value of \tmp@a, effect of \g@addto.. is
-      % global
+      % global 
       % Ahora armamos la segunda fila
       \g@addto@macro\segundafila{\multicolumn{1}{|c|}{a}}%
       \setcounter{contgrilla}{1}
@@ -426,7 +427,7 @@ Primer Cuatrimestre 2018\\
         \protected@edef\tmp@a{\alph{contgrilla}}% expand as far as we can
         \@xa\g@addto@macro\@xa\segundafila\@xa{\tmp@a}%
         \egroup% restore old value of \tmp@a, effect of \g@addto.. is
-        % global
+        % global 
       }
       % Ahora armo las rayitas
       \setcounter{columnafinal}{\value{columnainicial}}
@@ -484,11 +485,11 @@ Primer Cuatrimestre 2018\\
   }%
   \vspace{0.4cm}
   \textbf{Nro. de orden:}
-
+  
   \textbf{LU:}
-
+  
   \textbf{Apellidos:}
-
+  
   \textbf{Nombres:}
   \vspace{0.5cm}
 }
