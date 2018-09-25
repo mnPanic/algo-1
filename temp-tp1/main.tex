@@ -13,6 +13,7 @@
     
     % Define una tupla de enteros
     \newcommand{\tEnt}{\ent \times \ent}
+    \newcommand{\bt}{\breakAndSpace{\tab}}
     
     % -------- END MACROS ------
     
@@ -110,18 +111,36 @@
             \In k : \ent, 
             \Out result : $toroide$}{}
         \pre{k \geq 1 \wedge
-             es}
-        \post{esK-EsimaEvolucion(result, t, k}
+             esToroideValido(t)}
+        \post{$esK-EsimaEvolucion(result, t, k)}
     \end{proc}
     
-    \pred{esK-EsimaEvolucion}{t, T_{0}: $toroide$, k: \ent}{
-        \exists{ts: \TLista{toroide}}(\\
-        \text{/* T es la ultima evolución */}  \\
-        (T_{k} = t) \wedge              \\
-        \text{/* Todo elemento y su consecutivo cumple que uno es evolución del otro */}\\
-        (\paraTodo{i}{(0}{\longitud{ts} - 1}) \implicaLuego 
-            (esEvolucion(ts[i + 1], ts[i])
+    \pred{esK-EsimaEvolucion}{t, t_{0}: toroide, k: \ent}{
+        \exists{ts: \TLista{toroide}} ( \bt
+            %$\text{/* t_{0} es la primera}$
+            (ts[0] = t_{0}) \wedge
+            %\text{/* t es la ultima evolución */}
+            (ts[k] = t) \wedge \bt
+            %\text{/* Todo elemento y su consecutivo cumple que uno es evolución del otro */}
+            (\paraTodo{i}{(0}{\longitud{ts} - 1}) \implicaLuego 
+                (esEvolucion(ts[i + 1], ts[i])
+        )
     }
+    
+    \subsection{esPeriodico}
+    %Ejercicio 7: proc esPeriodico(in t: toroide, inout p: Z, out result: Bool)
+    %Que dado un toroide devuelva si el mismo es peri ́odico o no. En caso de serlo, se debe devolver en la m ́ınima
+    %cantidad de ticks en la cual se repite el patr ́on. Decimos que un toroide es peri ́odico si pasada cierta cantidad de ticks,
+    % vuelve a tener exactamente la misma configuraci ́on que ten ́ıa originalmente.
+    %Por ejemplo, en el siguiente caso el toroide es peri ́odico, y p = 2.
+    
+    \begin{proc}{esPeriodico}{
+            \In t : $toroide$, 
+            \Inout p: \ent,
+            \Out result : Bool}{}
+        \pre{}
+        \post{}
+    \end{proc}
     
     \section{Predicados y Auxiliares generales}
     
@@ -133,31 +152,31 @@
         \wedge  cols(t) \geq 3))
     }
     
-    /* Supone que es una posicion válida (no se va a ir de rango) /*\\
+    %/* Supone que es una posicion válida (no se va a ir de rango) /*
     \aux{valorEn}{t: $toroide$, p: \tEnt}{\bool}{
         t[p_{0}][p_{1}]
     }
     
     \pred{esPosicionViva}{t: $toroide$, p: \tEnt}{
         % Chequea que la pos se vayan de rango i,j
-        esPosicionValida(t, p) \yLuego
+        esPosicionValida(t, p) \yLuego \bt
         % Chequea que t[i,j] sea una pos viva.
-        (valorEn(t, p) = True)
+        (valorEn(t, p) = \True)
     }
     
     \aux{cantidadDePosicionesVivas}{t: $toroide$}{\ent} {
         cantidadDeAparicionesEnMat(True, t)
     }
     
-    \pred{esEvolucion}{t, T_{0}: toroide}{
-    % hay que chequear
-    % - que tengan la misma dimension
-    % - que sean toroides válidos
-        (\forall{p: \tEnt}) esPosicionValida(p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(T_{0}, p)
+    \pred{esEvolucion}{t, t_{0}: toroide}{
+        (esToroideValido(t) \wedge esToroideValido(t_{0})) \wedge \bt
+        (mismaDimension(t, t_{0}))\wedge \bt
+        (\forall{p: \tEnt}) esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p) 
     }
     
-    \pred{mismaDimesion}{t_{1}, t_{2}: toroide}{
-        
+    \pred{mismaDimesion}{t, t_{0}: toroide}{
+        (cols(t) = cols(t_{0})) \wedge \bt
+        (rows(t) = rows(t_{0}))
     }
     
     \subsubsection{Vecinos}
@@ -167,7 +186,7 @@
     % - Cualqueir posici´on muerta con exactamente 3 vecinos vivos, pasa a vivir (por reproducci´on)
     
     \pred{viveLuegoDeUnTick}{t: $toroide$, p: \tEnt}{
-        (\neg esSoledad(t, p) $ \wedge$ \neg esSuperpoblacion(t, p)) \wedge
+        (\neg esSoledad(t, p) $ \wedge$ \neg esSuperpoblacion(t, p)) \wedge \bt
         (esSupervivencia(t, p) \vee esReproduccion(t, p))
     }
     
@@ -200,7 +219,7 @@
     % TODO: Hacer lindo
     % TODO: Preguntar si la funcion "dada" mod cumple que el resultado es mayor o igual a 0
     \aux{trasladar}{t: $toroide$, p: \tEnt, d: \tEnt}{\tEnt}{
-        (mod(p_{0} + d_{0}, cols(t),
+        (mod(p_{0} + d_{0}, cols(t), \bt
          mod(p_{1} + d_{1}, rows(t))
     }
     
@@ -210,7 +229,7 @@
     \aux{cols}{m: \matriz{T}}{\ent}{\longitud{m}}
     \aux{rows}{m: \matriz{T}}{\ent}{\IfThenElse{cols(m) > 0}{\longitud{m[0]}}{0}}
     
-    \aux{cantidadDeAparicionesEnMat}{x: T, m: \matriz{T}}{\ent}{\\\hspace*{4em}
+    \aux{cantidadDeAparicionesEnMat}{x: T, m: \matriz{T}}{\ent}{
         \sum_{i=0}^{cols(m) - 1}
         \sum_{j=0}^{rows(m) - 1}
         (\IfThenElse{s[i][j] = x}{1}{0})
@@ -218,7 +237,8 @@
     
     \pred{esPosicionValida}{m: \matriz{T}, p: \tEnt}{
         % Chequea que ambos estén en rango
-        (0 \leq p_{0} < cols(m)) \wedge (0 \leq p_{1} < rows(m))
+        (0 \leq p_{0} < cols(m)) \wedge \bt
+        (0 \leq p_{1} < rows(m))
     }
     
     \section{Decisiones tomadas}
