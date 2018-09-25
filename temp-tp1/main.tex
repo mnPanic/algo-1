@@ -110,22 +110,10 @@
             \In t : $toroide$, 
             \In k : \ent, 
             \Out result : $toroide$}{}
-        \pre{k \geq 1 \wedge
+        \pre{(k \geq 1) \wedge
              esToroideValido(t)}
-        \post{$esK-EsimaEvolucion(result, t, k)}
+        \post{esK-EsimaEvolucion(result, t, k)}
     \end{proc}
-    
-    \pred{esK-EsimaEvolucion}{t, t_{0}: toroide, k: \ent}{
-        \exists{ts: \TLista{toroide}} ( \bt
-            %$\text{/* t_{0} es la primera}$
-            (ts[0] = t_{0}) \wedge
-            %\text{/* t es la ultima evolución */}
-            (ts[k] = t) \wedge \bt
-            %\text{/* Todo elemento y su consecutivo cumple que uno es evolución del otro */}
-            (\paraTodo{i}{(0}{\longitud{ts} - 1}) \implicaLuego 
-                (esEvolucion(ts[i + 1], ts[i])
-        )
-    }
     
     \subsection{esPeriodico}
     %Ejercicio 7: proc esPeriodico(in t: toroide, inout p: Z, out result: Bool)
@@ -137,19 +125,58 @@
     \begin{proc}{esPeriodico}{
             \In t : $toroide$, 
             \Inout p: \ent,
-            \Out result : Bool}{}
-        \pre{}
-        \post{}
+            \Out result : \bool}{}
+        \pre{esToroideValido(t)}
+        \post{(result = \True \Iff tienePeriodicidad(t)) \wedge 
+              esMinimaPeriodicidad(t, p)}
     \end{proc}
+    
+    \pred{tienePeriodicidad}{t: $toroide$}{
+        (\exists{k: \ent})($tienePeriodicidadK-Esima(t, k)$)
+    }
+    
+    % p es el minimo si:
+    % - t tiene periodicidad p
+    % - para todo q tal que t tiene periodicidad q-esima
+    % => p <= q
+    \pred{esMinimaPeriodicidad}{t: $toroide$, p: \ent}{
+        $tienePeriodicidadK-Esima(t, p) $ \wedge \bt
+        ((\forall{q: \ent})($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
+    }
+    
+    \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
+        (k \geq 1) \wedge ($esK-EsimaEvolucion(t, t, k)$)
+    }
+    
+    \subsection{primosLejanos}
+    %Ejercicio 8: proc primosLejanos(in t1: toroide, in t2: toroide, out primos: Bool)
+    %Que dados dos toroides, devuelva si uno es la evoluci ́on m ́ultiple del otro.
+    
+    \begin{proc}{primosLejanos}{
+            \In t1 : $toroide$, 
+            \In t2 : $toroide$, 
+            \Out primos : \bool}{}
+        \pre{esToroideValido(t1) \wedge esToroideValido(t2)}
+        \post{primos = \True \Iff sonPrimosLejanos(t1, t2)}
+    \end{proc}
+    
+    % si son primos lejanos quiere decir que 
+    % - t1 es alguna evolución de t2 o al revès
+    % existe algun índice tal que t1 es K-esima evolución 
+    \pred{sonPrimosLejanos}{t1: $toroide$, t2: $toroide$}{
+        (\exists{k: \ent})
+            ($esK-EsimaEvolucion(t1, t2, k) $ \vee
+             $ esK-EsimaEvolucion(t2, t1, k)$)
+    }
     
     \section{Predicados y Auxiliares generales}
     
     \subsection{Toroides}
     
     \pred{esToroideValido}{t: $toroide$}{
-        (esMatriz(t) 
-        \wedge (rows(t) \geq 3
-        \wedge  cols(t) \geq 3))
+        esMatriz(t) \wedge \bt
+        (rows(t) \geq 3) \wedge \bt
+        (cols(t) \geq 3)
     }
     
     %/* Supone que es una posicion válida (no se va a ir de rango) /*
@@ -159,7 +186,7 @@
     
     \pred{esPosicionViva}{t: $toroide$, p: \tEnt}{
         % Chequea que la pos se vayan de rango i,j
-        esPosicionValida(t, p) \yLuego \bt
+        esPosicionValida(t, p) \yLuego
         % Chequea que t[i,j] sea una pos viva.
         (valorEn(t, p) = \True)
     }
@@ -171,12 +198,25 @@
     \pred{esEvolucion}{t, t_{0}: toroide}{
         (esToroideValido(t) \wedge esToroideValido(t_{0})) \wedge \bt
         (mismaDimension(t, t_{0}))\wedge \bt
-        (\forall{p: \tEnt}) esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p) 
+        (\forall{p: \tEnt}) (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p))
     }
     
     \pred{mismaDimesion}{t, t_{0}: toroide}{
         (cols(t) = cols(t_{0})) \wedge \bt
         (rows(t) = rows(t_{0}))
+    }
+    
+    
+    \pred{esK-EsimaEvolucion}{t, t_{0}: toroide, k: \ent}{
+        (\exists{ts: \TLista{toroide}})( \bt
+            %$\text{/* t_{0} es la primera}$
+            (ts[0] = t_{0}) \wedge
+            %\text{/* t es la ultima evolución */}
+            (ts[k] = t) \wedge \bt
+            %\text{/* Todo elemento y su consecutivo cumple que uno es evolución del otro */}
+            (\paraTodo{i}{(0}{\longitud{ts} - 1}) \implicaLuego 
+                (esEvolucion(ts[i + 1], ts[i])
+        )
     }
     
     \subsubsection{Vecinos}
