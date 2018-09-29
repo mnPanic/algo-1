@@ -49,12 +49,6 @@
         \post{result = true \Iff esToroideValido(t)}
     \end{proc}
     
-    % TODO: Mover a generales?
-    % TODO: Que trucazo, no? ;)
-    \pred{esMatriz}{m: \matriz{T}}{
-        \paraTodo{i,j}{(0}{\longitud{m}} \implicaLuego \longitud{m[i]} = \longitud{m[j]})
-    }
-    
     \subsection{posicionesVivas}
     % Ejercicio 2 : proc posicionesVivas(in t: toroide, out vivas : seq<Z × Zi>)
     % Que dado un toroide devuelva todas las posiciones vivas.
@@ -268,6 +262,10 @@
     %/* Para filas y columnas suponemos que m es una matriz */\\
     \aux{cols}{m: \matriz{T}}{\ent}{\longitud{m}}
     \aux{rows}{m: \matriz{T}}{\ent}{\IfThenElse{cols(m) > 0}{\longitud{m[0]}}{0}}
+    
+    \pred{esMatriz}{m: \matriz{T}}{
+        \paraTodo{i,j}{(0}{\longitud{m}} \implicaLuego \longitud{m[i]} = \longitud{m[j]})
+    }
     
     \aux{cantidadDeAparicionesEnMat}{x: T, m: \matriz{T}}{\ent}{
         \sum_{i=0}^{cols(m) - 1}
