@@ -125,23 +125,6 @@
               esMinimaPeriodicidad(t, p)}
     \end{proc}
     
-    \pred{tienePeriodicidad}{t: $toroide$}{
-        (\exists{k: \ent})($tienePeriodicidadK-Esima(t, k)$)
-    }
-    
-    % p es el minimo si:
-    % - t tiene periodicidad p
-    % - para todo q tal que t tiene periodicidad q-esima
-    % => p <= q
-    \pred{esMinimaPeriodicidad}{t: $toroide$, p: \ent}{
-        $tienePeriodicidadK-Esima(t, p) $ \wedge \bt
-        ((\forall{q: \ent})($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
-    }
-    
-    \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
-        (k \geq 1) \wedge ($esK-EsimaEvolucion(t, t, k)$)
-    }
-    
     \subsection{primosLejanos}
     %Ejercicio 8: proc primosLejanos(in t1: toroide, in t2: toroide, out primos: Bool)
     %Que dados dos toroides, devuelva si uno es la evoluci ́on m ́ultiple del otro.
@@ -209,6 +192,23 @@
             (\paraTodo{i}{(0}{\longitud{ts} - 1}) \implicaLuego 
                 (esEvolucion(ts[i + 1], ts[i])
         )
+    }
+    
+    \pred{tienePeriodicidad}{t: $toroide$}{
+        (\exists{k: \ent})($tienePeriodicidadK-Esima(t, k)$)
+    }
+    
+    % p es el minimo si:
+    % - t tiene periodicidad p
+    % - para todo q tal que t tiene periodicidad q-esima
+    % => p <= q
+    \pred{esMinimaPeriodicidad}{t: $toroide$, p: \ent}{
+        $tienePeriodicidadK-Esima(t, p) $ \wedge \bt
+        ((\forall{q: \ent})($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
+    }
+    
+    \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
+        (k \geq 1) \wedge ($esK-EsimaEvolucion(t, t, k)$)
     }
     
     \subsubsection{Vecinos}
