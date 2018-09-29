@@ -126,7 +126,7 @@
     \end{proc}
     
     \subsection{primosLejanos}
-    %Ejercicio 8: proc primosLejanos(in t1: toroide, in t2: toroide, out primos: Bool)
+    % Ejercicio 8: proc primosLejanos(in t1: toroide, in t2: toroide, out primos: Bool)
     %Que dados dos toroides, devuelva si uno es la evoluci ́on m ́ultiple del otro.
     
     \begin{proc}{primosLejanos}{
@@ -189,7 +189,7 @@
             %\text{/* t es la ultima evolución */}
             (ts[k] = t) \wedge \bt
             %\text{/* Todo elemento y su consecutivo cumple que uno es evolución del otro */}
-            (\paraTodo{i}{(0}{\longitud{ts} - 1}) \implicaLuego 
+            (\paraTodo{i}{0}{\longitud{ts} - 1} \implicaLuego 
                 (esEvolucion(ts[i + 1], ts[i])
         )
     }
