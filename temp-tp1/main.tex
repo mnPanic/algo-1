@@ -56,12 +56,12 @@
             \In t: $toroide$,
             \Out vivas: \TLista{\tEnt}}{}
         \pre{esToroideValido(t)}
-        \post{sonPosicionesVivas(vivas, t) \wedge 
+        \post{sonPosicionesVivas(vivas,\ t) \wedge 
              (cantidadDePosicionesVivas(t) = \longitud{vivas})}
     \end{proc}
     
     \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: $toroide$}{
-        (\forall{p : \tEnt}) (p \in vivas \Then esPosicionViva(t, p))
+        (\forall{p : \tEnt}) (p \in vivas \implicaLuego esPosicionViva(t, p))
     }
     
     \subsection{densidadPoblacion}
