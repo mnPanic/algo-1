@@ -207,11 +207,30 @@
             (esPosicionValida(t, p) \implicaLuego \neg \ esPosicionViva(t, p))
     }
     
-    % para todo i en rango de la lista van a existir k, m ticks en los cuales t[i] y t[res] respectivamente mueren, y se cumple que m >= k
-    % (V i : Z) enRango(i) -> 
-    % // [Tres tiene periodicidad)]
-    % (O)
-    %(E k, m : Z) tq (muereEnTicks(t[i], k) && muereEnTicks(t[res], m)) y m >= k 
+    \subsection{fusionar}
+    % Ejercicio 10 : proc fusionar(in t1: toroide, in t2: toroide, out res: toroide)
+    % Que dados dos toroides de la misma dimensi´on, devuelva otro (de la misma dimensi´on) que tenga vivas solo aquellas posiciones que estaban vivas en ambos toroides.
+    
+    \begin{proc}{fusionar}{
+            \In t1: toroide,
+            \In t2: toroide,
+            \Out res: toroide}{}
+        \pre{(esToroideValido(t1) \wedge 
+             esToroideValido(t2)) \yLuego \bqt
+             mismaDimension(t1, t2)}
+        \post{(esToroideValido(res) \yLuego \bqt 
+              mismaDimension(t1, res)) \yLuego \bqt
+              compartenPosicionesVivas(t1, t2, res)}
+    \end{proc}
+    
+    \begin{verbatim}
+    /* Supone que t1, t2, y t_{r} tienen la misma dimension. */
+    \end{verbatim}
+    
+    \pred{compartenPosicionesVivas}{t1, t2, tr}{
+        \forAll{p}{\tEnt} (esPosicionValida(t1, p) \implicaLuego \bt 
+            (esPosicionViva(res, p) \Iff (esPosicionViva(t1, p) \wedge esPosicionViva(t2, p))))
+    }
     
     \section{Predicados y Auxiliares generales}
     
