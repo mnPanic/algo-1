@@ -146,6 +146,48 @@
              $ esK-EsimaEvolucion(t2, t1, k)$)
     }
     
+    
+    \subsection{seleccionNatural}
+    % Ejercicio 9 : proc seleccionNatural(in ts: seqhtoroidei, out res: Z)
+    % Que dada una secuencia de toroides, devuelva el ´ındice de aquel toroide que m´as ticks tardar´a en morir. Se considera que un toroide muere cuando no tiene posiciones vivas.
+    
+    \begin{proc}{seleccionNatural}{
+            \In ts: \TLista{toroide}
+            \Out res: \ent}{}
+        \pre{/*TODO*/}
+        \post{(0 \leq res < \longitud{ts}) \yLuego (
+              noMuere(ts[res]) \vee
+              esElDeMuerteMasTardia(ts[res], ts))}
+    \end{proc}
+    
+    \pred{noMuere}{t: toroide}{
+        tienePeriodicidad(t)
+    }
+    
+    \pred{esElDeMuerteMasTardia}{t: toroide, ts: \TLista{toroide}}{
+        (\forall{\ w : toroide}) \ ((w \in ts)\implicaLuego muereDespues(t, w)
+        )
+    }
+    
+    \pred{muereDespues}{t, w: toroide}{
+        (\exists{\ n, m : \ent})\ (muereEnTicks(t, n) \wedge muereEnTicks(w, m) \wedge (n \geq m))
+    }
+    
+    % un toroide t muere en n ticks, si en el tick n esta muerto y para todo k <= n, esta vivo en k
+    \pred{muereEnTicks}{}{}
+    
+    
+    \pred{estaMuerto}{t: toroide}{
+        (\forall{p: \tEnt})\ 
+            (esPosicionValida(t, p) \implicaLuego \neg \ esPosicionViva(t, p))
+    }
+    
+    % para todo i en rango de la lista van a existir k, m ticks en los cuales t[i] y t[res] respectivamente mueren, y se cumple que m >= k
+    % (V i : Z) enRango(i) -> 
+    % // [Tres tiene periodicidad)]
+    % (O)
+    %(E k, m : Z) tq (muereEnTicks(t[i], k) && muereEnTicks(t[res], m)) y m >= k 
+    
     \section{Predicados y Auxiliares generales}
     
     \subsection{Toroides}
