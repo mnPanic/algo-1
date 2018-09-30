@@ -243,9 +243,12 @@
     }
     
     \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{\tEnt}{
-        \sum_{i=-1}^1 \sum_{j=-1}^1 \IfThenElse{(i, j) = (0,0)}{0}{(
-            \IfThenElse{esPosicionViva(t, trasladar(t, p, (i, j))}{1}{0}
-        )}
+        \sum_{i=-1}^1 \sum_{j=-1}^1 
+        \IfThenElse{(
+            \neg $ esPosicionViva(t, trasladar(t, p, (i, j)) $ 
+            \vee (i, j) = (0,0))}
+            {0}
+            {1}
     }
     
     % TODO: Hacer lindo
