@@ -14,6 +14,8 @@
     % Define una tupla de enteros
     \newcommand{\tEnt}{\ent \times \ent}
     \newcommand{\bt}{\breakAndSpace{\tab}}
+    \newcommand{\btt}{\breakAndSpace{6em}}
+    \newcommand{\bttt}{\breakAndSpace{8em}}
     \newcommand{\bqt}{\breakAndSpace{1em}}
     
     \newcommand{\forAll}[2]{(\forall{\ #1: #2})\ }
@@ -102,8 +104,7 @@
     \begin{proc}{evolucionToroide}{
             \Inout t: $toroide$}{}
         \pre{esToroideValido(t) \wedge t =$ T_{0}$}
-        TODO: sacar el es toroide valido de t adentro de esEvolucion
-        \post{esEvolucion(t, T_{0})}
+        \post{esToroideValido(t) \wedge esEvolucion(t, T_{0})}
     \end{proc}
     
     \subsection{evolucionMultiple}
@@ -151,9 +152,9 @@
     % - t1 es alguna evolución de t2 o al revès
     % existe algun índice tal que t1 es K-esima evolución 
     \pred{sonPrimosLejanos}{t1: $toroide$, t2: $toroide$}{
-        (\exists{k: \ent})
-            ($esK-EsimaEvolucion(t1, t2, k) $ \vee
-             $ esK-EsimaEvolucion(t2, t1, k)$)
+        \Existe{k}{\ent}((k \geq 0) \yLuego
+            ($esK-EsimaEvolucion(t1, t2, k)$ \ \vee \
+             $esK-EsimaEvolucion(t2, t1, k)$))
     }
     
     
@@ -170,10 +171,6 @@
                $esElDeMuerteMasTardia(ts[res], ts)$)}
     \end{proc}
     
-    \pred{sonToroidesValidos}{ts: \TLista{$toroide$}}{
-        \forAll{t}{toroide} (t \in ts \implicaLuego esToroideValido(t))
-    }
-    
     \pred{noMuere}{t: toroide}{
         tienePeriodicidad(t)
     }
@@ -183,7 +180,7 @@
     }
     
     \pred{muereDespues}{t, w: toroide}{
-        (\exists{\ n, m : \ent})\ (muereEnTick(t, n) \wedge muereEnTick(w, m) \wedge (n \geq m))
+        \Existe{n, m}{\ent}((n, m \geq 0) \yLuego (muereEnTick(t, n) \wedge muereEnTick(w, m) \wedge (n \geq m)))
     }
     
     \begin{verbatim}
@@ -258,7 +255,7 @@
             (esPosicionValida(t_{0}, p) \implicaLuego
                 (valorEn(t_{0}, p) = valorEn(t, trasladar(t_{0}, p, d))))
     }
-    
+
     \section{Predicados y Auxiliares generales}
     
     \subsection{Toroides}
@@ -268,6 +265,11 @@
         (rows(t) \geq 3) \wedge \bt
         (cols(t) \geq 3)
     }
+    
+    \pred{sonToroidesValidos}{ts: \TLista{$toroide$}}{
+        \forAll{t}{toroide} (t \in ts \implicaLuego esToroideValido(t))
+    }
+    
     
     %/* Supone que es una posicion válida (no se va a ir de rango) /*
     \aux{valorEn}{t: $toroide$, p: \tEnt}{\bool}{
@@ -284,8 +286,7 @@
     }
     
     \pred{esEvolucion}{t, t_{0}: toroide}{
-        (esToroideValido(t) \wedge esToroideValido(t_{0})) \wedge \bt
-        (mismaDimension(t, t_{0}))\wedge \bt
+        mismaDimension(t, t_{0}) \yLuego \bt
         \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p))
     }
     
@@ -296,14 +297,13 @@
     
     
     \pred{esK-EsimaEvolucion}{t, t_{0}: toroide, k: \ent}{
-        (\exists{ts: \TLista{toroide}})( \bt
-            %$\text{/* t_{0} es la primera}$
-            (ts[0] = t_{0}) \wedge
-            %\text{/* t es la ultima evolución */}
-            (ts[k] = t) \wedge \bt
-            %\text{/* Todo elemento y su consecutivo cumple que uno es evolución del otro */}
-            (\paraTodo{i}{0}{\longitud{ts} - 1} \implicaLuego 
-                (esEvolucion(ts[i + 1], ts[i])
+        \Existe{ts}{\TLista{toroide}} \btt (
+            sonToroidesValidos(ts) \yLuego \bttt ( 
+                (ts[0] = t_{0}) \wedge
+                (ts[k] = t) \wedge \bttt
+                \forAll{i}{\ent} (0 \leq i < \longitud{ts} - 1) \implicaLuego 
+                    esEvolucion(ts[i + 1], ts[i])))
+            )
         )
     }
     
@@ -317,7 +317,7 @@
     % => p <= q
     \pred{esMinimaPeriodicidad}{t: $toroide$, p: \ent}{
         $tienePeriodicidadK-Esima(t, p)$\ \wedge \bt
-        \forAll{p}{\ent} ($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
+        \forAll{q}{\ent} ($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
     }
     
     \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
@@ -337,7 +337,7 @@
     % - Cualqueir posici´on muerta con exactamente 3 vecinos vivos, pasa a vivir (por reproducci´on)
     
     \pred{viveLuegoDeUnTick}{t: $toroide$, p: \tEnt}{
-        (\neg esSoledad(t, p) $ \wedge$ \neg esSuperpoblacion(t, p)) \wedge \bt
+        (\neg\ esSoledad(t, p) $ \wedge$ \neg\ esSuperpoblacion(t, p)) \wedge \bt
         (esSupervivencia(t, p) \vee esReproduccion(t, p))
     }
     
@@ -364,8 +364,8 @@
     \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{\tEnt}{
         \sum_{i=-1}^1 \sum_{j=-1}^1 
         \IfThenElse{(
-            \neg $ esPosicionViva(t, trasladar(t, p, (i, j)) $ 
-            \vee (i, j) = (0,0))}
+            \neg\ $esPosicionViva(t, trasladar(t, p, (i, j)) $ 
+            \vee\ (i, j) = (0,0))}
             {0}
             {1}
     }
