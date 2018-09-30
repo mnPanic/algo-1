@@ -232,6 +232,33 @@
             (esPosicionViva(res, p) \Iff (esPosicionViva(t1, p) \wedge esPosicionViva(t2, p))))
     }
     
+    \subsection{vistaTrasladada}
+    %Ejercicio 11 : proc vistaTrasladada(in t1: toroide, in t2: toroide, out res: Bool)
+    %Que dados dos toroides de la misma dimensi´on, indica si uno es el resultado de trasladar la vista en el otro. Es decir, que
+    %moviendo el centro del eje de coordenadas de uno de los toroides en alguna direcci´on, se obtiene el otro. Por ejemplo, los
+    %toroides que se ven a continuaci´on cumplen esta propiedad, ya que si se aplica un desplazamiento de 4 lugares a la derecha
+    %en el eje X y de 3 lugares hacia abajo en el eje Y al toroide de la izquierda, se obtiene el de la derecha:
+    
+    
+    \begin{proc}{vistaTrasladada}{
+            \In t1: toroide,
+            \In t2: toroide,
+            \Out res: \bool}{}
+        \pre{(esToroideValido(t1) \wedge 
+             esToroideValido(t2)) \yLuego \bqt
+             mismaDimension(t1, t2)}
+        \post{res = \True \Iff esTraslacion(t1,t2)}
+    \end{proc}
+    
+    \pred{esTraslacion}{t1, t2: toroide}{
+        \Existe{d}{\tEnt}esTraslacionEnDireccion(t1,t2, d)
+    }
+    \pred{esTraslacionEnDireccion}{t, t_{0}: toroide, d: \tEnt}{
+        \forAll{p}{\tEnt}
+            (esPosicionValida(t_{0}, p) \implicaLuego
+                (valorEn(t_{0}, p) = valorEn(t, trasladar(t_{0}, p, d))))
+    }
+    
     \section{Predicados y Auxiliares generales}
     
     \subsection{Toroides}
@@ -262,7 +289,7 @@
         \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p))
     }
     
-    \pred{mismaDimesion}{t, t_{0}: toroide}{
+    \pred{mismaDimension}{t, t_{0}: toroide}{
         (cols(t) = cols(t_{0})) \wedge \bt
         (rows(t) = rows(t_{0}))
     }
@@ -295,6 +322,12 @@
     
     \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
         (k \geq 1) \wedge ($esK-EsimaEvolucion(t, t, k)$)
+    }
+    
+    % TODO: Preguntar si la funcion "dada" mod cumple que el resultado es mayor o igual a 0
+    \aux{trasladar}{t: $toroide$, p: \tEnt, d: \tEnt}{\tEnt}{
+        (mod(p_{0} + d_{0}, cols(t), \bt
+         mod(p_{1} + d_{1}, rows(t))
     }
     
     \subsubsection{Vecinos}
@@ -335,13 +368,6 @@
             \vee (i, j) = (0,0))}
             {0}
             {1}
-    }
-    
-    % TODO: Hacer lindo
-    % TODO: Preguntar si la funcion "dada" mod cumple que el resultado es mayor o igual a 0
-    \aux{trasladar}{t: $toroide$, p: \tEnt, d: \tEnt}{\tEnt}{
-        (mod(p_{0} + d_{0}, cols(t), \bt
-         mod(p_{1} + d_{1}, rows(t))
     }
     
     \subsection{Matrices}
