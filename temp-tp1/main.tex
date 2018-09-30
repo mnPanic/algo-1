@@ -21,7 +21,6 @@
     
     % -------- END MACROS ------
     
-    
     \begin{document}
     
     \titulo{TP de Especificación}
@@ -60,12 +59,18 @@
             \In t: $toroide$,
             \Out vivas: \TLista{\tEnt}}{}
         \pre{esToroideValido(t)}
-        \post{sonPosicionesVivas(vivas,\ t) \wedge 
-             (cantidadDePosicionesVivas(t) = \longitud{vivas})}
+        \post{
+            (sonPosicionesValidas(vivas,\ t) \yLuego \bqt
+            \ sonPosicionesVivas(vivas,\ t)) \wedge \bqt
+            \ (cantidadDePosicionesVivas(t) = \longitud{vivas})}
     \end{proc}
     
+    \pred{sonPosicionesValidas}{ps: \TLista{\tEnt}, t: $toroide$}{
+        \forAll{p}{\tEnt} (p \in ps \implicaLuego esPosicionValida(t, p))
+    }
+    
     \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: $toroide$}{
-        (\forall{p : \tEnt}) (p \in vivas \implicaLuego esPosicionViva(t, p))
+        \forAll{p}{\tEnt} (p \in vivas \implicaLuego esPosicionViva(t, p))
     }
     
     \subsection{densidadPoblacion}
@@ -156,33 +161,48 @@
     % Que dada una secuencia de toroides, devuelva el ´ındice de aquel toroide que m´as ticks tardar´a en morir. Se considera que un toroide muere cuando no tiene posiciones vivas.
     
     \begin{proc}{seleccionNatural}{
-            \In ts: \TLista{toroide}
+            \In ts: \TLista{toroide},
             \Out res: \ent}{}
-        \pre{/*TODO*/}
-        \post{(0 \leq res < \longitud{ts}) \yLuego (
-              noMuere(ts[res]) \vee
-              esElDeMuerteMasTardia(ts[res], ts))}
+        \pre{sonToroidesValidos(ts)}
+        \post{(0 \leq \ $res$ \ < \longitud{ts}) \yLuego \bqt
+              ($noMuere(ts[res])$\ \vee \
+               $esElDeMuerteMasTardia(ts[res], ts)$)}
     \end{proc}
+    
+    \pred{sonToroidesValidos}{ts: \TLista{$toroide$}}{
+        \forAll{t}{toroide} (t \in ts \implicaLuego esToroideValido(t))
+    }
     
     \pred{noMuere}{t: toroide}{
         tienePeriodicidad(t)
     }
     
     \pred{esElDeMuerteMasTardia}{t: toroide, ts: \TLista{toroide}}{
-        (\forall{\ w : toroide}) \ ((w \in ts)\implicaLuego muereDespues(t, w)
-        )
+        \forAll{w}{toroide} (w \in ts\implicaLuego muereDespues(t, w))
     }
     
     \pred{muereDespues}{t, w: toroide}{
-        (\exists{\ n, m : \ent})\ (muereEnTicks(t, n) \wedge muereEnTicks(w, m) \wedge (n \geq m))
+        (\exists{\ n, m : \ent})\ (muereEnTick(t, n) \wedge muereEnTick(w, m) \wedge (n \geq m))
     }
     
-    % un toroide t muere en n ticks, si en el tick n esta muerto y para todo k <= n, esta vivo en k
-    \pred{muereEnTicks}{}{}
+    \begin{verbatim}
+    /* Un toroide t muere en k ticks si en su k-esima evolución esta muerto
+     y en todas las anteriores esta vivo */
+    \end{verbatim}
     
+    \pred{muereEnTick}{t: toroide, k: \ent}{
+        \Existe{t_{k}}{toroide}
+            ($esK-EsimaEvolucion$(t_{k}, t, k)\ \wedge \ 
+             $estaMuerto(t_{k})$) \wedge \bt
+        \forAll{q}{\ent}
+            ((0\leq q < k) \implicaLuego 
+                (\Existe{t_{q}}{toroide} 
+                    ($esK-EsimaEvolucion(t_{q}, t, q)$ \wedge \ 
+                     \neg \ $estaMuerto(t_{k}$)))
+    }
     
     \pred{estaMuerto}{t: toroide}{
-        (\forall{p: \tEnt})\ 
+        \forAll{p}{\tEnt} 
             (esPosicionValida(t, p) \implicaLuego \neg \ esPosicionViva(t, p))
     }
     
@@ -219,7 +239,7 @@
     \pred{esEvolucion}{t, t_{0}: toroide}{
         (esToroideValido(t) \wedge esToroideValido(t_{0})) \wedge \bt
         (mismaDimension(t, t_{0}))\wedge \bt
-        (\forall{p: \tEnt}) (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p))
+        \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p))
     }
     
     \pred{mismaDimesion}{t, t_{0}: toroide}{
@@ -249,8 +269,8 @@
     % - para todo q tal que t tiene periodicidad q-esima
     % => p <= q
     \pred{esMinimaPeriodicidad}{t: $toroide$, p: \ent}{
-        $tienePeriodicidadK-Esima(t, p) $ \wedge \bt
-        ((\forall{q: \ent})($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
+        $tienePeriodicidadK-Esima(t, p)$\ \wedge \bt
+        \forAll{p}{\ent} ($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
     }
     
     \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
