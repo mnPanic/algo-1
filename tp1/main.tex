@@ -16,10 +16,10 @@
     \newcommand{\bt}{\breakAndSpace{3.5em}}
     \newcommand{\btt}{\breakAndSpace{5.5em}}
     \newcommand{\bttt}{\breakAndSpace{7.5em}}
-    \newcommand{\bqt}{\breakAndSpace{1em}}
+    \newcommand{\bqt}{\breakAndSpace{1.5em}}
     
     \newcommand{\forAll}[2]{\ensuremath{(\forall{\ #1: #2})}}
-    \newcommand{\Existe}[2]{\ensuremath{(\exists{\ #1: #2})}}
+    \newcommand{\Exists}[2]{\ensuremath{(\exists{\ #1: #2})}}
     
     \newcommand{\Sii}{$\ \Iff\ $}
     
@@ -153,9 +153,9 @@
     
     % si son primos lejanos quiere decir que 
     % - t1 es alguna evolución de t2 o al revès
-    % existe algun índice tal que t1 es K-esima evolución 
+    % Exists algun índice tal que t1 es K-esima evolución 
     \pred{sonPrimosLejanos}{t1: toroide, t2: toroide}{
-        \Existe{k}{\ent}((k $\geq$ 0) \yLuego
+        \Exists{k}{\ent}((k $\geq$ 0) \yLuego
             (esK-EsimaEvolucion(t1, t2, k) $\vee$
              esK-EsimaEvolucion(t2, t1, k)))
     }
@@ -183,7 +183,7 @@
     }
     
     \pred{muereDespues}{t, w: toroide}{
-        \Existe{n, m}{\ent}((n, m $\geq$ 0) \yLuego (muereEnTick(t, n) $\wedge$ muereEnTick(w, m) $\wedge$ (n $\geq$ m)))
+        \Exists{n, m}{\ent}((n, m $\geq$ 0) \yLuego (muereEnTick(t, n) $\wedge$ muereEnTick(w, m) $\wedge$ (n $\geq$ m)))
     }
     
     \begin{verbatim}
@@ -192,12 +192,12 @@
     \end{verbatim}
     
     \pred{muereEnTick}{t: toroide, k: $\ent$}{
-        \Existe{t_{k}}{toroide}
+        \Exists{t_{k}}{toroide}
             (esK-EsimaEvolucion(t$_{k}$, t, k) $\wedge$
              estaMuerto(t$_{k}$)) $\wedge$ \bt
         \forAll{q}{\ent}
             ((0 $\leq$ q $<$ k) \implicaLuego
-                (\Existe{t_{q}}{toroide} 
+                (\Exists{t_{q}}{toroide} 
                     (esK-EsimaEvolucion(t$_{q}$, t, q) $\wedge$ 
                      $\neg$ estaMuerto(t$_{k}$)))
     }
@@ -272,8 +272,8 @@
     \end{verbatim}
     
     \pred{areaQueCubrePosVivasIncrementa}{t: toroide}{
-        \Existe{t_{1}}{toroide}((esToroideValido(t$_{1}$) \yLuego esEvolucion(t$_{1}$, t)) $\wedge$ \bt
-        \Existe{a, a_{1}}{\ent} \btt
+        \Exists{t_{1}}{toroide}((esToroideValido(t$_{1}$) \yLuego esEvolucion(t$_{1}$, t)) $\wedge$ \bt
+        \Exists{a, a_{1}}{\ent} \btt
             ((esAreaValida(t, a) $\wedge$ esAreaValida(t, a$_{1}$)) \yLuego \bttt
                 (esMinimaAreaQueCubrePosVivas(t, a) $\wedge$ \bttt
                 esMinimaAreaQueCubrePosVivas(t$_{1}$, a$_{1}$) $\wedge$ \bttt
@@ -291,9 +291,9 @@
     }
     
     \pred{esAreaQueCubrePosVivas}{t: toroide, a: \ent}{
-        \Existe{t_{d}}{toroide}
+        \Exists{t_{d}}{toroide}
             ((esToroideValido(t$_{d}$) \yLuego esTraslacion(t$_{d}$, t)) $\wedge$ \btt 
-            (\Existe{m}{\matriz{T}} (esMatriz(m) \yLuego \bttt
+            (\Exists{m}{\matriz{T}} (esMatriz(m) \yLuego \bttt
                 (area(m) = a $\wedge$ cubrePosicionesVivas(t$_{d}$, m)))))
     }
     
@@ -318,7 +318,7 @@
     \end{verbatim}
     
     \pred{cubrePosicionesVivas}{t: toroide, m: \matriz{T}}{
-        \Existe{e}{\tEnt} (esDesfazajeValido(e, m, t) \yLuego \btt
+        \Exists{e}{\tEnt} (esDesfazajeValido(e, m, t) \yLuego \btt
             (\forAll{p}{\tEnt}
                 (esPosicionValida(t, p) \yLuego
                  esPosicionViva(t, p)) \implicaLuego \bttt
@@ -386,7 +386,7 @@
     
     
     \pred{esK-EsimaEvolucion}{t, t$_{0}$: toroide, k: \ent}{
-        \Existe{ts}{\TLista{toroide}} \btt (
+        \Exists{ts}{\TLista{toroide}} \btt (
             sonToroidesValidos(ts) \yLuego \bttt ( 
                 (ts[0] = t$_{0}$) $\wedge$
                 (ts[k] = t) $\wedge$ \bttt
@@ -395,7 +395,7 @@
     }
     
     \pred{tienePeriodicidad}{t: toroide}{
-        \Existe{k}{\ent}(tienePeriodicidadK-Esima(t, k))
+        \Exists{k}{\ent}(tienePeriodicidadK-Esima(t, k))
     }
     
     % p es el minimo si:
@@ -411,14 +411,13 @@
         (k $\geq$ 1) $\wedge$ (esK-EsimaEvolucion(t, t, k))
     }
     
-    TODO: Preguntar si la funcion "dada" mod cumple que el resultado es mayor o igual a 0
     \aux{trasladar}{t: toroide, p: \tEnt, d: \tEnt}{\tEnt}{
         (mod(p$_{0}$ + d$_{0}$, cols(t), \bt
         \ mod(p$_{1}$ + d$_{1}$, rows(t))
     }
     
     \pred{esTraslacion}{t1, t2: toroide}{
-        \Existe{d}{\tEnt} esTraslacionEnDireccion(t1, t2, d)
+        \Exists{d}{\tEnt} esTraslacionEnDireccion(t1, t2, d)
     }
     
     \pred{esTraslacionEnDireccion}{t, t$_{0}$: toroide, d: \tEnt}{
@@ -496,7 +495,6 @@
     Accederemos a ella mediante tuplas $(x, y) : \tEnt$, donde $x$ es la posición en la columna e $y$ en la fila.
     
     - Tomamos como decisión que un toroide válido será aquel que sea al menos de $3 \times 3$, de forma tal que los 8 vecinos de cualquier posicion sean siempre diferentes entre sí.
-    
     \end{document}
     
     
