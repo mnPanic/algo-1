@@ -255,7 +255,63 @@
             (esPosicionValida(t_{0}, p) \implicaLuego
                 (valorEn(t_{0}, p) = valorEn(t, trasladar(t_{0}, p, d))))
     }
-
+    
+    
+    \subsection{enCrecimiento}
+    % Ejercicio 12 : proc enCrecimiento(in t: toroide, out res: Bool)
+    % Que verifica si la menor superficie que cubre a todas las celdas vivas se va incrementar en el pr´oximo tick
+    
+    \begin{proc}{enCrecimiento}{
+            \In t: toroide,
+            \Out res: \bool}{}
+        \pre{esToroideValido(t)}
+        \post{res = \True \Iff areaIncrementa(t)}
+    \end{proc}
+    
+    
+    \pred{areaIncrementa}{t: toroide}{
+        // existe t_1 toroide evolucionado
+        // existen a, b Z (esMinimaAreaQueCubre(t, a) y esMinimaA...(t_1, b) y a<b
+    }
+    
+    \pred{esMinimaAreaQueCubre}{t: toroide, a: \ent}{
+        // a es el area minima de t si a es area de t y aparte para cualquier otro area de t a' a <= a'
+    }
+    
+    \pred{esAreaQueCubre}{t: toroide, a: \ent}{
+        // area(t) <= a
+        // existe una direccion d tal que existe una matriz m que cubre a las posiciones vivas de t y area(m) = a
+    }
+    
+    \aux{area}{m: \matriz{T}}{\ent}{
+        cols(m) \times rows(m)
+    }
+    
+    \pred{cubrePosicionesVivas}{t: toroide, m: \matriz{T}}{
+        // paratoda p en tent p es posicion valida de t implica luego (es posicion viva de t & 
+        
+        para toda posiicon viva, su posicion relativa en la matriz tiene que estar en rango.
+    }
+    
+    \pred{estaEnRango}{p: \tEnt, m: \matriz{T}}{
+        0 <= p_{0} < cols(m)
+        0 <= p_{1} < rows (m)
+    }
+    
+    \aux{posicionRelativa}{p: \tEnt, r: \tEnt}{\tEnt}{
+        le resta r a p
+    }
+    
+    \pred{esRValido}{r: \tEnt, m: \matriz{T}, t: toroide}{
+        //  0 <= r_{0} + cols(m) <= cols(t)
+        //  0 <= r_{1} + rows(m) <= rows(t)
+    }
+    
+    Hay una translacion del toroide que hace que la superficie que cubre a todos sea mínima (por las particularidades de los toroides)
+    
+    
+    
+    
     \section{Predicados y Auxiliares generales}
     
     \subsection{Toroides}
