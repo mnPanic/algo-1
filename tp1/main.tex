@@ -495,6 +495,18 @@
     Accederemos a ella mediante tuplas $(x, y) : \tEnt$, donde $x$ es la posición en la columna e $y$ en la fila.
     
     - Tomamos como decisión que un toroide válido será aquel que sea al menos de $3 \times 3$, de forma tal que los 8 vecinos de cualquier posicion sean siempre diferentes entre sí.
-    \end{document}
+    
+    - Asumimos que $mod$ es una función dada, que cumple con la siguiente especificación:
+    
+    \begin{proc}{mod}{
+            \In n: \ent,
+            \In m: \ent,
+            \Out result: \ent}{}
+        \pre{m $>$ 0}
+        \post{(result $\geq$ 0) $\wedge$
+              (\Exists{q}{\ent} n = q $\times$ m + result)}
+    \end{proc}
+
+\end{document}
     
     
