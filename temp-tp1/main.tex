@@ -255,51 +255,89 @@
             \In t: toroide,
             \Out res: \bool}{}
         \pre{esToroideValido(t)}
-        \post{res = \True \Iff areaIncrementa(t)}
+        \post{res = \True \Iff areaQueCubreIncrementa(t)}
     \end{proc}
     
     
-    \pred{areaIncrementa}{t: toroide}{
-        // existe t_1 toroide evolucionado
-        // existen a, b Z (esMinimaAreaQueCubre(t, a) y esMinimaA...(t_1, b) y a<b
+    \begin{verbatim}
+        /* Dado un toroide queremos ver todas las matrices validas 
+        que encierran las posiciones vivas de ese toroide y 
+        quedarnos con la de area mínima.
+        Asi mismo, vemos las traslaciones pues puede haber una vista
+        trasladada de un toroide cuya area que encierra a las 
+        posiciones vivas sea del menor a la del original. */
+    \end{verbatim}
+    
+    \pred{areaQueCubreIncrementa}{t: toroide}{
+        \Existe{t_{1}}{toroide}((esToroideValido(t_{1}) \yLuego esEvolucion(t_{1}, t)) \wedge \bt
+        \Existe{a, a_{1}}{\ent} \btt
+            ((esAreaValida(t, a) \wedge esAreaValida(t, a_{1})) \yLuego \bttt
+                (esMinimaAreaQueCubrePosVivas(t, a) \wedge \bttt
+                esMinimaAreaQueCubrePosVivas(t_{1}, a_{1}) \wedge \bttt
+                a < a_{1})))
     }
     
-    \pred{esMinimaAreaQueCubre}{t: toroide, a: \ent}{
-        // a es el area minima de t si a es area de t y aparte para cualquier otro area de t a' a <= a'
+    \pred{esAreaValida}{t: toroide, a: \ent}{
+        0 \leq a \leq area(t)
     }
     
-    \pred{esAreaQueCubre}{t: toroide, a: \ent}{
-        // area(t) <= a
-        // existe una direccion d tal que existe una matriz m que cubre a las posiciones vivas de t y area(m) = a
+    \pred{esMinimaAreaQueCubrePosVivas}{t: toroide, a: \ent}{
+        esAreaQueCubrePosVivas(t, a) \wedge \bt
+        \forAll{a'}{\ent} 
+            (esAreaQueCubrePosVivas(t, a') \implica a \leq a')
+    }
+    
+    \pred{esAreaQueCubrePosVivas}{t: toroide, a: \ent}{
+        \Existe{t_{d}}{toroide}
+            ((esToroideValido(t_{d}) \yLuego esTraslacion(t_{d}, t)) \wedge \btt 
+            (\Existe{m}{\matriz{T}} (esMatriz(m) \yLuego \bttt
+                (area(m) = a \wedge cubrePosicionesVivas(t_{d}, m)))))
     }
     
     \aux{area}{m: \matriz{T}}{\ent}{
         cols(m) \times rows(m)
     }
     
-    \pred{cubrePosicionesVivas}{t: toroide, m: \matriz{T}}{
-        // paratoda p en tent p es posicion valida de t implica luego (es posicion viva de t & 
+    \begin{verbatim}
+        /* Queremos ver que si una posicion está viva en el toroide, 
+        esté contenida en la matriz que mide el area.
+        Para esto necesitamos poder comparar las coordenadas del 
+        toroide con las de la matriz.
+        El problema es que sus coordenadas no son las mismas, sino 
+        que pueden tener un desfazaje con respecto al toroide.
         
-        para toda posiicon viva, su posicion relativa en la matriz tiene que estar en rango.
+        Este será la posicion del eje de coordenadas de la
+        matriz con respecto al del toroide.
+        
+        Por ejemplo, un toroide que tenga una sola posicion 
+        viva en la esquina inferior derecha, tendrá una matriz que
+        la contenga con un desfazaje de (cols - 1, 0)*/
+    \end{verbatim}
+    
+    \pred{cubrePosicionesVivas}{t: toroide, m: \matriz{T}}{
+        \Existe{e}{\tEnt} (esDesfazajeValido(e, m, t) \yLuego \btt
+            (\forAll{p}{\tEnt}
+                (esPosicionValida(t, p) \yLuego
+                 esPosicionViva(t, p)) \implicaLuego \bttt
+                    estaDentro(m, posicionRelativa(p, e))
+            )
+        )
     }
     
-    \pred{estaEnRango}{p: \tEnt, m: \matriz{T}}{
-        0 <= p_{0} < cols(m)
-        0 <= p_{1} < rows (m)
+    \pred{esDesfazajeValido}{e: \tEnt,\ m: \matriz{T},\ t: toroide}{
+        (0 \leq r_{0} + cols(m) \leq cols(t)) \wedge \bt
+        (0 \leq r_{1} + rows(m) \leq rows(t))
+    }
+    
+    \pred{estaDentro}{m: \matriz{T}, p: \tEnt}{
+        (0 \leq p_{0} < cols(m)) \wedge \bt
+        (0 \leq p_{1} < rows (m))
     }
     
     \aux{posicionRelativa}{p: \tEnt, r: \tEnt}{\tEnt}{
-        le resta r a p
+        (p_{0} - r_{0}, 
+        \ p_{1} - r_{1})
     }
-    
-    \pred{esRValido}{r: \tEnt, m: \matriz{T}, t: toroide}{
-        //  0 <= r_{0} + cols(m) <= cols(t)
-        //  0 <= r_{1} + rows(m) <= rows(t)
-    }
-    
-    Hay una translacion del toroide que hace que la superficie que cubre a todos sea mínima (por las particularidades de los toroides)
-    
-    
     
     
     \section{Predicados y Auxiliares generales}
@@ -317,7 +355,10 @@
     }
     
     
-    %/* Supone que es una posicion válida (no se va a ir de rango) /*
+    \begin{verbatim}
+        /* Supone que es una posicion válida (no se va a ir de rango) */
+    \end{verbatim}
+    
     \aux{valorEn}{t: $toroide$, p: \tEnt}{\bool}{
         t[p_{0}][p_{1}]
     }
