@@ -247,16 +247,6 @@
         \post{res = \True \Iff esTraslacion(t1,t2)}
     \end{proc}
     
-    \pred{esTraslacion}{t1, t2: toroide}{
-        \Existe{d}{\tEnt}esTraslacionEnDireccion(t1,t2, d)
-    }
-    \pred{esTraslacionEnDireccion}{t, t_{0}: toroide, d: \tEnt}{
-        \forAll{p}{\tEnt}
-            (esPosicionValida(t_{0}, p) \implicaLuego
-                (valorEn(t_{0}, p) = valorEn(t, trasladar(t_{0}, p, d))))
-    }
-    
-    
     \subsection{enCrecimiento}
     % Ejercicio 12 : proc enCrecimiento(in t: toroide, out res: Bool)
     % Que verifica si la menor superficie que cubre a todas las celdas vivas se va incrementar en el pr´oximo tick
@@ -384,6 +374,15 @@
     \aux{trasladar}{t: $toroide$, p: \tEnt, d: \tEnt}{\tEnt}{
         (mod(p_{0} + d_{0}, cols(t), \bt
          mod(p_{1} + d_{1}, rows(t))
+    }
+    
+    \pred{esTraslacion}{t1, t2: toroide}{
+        \Existe{d}{\tEnt}esTraslacionEnDireccion(t1, t2, d)
+    }
+    \pred{esTraslacionEnDireccion}{t, t_{0}: toroide, d: \tEnt}{
+        \forAll{p}{\tEnt}
+            (esPosicionValida(t_{0}, p) \implicaLuego
+                (valorEn(t_{0}, p) = valorEn(t, trasladar(t_{0}, p, d))))
     }
     
     \subsubsection{Vecinos}
