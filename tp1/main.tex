@@ -7,19 +7,21 @@
     \usepackage{enumerate}
     
     \setlength{\parskip}{0.1em}
-    \usepackage{caratula} % Version modificada para usar las macros de algo1 de ~> https://github.com/bcardiff/dc-tex
+    \usepackage{caratula} % Version modificada para usar las macros de algo1 de ~$>$ https://github.com/bcardiff/dc-tex
     
     % -------- MACROS ----------
     
     % Define una tupla de enteros
-    \newcommand{\tEnt}{\ent \times \ent}
-    \newcommand{\bt}{\breakAndSpace{\tab}}
-    \newcommand{\btt}{\breakAndSpace{6em}}
-    \newcommand{\bttt}{\breakAndSpace{8em}}
+    \newcommand{\tEnt}{ \ensuremath{\ent \times \ent} }
+    \newcommand{\bt}{\breakAndSpace{3.5em}}
+    \newcommand{\btt}{\breakAndSpace{5.5em}}
+    \newcommand{\bttt}{\breakAndSpace{7.5em}}
     \newcommand{\bqt}{\breakAndSpace{1em}}
     
-    \newcommand{\forAll}[2]{(\forall{\ #1: #2})\ }
-    \newcommand{\Existe}[2]{(\exists{\ #1: #2})\ }
+    \newcommand{\forAll}[2]{\ensuremath{(\forall{\ #1: #2})}}
+    \newcommand{\Existe}[2]{\ensuremath{(\exists{\ #1: #2})}}
+    
+    \newcommand{\Sii}{$\ \Iff\ $}
     
     % -------- END MACROS ------
     
@@ -48,63 +50,64 @@
     % Un toroide será válido si es una Matriz valida y no es vacío
     
     \begin{proc}{esValido}{
-            \In t: $toroide$,
+            \In t: toroide,
             \Out result: $\bool$}{}
         \pre{\True}
-        \post{result = true \Iff esToroideValido(t)}
+        \post{result = true \Sii esToroideValido(t)}
     \end{proc}
     
     \subsection{posicionesVivas}
-    % Ejercicio 2 : proc posicionesVivas(in t: toroide, out vivas : seq<Z × Zi>)
+    % Ejercicio 2 : proc posicionesVivas(in t: toroide, out vivas : seq$<$Z × Zi$>$)
     % Que dado un toroide devuelva todas las posiciones vivas.
     \begin{proc}{posicionesVivas}{
-            \In t: $toroide$,
+            \In t: toroide,
             \Out vivas: \TLista{\tEnt}}{}
         \pre{esToroideValido(t)}
-        \post{
-            (sonPosicionesValidas(vivas,\ t) \yLuego \bqt
-            \ sonPosicionesVivas(vivas,\ t)) \wedge \bqt
-            \ (cantidadDePosicionesVivas(t) = \longitud{vivas})}
+        \post{(sonPosicionesValidas(vivas, t) \yLuego \bqt
+              sonPosicionesVivas(vivas, t)) $\wedge$ \bqt
+              (cantidadDePosicionesVivas(t) = \longitud{vivas})}
     \end{proc}
     
-    \pred{sonPosicionesValidas}{ps: \TLista{\tEnt}, t: $toroide$}{
-        \forAll{p}{\tEnt} (p \in ps \implicaLuego esPosicionValida(t, p))
+    \pred{sonPosicionesValidas}{ps: \TLista{\tEnt}, t: toroide}{
+        \forAll{p}{\tEnt} (p $\in$ ps \implicaLuego  esPosicionValida(t, p))
     }
     
-    \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: $toroide$}{
-        \forAll{p}{\tEnt} (p \in vivas \implicaLuego esPosicionViva(t, p))
+    \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: toroide}{
+        \forAll{p}{\tEnt} (p $\in$ vivas \implicaLuego esPosicionViva(t, p))
     }
     
     \subsection{densidadPoblacion}
     % Ejercicio 3 : Que dado un toroide devuelva su densidad de poblaci ́on, es decir, la relaci ́on entre la cantidad de posiciones vivas y la cantidad total de posiciones.
     
     \begin{proc}{densidadPoblacion}{
-            \In t: $toroide$, 
-            \Out result: \float}{}
+            \In t: toroide, 
+            \Out result: $\float$}{}
         \pre{esToroideValido(t)}
-        \post{result \times cantidadTotalDePosiciones(t) = cantidadDePosicionesVivas(t)}
+        \post{result $\times$ cantidadTotalDePosiciones(t) = cantidadDePosicionesVivas(t)}
     \end{proc}
     
-    \aux{cantidadTotalDePosiciones}{t: $toroide$}{\ent}{cols(t) \times rows(t)}
+    \aux{cantidadTotalDePosiciones}{t: toroide}{\ent}{
+        cols(t) $\times$ rows(t)
+    }
     
     \subsection{evolucionDePosicion}
     % Ejercicio 4 : proc evolucionDePosicion(in t: toroide, in posicion : Z × Z, out result : Bool)
     % Que dado un toroide y una posición del mismo, indique si dicha posici´on estar´ıa viva luego de un tick.
     \begin{proc}{evolucionDePosicion}{
-            \In t: $toroide$,
+            \In t: toroide,
             \In p: \tEnt,
             \Out result: \bool}{}
-        \pre{esToroideValido(t) \wedge esPosicionValida(t, p)}
-        \post{result = true \Iff viveLuegoDeUnTick(t, p)}
+        \pre{esToroideValido(t) $\wedge$ esPosicionValida(t, p)}
+        \post{result = \True \Sii viveLuegoDeUnTick(t, p)}
     \end{proc}
     
     
     \subsection{evolucionToroide}
     % Ejercicio 5 : proc evolucionToroide(inout t: toroide) Que dado un toroide lo evolucione un tick.
     \begin{proc}{evolucionToroide}{
-            \Inout t: $toroide$}{}
-        \pre{esToroideValido(t) \wedge t =$ T_{0}$}
-        \post{esToroideValido(t) \wedge esEvolucion(t, T_{0})}
+            \Inout t: toroide}{}
+        \pre{esToroideValido(t) $\wedge$ t = T$_{0}$}
+        \post{esToroideValido(t) $\wedge$ esEvolucion(t, T$_{0}$)}
     \end{proc}
     
     \subsection{evolucionMultiple}
@@ -112,10 +115,10 @@
     % Que dado un toroide t y un natural k, devuelva el toroide resultante de evolucionar t por k ticks.
     
     \begin{proc}{evolucionMultiple}{
-            \In t : $toroide$, 
+            \In t : toroide, 
             \In k : \ent, 
-            \Out result : $toroide$}{}
-        \pre{(k \geq 1) \wedge
+            \Out result : toroide}{}
+        \pre{(k $\geq$ 1) $\wedge$
              esToroideValido(t)}
         \post{esK-EsimaEvolucion(result, t, k)}
     \end{proc}
@@ -128,11 +131,11 @@
     %Por ejemplo, en el siguiente caso el toroide es peri ́odico, y p = 2.
     
     \begin{proc}{esPeriodico}{
-            \In t : $toroide$, 
+            \In t : toroide, 
             \Inout p: \ent,
             \Out result : \bool}{}
         \pre{esToroideValido(t)}
-        \post{(result = \True \Iff tienePeriodicidad(t)) \wedge 
+        \post{(result = \True \Sii tienePeriodicidad(t)) $\wedge$ 
               esMinimaPeriodicidad(t, p)}
     \end{proc}
     
@@ -141,20 +144,20 @@
     %Que dados dos toroides, devuelva si uno es la evoluci ́on m ́ultiple del otro.
     
     \begin{proc}{primosLejanos}{
-            \In t1 : $toroide$, 
-            \In t2 : $toroide$, 
+            \In t1 : toroide, 
+            \In t2 : toroide, 
             \Out primos : \bool}{}
-        \pre{esToroideValido(t1) \wedge esToroideValido(t2)}
-        \post{primos = \True \Iff sonPrimosLejanos(t1, t2)}
+        \pre{esToroideValido(t1) $\wedge$ esToroideValido(t2)}
+        \post{primos = \True \Sii sonPrimosLejanos(t1, t2)}
     \end{proc}
     
     % si son primos lejanos quiere decir que 
     % - t1 es alguna evolución de t2 o al revès
     % existe algun índice tal que t1 es K-esima evolución 
-    \pred{sonPrimosLejanos}{t1: $toroide$, t2: $toroide$}{
-        \Existe{k}{\ent}((k \geq 0) \yLuego
-            ($esK-EsimaEvolucion(t1, t2, k)$ \ \vee \
-             $esK-EsimaEvolucion(t2, t1, k)$))
+    \pred{sonPrimosLejanos}{t1: toroide, t2: toroide}{
+        \Existe{k}{\ent}((k $\geq$ 0) \yLuego
+            (esK-EsimaEvolucion(t1, t2, k) $\vee$
+             esK-EsimaEvolucion(t2, t1, k)))
     }
     
     
@@ -166,9 +169,9 @@
             \In ts: \TLista{toroide},
             \Out res: \ent}{}
         \pre{sonToroidesValidos(ts)}
-        \post{(0 \leq \ $res$ \ < \longitud{ts}) \yLuego \bqt
-              ($noMuere(ts[res])$\ \vee \
-               $esElDeMuerteMasTardia(ts[res], ts)$)}
+        \post{(0 $\leq$ res $<$ \longitud{ts}) \yLuego \bqt
+              (noMuere(ts[res]) $\vee$
+               esElDeMuerteMasTardia(ts[res], ts))}
     \end{proc}
     
     \pred{noMuere}{t: toroide}{
@@ -176,11 +179,11 @@
     }
     
     \pred{esElDeMuerteMasTardia}{t: toroide, ts: \TLista{toroide}}{
-        \forAll{w}{toroide} (w \in ts\implicaLuego muereDespues(t, w))
+        \forAll{w}{toroide} (w $\in$ ts \implicaLuego muereDespues(t, w))
     }
     
     \pred{muereDespues}{t, w: toroide}{
-        \Existe{n, m}{\ent}((n, m \geq 0) \yLuego (muereEnTick(t, n) \wedge muereEnTick(w, m) \wedge (n \geq m)))
+        \Existe{n, m}{\ent}((n, m $\geq$ 0) \yLuego (muereEnTick(t, n) $\wedge$ muereEnTick(w, m) $\wedge$ (n $\geq$ m)))
     }
     
     \begin{verbatim}
@@ -188,20 +191,20 @@
      y en todas las anteriores esta vivo */
     \end{verbatim}
     
-    \pred{muereEnTick}{t: toroide, k: \ent}{
+    \pred{muereEnTick}{t: toroide, k: $\ent$}{
         \Existe{t_{k}}{toroide}
-            ($esK-EsimaEvolucion$(t_{k}, t, k)\ \wedge \ 
-             $estaMuerto(t_{k})$) \wedge \bt
+            (esK-EsimaEvolucion(t$_{k}$, t, k) $\wedge$
+             estaMuerto(t$_{k}$)) $\wedge$ \bt
         \forAll{q}{\ent}
-            ((0\leq q < k) \implicaLuego 
+            ((0 $\leq$ q $<$ k) \implicaLuego
                 (\Existe{t_{q}}{toroide} 
-                    ($esK-EsimaEvolucion(t_{q}, t, q)$ \wedge \ 
-                     \neg \ $estaMuerto(t_{k}$)))
+                    (esK-EsimaEvolucion(t$_{q}$, t, q) $\wedge$ 
+                     $\neg$ estaMuerto(t$_{k}$)))
     }
     
     \pred{estaMuerto}{t: toroide}{
         \forAll{p}{\tEnt} 
-            (esPosicionValida(t, p) \implicaLuego \neg \ esPosicionViva(t, p))
+            (esPosicionValida(t, p) \implicaLuego $\neg$ esPosicionViva(t, p))
     }
     
     \subsection{fusionar}
@@ -212,7 +215,7 @@
             \In t1: toroide,
             \In t2: toroide,
             \Out res: toroide}{}
-        \pre{(esToroideValido(t1) \wedge 
+        \pre{(esToroideValido(t1) $\wedge$ 
              esToroideValido(t2)) \yLuego \bqt
              mismaDimension(t1, t2)}
         \post{(esToroideValido(res) \yLuego \bqt 
@@ -226,7 +229,7 @@
     
     \pred{compartenPosicionesVivas}{t1, t2, tr}{
         \forAll{p}{\tEnt} (esPosicionValida(t1, p) \implicaLuego \bt 
-            (esPosicionViva(res, p) \Iff (esPosicionViva(t1, p) \wedge esPosicionViva(t2, p))))
+            (esPosicionViva(res, p) \Sii (esPosicionViva(t1, p) $\wedge$ esPosicionViva(t2, p))))
     }
     
     \subsection{vistaTrasladada}
@@ -241,10 +244,10 @@
             \In t1: toroide,
             \In t2: toroide,
             \Out res: \bool}{}
-        \pre{(esToroideValido(t1) \wedge 
+        \pre{(esToroideValido(t1) $\wedge$
              esToroideValido(t2)) \yLuego \bqt
              mismaDimension(t1, t2)}
-        \post{res = \True \Iff esTraslacion(t1,t2)}
+        \post{res = \True \Sii esTraslacion(t1,t2)}
     \end{proc}
     
     \subsection{enCrecimiento}
@@ -255,7 +258,7 @@
             \In t: toroide,
             \Out res: \bool}{}
         \pre{esToroideValido(t)}
-        \post{res = \True \Iff areaQueCubreIncrementa(t)}
+        \post{res = \True \Sii areaQueCubrePosVivasIncrementa(t)}
     \end{proc}
     
     
@@ -268,34 +271,34 @@
         posiciones vivas sea del menor a la del original. */
     \end{verbatim}
     
-    \pred{areaQueCubreIncrementa}{t: toroide}{
-        \Existe{t_{1}}{toroide}((esToroideValido(t_{1}) \yLuego esEvolucion(t_{1}, t)) \wedge \bt
+    \pred{areaQueCubrePosVivasIncrementa}{t: toroide}{
+        \Existe{t_{1}}{toroide}((esToroideValido(t$_{1}$) \yLuego esEvolucion(t$_{1}$, t)) $\wedge$ \bt
         \Existe{a, a_{1}}{\ent} \btt
-            ((esAreaValida(t, a) \wedge esAreaValida(t, a_{1})) \yLuego \bttt
-                (esMinimaAreaQueCubrePosVivas(t, a) \wedge \bttt
-                esMinimaAreaQueCubrePosVivas(t_{1}, a_{1}) \wedge \bttt
-                a < a_{1})))
+            ((esAreaValida(t, a) $\wedge$ esAreaValida(t, a$_{1}$)) \yLuego \bttt
+                (esMinimaAreaQueCubrePosVivas(t, a) $\wedge$ \bttt
+                esMinimaAreaQueCubrePosVivas(t$_{1}$, a$_{1}$) $\wedge$ \bttt
+                a $<$ a$_{1}$)))
     }
     
     \pred{esAreaValida}{t: toroide, a: \ent}{
-        0 \leq a \leq area(t)
+        0 $\leq$ a $\leq$ area(t)
     }
     
     \pred{esMinimaAreaQueCubrePosVivas}{t: toroide, a: \ent}{
-        esAreaQueCubrePosVivas(t, a) \wedge \bt
+        esAreaQueCubrePosVivas(t, a) $\wedge$ \bt
         \forAll{a'}{\ent} 
-            (esAreaQueCubrePosVivas(t, a') \implica a \leq a')
+            (esAreaQueCubrePosVivas(t, a') $\implica$ a $\leq$ a')
     }
     
     \pred{esAreaQueCubrePosVivas}{t: toroide, a: \ent}{
         \Existe{t_{d}}{toroide}
-            ((esToroideValido(t_{d}) \yLuego esTraslacion(t_{d}, t)) \wedge \btt 
+            ((esToroideValido(t$_{d}$) \yLuego esTraslacion(t$_{d}$, t)) $\wedge$ \btt 
             (\Existe{m}{\matriz{T}} (esMatriz(m) \yLuego \bttt
-                (area(m) = a \wedge cubrePosicionesVivas(t_{d}, m)))))
+                (area(m) = a $\wedge$ cubrePosicionesVivas(t$_{d}$, m)))))
     }
     
     \aux{area}{m: \matriz{T}}{\ent}{
-        cols(m) \times rows(m)
+        cols(m) $\times$ rows(m)
     }
     
     \begin{verbatim}
@@ -324,34 +327,33 @@
         )
     }
     
-    \pred{esDesfazajeValido}{e: \tEnt,\ m: \matriz{T},\ t: toroide}{
-        (0 \leq r_{0} + cols(m) \leq cols(t)) \wedge \bt
-        (0 \leq r_{1} + rows(m) \leq rows(t))
+    \pred{esDesfazajeValido}{e: \tEnt, m: \matriz{T}, t: toroide}{
+        (0 $\leq$ r$_{0}$ + cols(m) $\leq$ cols(t)) $\wedge$ \bt
+        (0 $\leq$ r$_{1}$ + rows(m) $\leq$ rows(t))
     }
     
     \pred{estaDentro}{m: \matriz{T}, p: \tEnt}{
-        (0 \leq p_{0} < cols(m)) \wedge \bt
-        (0 \leq p_{1} < rows (m))
+        (0 $\leq$ p$_{0}$ $<$ cols(m)) $\wedge$ \bt
+        (0 $\leq$ p$_{1}$ $<$ rows (m))
     }
     
     \aux{posicionRelativa}{p: \tEnt, r: \tEnt}{\tEnt}{
-        (p_{0} - r_{0}, 
-        \ p_{1} - r_{1})
+        (p$_{0}$ - r$_{0}$,
+        p$_{1}$ - r$_{1}$)
     }
-    
     
     \section{Predicados y Auxiliares generales}
     
     \subsection{Toroides}
     
-    \pred{esToroideValido}{t: $toroide$}{
-        esMatriz(t) \wedge \bt
-        (rows(t) \geq 3) \wedge \bt
-        (cols(t) \geq 3)
+    \pred{esToroideValido}{t: toroide}{
+        esMatriz(t) $\wedge$ \bt
+        (rows(t) $\geq$ 3) $\wedge$ \bt
+        (cols(t) $\geq$ 3)
     }
     
-    \pred{sonToroidesValidos}{ts: \TLista{$toroide$}}{
-        \forAll{t}{toroide} (t \in ts \implicaLuego esToroideValido(t))
+    \pred{sonToroidesValidos}{ts: \TLista{toroide}}{
+        \forAll{t}{toroide} (t $\in$ ts \implicaLuego esToroideValido(t))
     }
     
     
@@ -359,71 +361,70 @@
         /* Supone que es una posicion válida (no se va a ir de rango) */
     \end{verbatim}
     
-    \aux{valorEn}{t: $toroide$, p: \tEnt}{\bool}{
-        t[p_{0}][p_{1}]
+    \aux{valorEn}{t: toroide, p: \tEnt}{\bool}{
+        t[p$_{0}$][p$_{1}$]
     }
     
-    \pred{esPosicionViva}{t: $toroide$, p: \tEnt}{
+    \pred{esPosicionViva}{t: toroide, p: \tEnt}{
         % Chequea que t[i,j] sea una pos viva.
         (valorEn(t, p) = \True)
     }
     
-    \aux{cantidadDePosicionesVivas}{t: $toroide$}{\ent} {
+    \aux{cantidadDePosicionesVivas}{t: toroide}{\ent} {
         cantidadDeAparicionesEnMat(True, t)
     }
     
-    \pred{esEvolucion}{t, t_{0}: toroide}{
-        mismaDimension(t, t_{0}) \yLuego \bt
-        \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t_{0}, p))
+    \pred{esEvolucion}{t, t$_{0}$: toroide}{
+        mismaDimension(t, t$_{0}$) \yLuego \bt
+        \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t$_{0}$, p))
     }
     
-    \pred{mismaDimension}{t, t_{0}: toroide}{
-        (cols(t) = cols(t_{0})) \wedge \bt
-        (rows(t) = rows(t_{0}))
+    \pred{mismaDimension}{t, t$_{0}$: toroide}{
+        (cols(t) = cols(t$_{0}$)) $\wedge$ \bt
+        (rows(t) = rows(t$_{0}$))
     }
     
     
-    \pred{esK-EsimaEvolucion}{t, t_{0}: toroide, k: \ent}{
+    \pred{esK-EsimaEvolucion}{t, t$_{0}$: toroide, k: \ent}{
         \Existe{ts}{\TLista{toroide}} \btt (
             sonToroidesValidos(ts) \yLuego \bttt ( 
-                (ts[0] = t_{0}) \wedge
-                (ts[k] = t) \wedge \bttt
-                \forAll{i}{\ent} (0 \leq i < \longitud{ts} - 1) \implicaLuego 
-                    esEvolucion(ts[i + 1], ts[i])))
-            )
-        )
+                (ts[0] = t$_{0}$) $\wedge$
+                (ts[k] = t) $\wedge$ \bttt
+                \forAll{i}{\ent} (0 $\leq$ i $<$ \longitud{ts} - 1) \implicaLuego 
+                    esEvolucion(ts[i + 1], ts[i])))))
     }
     
-    \pred{tienePeriodicidad}{t: $toroide$}{
-        (\exists{k: \ent})($tienePeriodicidadK-Esima(t, k)$)
+    \pred{tienePeriodicidad}{t: toroide}{
+        \Existe{k}{\ent}(tienePeriodicidadK-Esima(t, k))
     }
     
     % p es el minimo si:
     % - t tiene periodicidad p
     % - para todo q tal que t tiene periodicidad q-esima
-    % => p <= q
-    \pred{esMinimaPeriodicidad}{t: $toroide$, p: \ent}{
-        $tienePeriodicidadK-Esima(t, p)$\ \wedge \bt
-        \forAll{q}{\ent} ($tienePeriodicidadK-Esima(t, q) $ \implica p \leq q)
+    % => p $<$= q
+    \pred{esMinimaPeriodicidad}{t: toroide, p: \ent}{
+        tienePeriodicidadK-Esima(t, p) $\wedge$ \bt
+        \forAll{q}{\ent} (tienePeriodicidadK-Esima(t, q) \implica p $\leq$ q)
     }
     
-    \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
-        (k \geq 1) \wedge ($esK-EsimaEvolucion(t, t, k)$)
+    \pred{tienePeriodicidadK-Esima}{t: toroide, k: \ent}{
+        (k $\geq$ 1) $\wedge$ (esK-EsimaEvolucion(t, t, k))
     }
     
-    % TODO: Preguntar si la funcion "dada" mod cumple que el resultado es mayor o igual a 0
-    \aux{trasladar}{t: $toroide$, p: \tEnt, d: \tEnt}{\tEnt}{
-        (mod(p_{0} + d_{0}, cols(t), \bt
-         mod(p_{1} + d_{1}, rows(t))
+    TODO: Preguntar si la funcion "dada" mod cumple que el resultado es mayor o igual a 0
+    \aux{trasladar}{t: toroide, p: \tEnt, d: \tEnt}{\tEnt}{
+        (mod(p$_{0}$ + d$_{0}$, cols(t), \bt
+        \ mod(p$_{1}$ + d$_{1}$, rows(t))
     }
     
     \pred{esTraslacion}{t1, t2: toroide}{
-        \Existe{d}{\tEnt}esTraslacionEnDireccion(t1, t2, d)
+        \Existe{d}{\tEnt} esTraslacionEnDireccion(t1, t2, d)
     }
-    \pred{esTraslacionEnDireccion}{t, t_{0}: toroide, d: \tEnt}{
+    
+    \pred{esTraslacionEnDireccion}{t, t$_{0}$: toroide, d: \tEnt}{
         \forAll{p}{\tEnt}
-            (esPosicionValida(t_{0}, p) \implicaLuego
-                (valorEn(t_{0}, p) = valorEn(t, trasladar(t_{0}, p, d))))
+            (esPosicionValida(t$_{0}$, p) \implicaLuego \btt
+                (valorEn(t$_{0}$, p) = valorEn(t, trasladar(t$_{0}$, p, d))))
     }
     
     \subsubsection{Vecinos}
@@ -432,36 +433,36 @@
     % - Cualquier posici´on viva con m´as de 3 vecinas vivas, muere (por %superpoblaci´on)
     % - Cualqueir posici´on muerta con exactamente 3 vecinos vivos, pasa a vivir (por reproducci´on)
     
-    \pred{viveLuegoDeUnTick}{t: $toroide$, p: \tEnt}{
-        (\neg\ esSoledad(t, p) $ \wedge$ \neg\ esSuperpoblacion(t, p)) \wedge \bt
-        (esSupervivencia(t, p) \vee esReproduccion(t, p))
+    \pred{viveLuegoDeUnTick}{t: toroide, p: \tEnt}{
+        ($\neg$ esSoledad(t, p) $\wedge$ $\neg$ esSuperpoblacion(t, p)) $\wedge$ \bt
+        (esSupervivencia(t, p) $\vee$ esReproduccion(t, p))
     }
     
-    \pred{esSoledad}{t: $toroide$, p: \tEnt}{
-        esPosicionViva(t, p) \wedge
-        (cantidadVecinosVivos(t, p) < 2)
+    \pred{esSoledad}{t: toroide, p: \tEnt}{
+        esPosicionViva(t, p) $\wedge$
+        (cantidadVecinosVivos(t, p) $<$ 2)
     }
     
-    \pred{esSuperpoblacion}{t: $toroide$, p: \tEnt}{
-        esPosicionViva(t, p) \wedge
-        (cantidadVecinosVivos(t, p) > 3)
+    \pred{esSuperpoblacion}{t: toroide, p: \tEnt}{
+        esPosicionViva(t, p) $\wedge$
+        (cantidadVecinosVivos(t, p) $>$ 3)
     }
     
-    \pred{esSupervivencia}{t: $toroide$, p: \tEnt}{
-        esPosicionViva(t, p) \wedge
-        (2 \leq cantidadVecinosVivos(t, p) \leq 3)
+    \pred{esSupervivencia}{t: toroide, p: \tEnt}{
+        esPosicionViva(t, p) $\wedge$
+        (2 $\leq$ cantidadVecinosVivos(t, p) $\leq$ 3)
     }
     
-    \pred{esReproduccion}{t: $toroide$, p: \tEnt}{
-        ($\neg$ esPosicionViva(t, p)) \wedge
+    \pred{esReproduccion}{t: toroide, p: \tEnt}{
+        ($\neg$ esPosicionViva(t, p)) $\wedge$
         (cantidadVecinosVivos(t, p) = 3)
     }
     
-    \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{\tEnt}{
-        \sum_{i=-1}^1 \sum_{j=-1}^1 
+    \aux{cantidadVecinosVivos}{t: toroide, p: \tEnt}{\tEnt}{
+        $\sum_{i=-1}^1$ $\sum_{j=-1}^1$
         \IfThenElse{(
-            \neg\ $esPosicionViva(t, trasladar(t, p, (i, j)) $ 
-            \vee\ (i, j) = (0,0))}
+            $\neg$ esPosicionViva(t, trasladar(t, p, (i, j))
+            $\vee$ (i, j) = (0,0))}
             {0}
             {1}
     }
@@ -470,22 +471,22 @@
     
     %/* Para filas y columnas suponemos que m es una matriz */\\
     \aux{cols}{m: \matriz{T}}{\ent}{\longitud{m}}
-    \aux{rows}{m: \matriz{T}}{\ent}{\IfThenElse{cols(m) > 0}{\longitud{m[0]}}{0}}
+    \aux{rows}{m: \matriz{T}}{\ent}{\IfThenElse{cols(m) $>$ 0}{\longitud{m[0]}}{0}}
     
     \pred{esMatriz}{m: \matriz{T}}{
         \paraTodo{i,j}{(0}{\longitud{m}} \implicaLuego \longitud{m[i]} = \longitud{m[j]})
     }
     
     \aux{cantidadDeAparicionesEnMat}{x: T, m: \matriz{T}}{\ent}{
-        \sum_{i=0}^{cols(m) - 1}
-        \sum_{j=0}^{rows(m) - 1}
+        $\sum_{i=0}^{cols(m) - 1}$
+        $\sum_{j=0}^{rows(m) - 1}$
         (\IfThenElse{s[i][j] = x}{1}{0})
     }
     
     \pred{esPosicionValida}{m: \matriz{T}, p: \tEnt}{
         % Chequea que ambos estén en rango
-        (0 \leq p_{0} < cols(m)) \wedge \bt
-        (0 \leq p_{1} < rows(m))
+        (0 $\leq$ p$_{0}$ $<$ cols(m)) $\wedge$ \bt
+        (0 $\leq$ p$_{1}$ $<$ rows(m))
     }
     
     \section{Decisiones tomadas}
