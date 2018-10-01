@@ -174,13 +174,13 @@ Primer Cuatrimestre 2018\\
 \newcommand{\Then}{\ensuremath{\rightarrow}}
 \newcommand{\Iff}{\ensuremath{\leftrightarrow}}
 \newcommand{\implica}{\ensuremath{\longrightarrow}}
-\newcommand{\IfThenElse}[3]{\ensuremath{\mathsf{if}\ #1\ \mathsf{then}\ #2\ \mathsf{else}\ #3\ \mathsf{fi}}}
+\newcommand{\IfThenElse}[3]{\ensuremath{\mathsf{if}\ $#1$\ \mathsf{then}\ $#2$\ \mathsf{else}\ $#3$\ \mathsf{fi}}}
 \newcommand{\In}{\textsf{in }}
 \newcommand{\Out}{\textsf{out }}
 \newcommand{\Inout}{\textsf{inout }}
-\newcommand{\yLuego}{\land _L}
-\newcommand{\oLuego}{\lor _L}
-\newcommand{\implicaLuego}{\implica _L}
+\newcommand{\yLuego}{\ensuremath{\land _L\ }}
+\newcommand{\oLuego}{\ensuremath{\lor _L\ }}
+\newcommand{\implicaLuego}{\ensuremath{\implica _L\ }}
 \newcommand{\existe}[3]{\ensuremath{(\exists #1:\ent) \ #2 \leq #1 < #3 \ }}
 \newcommand{\paraTodo}[3]{\ensuremath{(\forall #1:\ent) \ (#2 \leq #1 < #3) \ }}
 
@@ -252,15 +252,14 @@ Primer Cuatrimestre 2018\\
 \newcommand{\selec}{\ensuremath{\leftarrow}}
 
 \newcommand{\breakAndSpace}[1]{\\\hspace*{#1}}
-\newcommand{\tab}{4em}
 %MODIFICACIÓN: breakline antes del cuerpo 3
 \newcommand{\pred}[3]{%
     {\normalfont\bfseries\ttfamily pred }%
     {\normalfont\ttfamily #1}%
     \ifthenelse{\equal{#2}{}}{}{\ (#2) }%
-    \{\breakAndSpace{\tab}\ensuremath{#3}\breakAndSpace{1em} \}%
+    \{\breakAndSpace{3.2em}#3\breakAndSpace{1.5em}\}%
     {\normalfont\bfseries\,\par}%
-  }
+}
 
 \newenvironment{proc}[4][res]{%
   % El parametro 1 (opcional) es el nombre del resultado
@@ -272,13 +271,13 @@ Primer Cuatrimestre 2018\\
   \newcommand{\pre}[2][]{%
     {\normalfont\bfseries\ttfamily Pre}%
     \ifthenelse{\equal{##1}{}}{}{\ {\normalfont\ttfamily ##1} :}\ %
-    \{\ensuremath{##2}\}%
+    \{##2\}%
     {\normalfont\bfseries\,\par}%
   }
   \newcommand{\post}[2][]{%
     {\normalfont\bfseries\ttfamily Post}%
     \ifthenelse{\equal{##1}{}}{}{\ {\normalfont\ttfamily ##1} :}\
-    \{\ensuremath{##2}\}%
+    \{##2\}%
     {\normalfont\bfseries\,\par}%
   }
   \renewcommand{\aux}[4]{%
@@ -307,7 +306,7 @@ Primer Cuatrimestre 2018\\
   \newcommand{\aux}[4]{%
     {\normalfont\bfseries\ttfamily aux\ }%
     {\normalfont\ttfamily #1}%
-    \ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = \breakAndSpace{\tab}\ensuremath{#4}%
+    \ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = \breakAndSpace{3.2em}#4%
     {\normalfont\bfseries\,;\par}%
   }
 
