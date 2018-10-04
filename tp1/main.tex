@@ -97,7 +97,7 @@
     % Ejercicio 4 : proc evolucionDePosicion(in t: toroide, in posicion : Z × Z, out result : Bool)
     % Que dado un toroide y una posición del mismo, indique si dicha posici´on estar´ıa viva luego de un tick.
     \begin{proc}{evolucionDePosicion}{
-            \In t: toroide,
+            \In t: $toroide$,
             \In p: \tEnt,
             \Out result: \bool}{}
         \pre{esToroideValido(t) $\wedge$ esPosicionValida(t, p)}
@@ -361,10 +361,10 @@
     
     
     \begin{verbatim}
-        /* Supone que es una posicion válida (no se va a ir de rango) */
+    /* Supone que es una posicion válida (no se va a ir de rango) */
     \end{verbatim}
     
-    \aux{valorEn}{t: toroide, p: \tEnt}{\bool}{
+    \auxOneLiner{valorEn}{t: toroide, p: \tEnt}{\bool}{
         t[p$_{0}$][p$_{1}$]
     }
     
@@ -413,12 +413,12 @@
     \pred{tienePeriodicidadK-Esima}{t: toroide, k: \ent}{
         (k $\geq$ 1) $\wedge$ (esK-EsimaEvolucion(t, t, k))
     }
-    
+    \enter
     \aux{trasladar}{t: toroide, p: \tEnt, d: \tEnt}{\tEnt}{
         (mod(p$_{0}$ + d$_{0}$, cols(t), \bt
         \ mod(p$_{1}$ + d$_{1}$, rows(t))
     }
-    
+    \enter
     \pred{esTraslacion}{t1, t2: toroide}{
         \Exists{d}{\tEnt} esTraslacionEnDireccion(t1, t2, d)
     }
@@ -435,37 +435,36 @@
     % - Cualquier posici´on viva con m´as de 3 vecinas vivas, muere (por %superpoblaci´on)
     % - Cualqueir posici´on muerta con exactamente 3 vecinos vivos, pasa a vivir (por reproducci´on)
     
-    \pred{viveLuegoDeUnTick}{t: toroide, p: \tEnt}{
+    \pred{viveLuegoDeUnTick}{t: $toroide$, p: \tEnt}{
         ($\neg$ esSoledad(t, p) $\wedge$ $\neg$ esSuperpoblacion(t, p)) $\wedge$ \bt
         (esSupervivencia(t, p) $\vee$ esReproduccion(t, p))
     }
     
-    \pred{esSoledad}{t: toroide, p: \tEnt}{
+    \pred{esSoledad}{t: $toroide$, p: \tEnt}{
         esPosicionViva(t, p) $\wedge$
         (cantidadVecinosVivos(t, p) $<$ 2)
     }
     
-    \pred{esSuperpoblacion}{t: toroide, p: \tEnt}{
+    \pred{esSuperpoblacion}{t: $toroide$, p: \tEnt}{
         esPosicionViva(t, p) $\wedge$
         (cantidadVecinosVivos(t, p) $>$ 3)
     }
     
-    \pred{esSupervivencia}{t: toroide, p: \tEnt}{
+    \pred{esSupervivencia}{t: $toroide$, p: \tEnt}{
         esPosicionViva(t, p) $\wedge$
         (2 $\leq$ cantidadVecinosVivos(t, p) $\leq$ 3)
     }
     
-    \pred{esReproduccion}{t: toroide, p: \tEnt}{
-        ($\neg$ esPosicionViva(t, p)) $\wedge$
+    \pred{esReproduccion}{t: $toroide$, p: \tEnt}{
+        $\neg$ esPosicionViva(t, p) $\wedge$
         (cantidadVecinosVivos(t, p) = 3)
     }
     
     \aux{cantidadVecinosVivos}{t: toroide, p: \tEnt}{\tEnt}{
         $\sum_{i=-1}^1$ $\sum_{j=-1}^1$
-        \IfThenElse{(
-            $\neg$ esPosicionViva(t, trasladar(t, p, (i, j))
-            $\vee$ (i, j) = (0,0))}
-            {0}
+        \IfThenElse{($\neg$ esPosicionViva(t, trasladar(t, p, (i, j))
+            $\vee$ (i, j) = (0,0))\breakAndSpace{10em}}
+            {0\breakAndSpace{10em}}
             {1}
     }
     
