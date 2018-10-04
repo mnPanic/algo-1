@@ -147,12 +147,17 @@
     %Que dados dos toroides, devuelva si uno es la evoluci ́on m ́ultiple del otro.
     
     \begin{proc}{primosLejanos}{
-            \In t1 : toroide, 
-            \In t2 : toroide, 
+            \In t1 : $toroide$, 
+            \In t2 : $toroide$, 
             \Out primos : \bool}{}
         \pre{esToroideValido(t1) $\wedge$ esToroideValido(t2)}
         \post{primos = \True \Sii sonPrimosLejanos(t1, t2)}
     \end{proc}
+    
+    \begin{verbatim}
+    /* Chequeamos que k sea mayor o igual a cero porque
+       consideramos que un toroide es primo lejano de si mismo. */
+    \end{verbatim}
     
     % si son primos lejanos quiere decir que 
     % - t1 es alguna evolución de t2 o al revès
@@ -522,6 +527,6 @@
               (\Exists{q}{\ent} n = q $\times$ m + result)}
     \end{proc}
     
-\end{document}
+    \end{document}
     
     
