@@ -54,9 +54,9 @@
     
     % Un toroide será válido si es una Matriz valida y no es vacío
     
-    \begin{proc}{esValido}{
-            \In t: $toroide$,
-            \Out result: $\bool$}{}
+    \begin{proc}{esValido}
+            {\In t: $toroide$,
+             \Out result: $\bool$}{}
         \pre{\True}
         \post{result = \True \Sii esToroideValido(t)}
     \end{proc}
@@ -64,9 +64,9 @@
     \subsection{posicionesVivas}
     % Ejercicio 2 : proc posicionesVivas(in t: toroide, out vivas : seq$<$Z × Zi$>$)
     % Que dado un toroide devuelva todas las posiciones vivas.
-    \begin{proc}{posicionesVivas}{
-            \In t: $toroide$,
-            \Out vivas: \TLista{\tEnt}}{}
+    \begin{proc}{posicionesVivas}
+            {\In t: $toroide$,
+             \Out vivas: \TLista{\tEnt}}{}
         \pre{esToroideValido(t)}
         \post{(sonPosicionesValidas(vivas, t) \yLuego \bqt
               \ sonPosicionesVivas(vivas, t)) $\wedge$ \bqt
@@ -77,15 +77,15 @@
         \forAll{p}{\tEnt} (p $\in$ ps $\implica$ esPosicionValida(t, p))
     }
     \enter
-    \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: toroide}{
+    \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: $toroide$}{
         \forAll{p}{\tEnt} (p $\in$ vivas \implicaLuego esPosicionViva(t, p))
     }
     
     \subsection{densidadPoblacion}
     % Ejercicio 3 : Que dado un toroide devuelva su densidad de poblaci ́on, es decir, la relaci ́on entre la cantidad de posiciones vivas y la cantidad total de posiciones.
     
-    \begin{proc}{densidadPoblacion}{
-            \In t: $toroide$, 
+    \begin{proc}{densidadPoblacion}
+            {\In t: $toroide$, 
             \Out result: $\float$}{}
         \pre{esToroideValido(t)}
         \post{result $\times$ cantidadTotalDePosiciones(t) = cantidadDePosicionesVivas(t)}
@@ -98,8 +98,8 @@
     \subsection{evolucionDePosicion}
     % Ejercicio 4 : proc evolucionDePosicion(in t: toroide, in posicion : Z × Z, out result : Bool)
     % Que dado un toroide y una posición del mismo, indique si dicha posici´on estar´ıa viva luego de un tick.
-    \begin{proc}{evolucionDePosicion}{
-            \In t: $toroide$,
+    \begin{proc}{evolucionDePosicion}
+            {\In t: $toroide$,
             \In p: \tEnt,
             \Out result: \bool}{}
         \pre{esToroideValido(t) $\wedge$ esPosicionValida(t, p)}
@@ -109,8 +109,8 @@
     
     \subsection{evolucionToroide}
     % Ejercicio 5 : proc evolucionToroide(inout t: toroide) Que dado un toroide lo evolucione un tick.
-    \begin{proc}{evolucionToroide}{
-            \Inout t: $toroide$}{}
+    \begin{proc}{evolucionToroide}
+            {\Inout t: $toroide$}{}
         \pre{esToroideValido(t) $\wedge$ t = T$_{0}$}
         \post{esToroideValido(t) $\wedge$ esEvolucion(t, T$_{0}$)}
     \end{proc}
@@ -119,8 +119,8 @@
     % Ejercicio 6 : proc evolucionMultiple(in t: toroide, in k: Z, out result: toroide)
     % Que dado un toroide t y un natural k, devuelva el toroide resultante de evolucionar t por k ticks.
     
-    \begin{proc}{evolucionMultiple}{
-            \In t : $toroide$, 
+    \begin{proc}{evolucionMultiple}
+            {\In t : $toroide$, 
             \In k : \ent, 
             \Out result : $toroide$}{}
         \pre{esToroideValido(t) $\wedge$
@@ -135,8 +135,8 @@
     % vuelve a tener exactamente la misma configuraci ́on que ten ́ıa originalmente.
     %Por ejemplo, en el siguiente caso el toroide es peri ́odico, y p = 2.
     
-    \begin{proc}{esPeriodico}{
-            \In t : $toroide$, 
+    \begin{proc}{esPeriodico}
+            {\In t : $toroide$, 
             \Inout p: \ent,
             \Out result : \bool}{}
         \pre{esToroideValido(t)}
@@ -148,18 +148,18 @@
     % Ejercicio 8: proc primosLejanos(in t1: toroide, in t2: toroide, out primos: Bool)
     %Que dados dos toroides, devuelva si uno es la evoluci ́on m ́ultiple del otro.
     
-    \begin{proc}{primosLejanos}{
-            \In t1 : $toroide$, 
+    \begin{proc}{primosLejanos}
+            {\In t1 : $toroide$, 
             \In t2 : $toroide$, 
             \Out primos : \bool}{}
         \pre{esToroideValido(t1) $\wedge$ esToroideValido(t2)}
         \post{primos = \True \Sii sonPrimosLejanos(t1, t2)}
     \end{proc}
     
-    \begin{verbatim}
-    /* Chequeamos que k sea mayor o igual a cero porque consideramos 
-       que un toroide es primo lejano de si mismo.                   */
-    \end{verbatim}
+\begin{verbatim}
+/* Chequeamos que k sea mayor o igual a cero porque consideramos 
+   que un toroide es primo lejano de si mismo.                   */
+\end{verbatim}
     
     % si son primos lejanos quiere decir que 
     % - t1 es alguna evolución de t2 o al revès
@@ -175,8 +175,8 @@
     % Ejercicio 9 : proc seleccionNatural(in ts: seqhtoroidei, out res: Z)
     % Que dada una secuencia de toroides, devuelva el ´ındice de aquel toroide que m´as ticks tardar´a en morir. Se considera que un toroide muere cuando no tiene posiciones vivas.
     
-    \begin{proc}{seleccionNatural}{
-            \In ts: \TLista{toroide},
+    \begin{proc}{seleccionNatural}
+            {\In ts: \TLista{toroide},
             \Out res: \ent}{}
         \pre{sonToroidesValidos(ts)}
         \post{(0 $\leq$ res $<$ \longitud{ts}) \yLuego \bqt
@@ -196,10 +196,10 @@
         \Exists{n, m}{\ent} ((n, m $\geq$ 0) \yLuego (muereEnTick(t, n) $\wedge$ muereEnTick(w, m) $\wedge$ (n $\geq$ m)))
     }
     
-    \begin{verbatim}
-    /* Un toroide t muere en k ticks si en su k-esima evolución esta muerto
-       y en todas las anteriores esta vivo                                  */
-    \end{verbatim}
+\begin{verbatim}
+/* Un toroide t muere en k ticks si en su k-esima evolución esta muerto
+   y en todas las anteriores esta vivo                                  */
+\end{verbatim}
     
     \pred{muereEnTick}{t: $toroide$, k: $\ent$}{
         \Exists{t_{k}}{toroide} (esToroideValido(t$_{k}$) \yLuego \btt
@@ -225,10 +225,10 @@
     % Ejercicio 10 : proc fusionar(in t1: toroide, in t2: toroide, out res: toroide)
     % Que dados dos toroides de la misma dimensi´on, devuelva otro (de la misma dimensi´on) que tenga vivas solo aquellas posiciones que estaban vivas en ambos toroides.
     
-    \begin{proc}{fusionar}{
-            \In t1: $toroide$,
-            \In t2: $toroide$,
-            \Out res: $toroide$}{}
+    \begin{proc}{fusionar}
+            {\In t1: $toroide$,
+             \In t2: $toroide$,
+             \Out res: $toroide$}{}
         \pre{esToroideValido(t1) $\wedge$ \bpqt
              esToroideValido(t2) $\wedge$ \bpqt
              mismaDimension(t1, t2)}
@@ -237,9 +237,9 @@
               compartenPosicionesVivas(t1, t2, res)}
     \end{proc}
     
-    \begin{verbatim}
-    /* Supone que t1, t2, y tr tienen la misma dimension. */
-    \end{verbatim}
+\begin{verbatim}
+/* Supone que t1, t2, y tr tienen la misma dimension. */
+\end{verbatim}
     
     \pred{compartenPosicionesVivas}{t1, t2, res: $toroide$}{
         \forAll{p}{\tEnt} (esPosicionValida(t1, p) \implicaLuego \btt
@@ -254,10 +254,10 @@
     %en el eje X y de 3 lugares hacia abajo en el eje Y al toroide de la izquierda, se obtiene el de la derecha:
     
     
-    \begin{proc}{vistaTrasladada}{
-            \In t1: $toroide$,
-            \In t2: $toroide$,
-            \Out res: \bool}{}
+    \begin{proc}{vistaTrasladada}
+            {\In t1: $toroide$,
+             \In t2: $toroide$,
+             \Out res: \bool}{}
         \pre{esToroideValido(t1) $\wedge$ \bpqt
              esToroideValido(t2) $\wedge$ \bpqt
              mismaDimension(t1, t2)}
@@ -268,22 +268,22 @@
     % Ejercicio 12 : proc enCrecimiento(in t: toroide, out res: Bool)
     % Que verifica si la menor superficie que cubre a todas las celdas vivas se va incrementar en el pr´oximo tick
     
-    \begin{proc}{enCrecimiento}{
-            \In t: $toroide$,
-            \Out res: \bool}{}
+    \begin{proc}{enCrecimiento}
+            {\In t: $toroide$,
+             \Out res: \bool}{}
         \pre{esToroideValido(t)}
         \post{res = \True \Sii areaQueCubrePosVivasIncrementa(t)}
     \end{proc}
     
     
-    \begin{verbatim}
-    /* Dado un toroide queremos ver todas las matrices validas 
-       que encierran las posiciones vivas de ese toroide y 
-       quedarnos con la de area mínima.
-       Asi mismo, vemos las traslaciones pues puede haber una 
-       vista trasladada de un toroide cuya area que encierra 
-       a las posiciones vivas sea del menor a la del original. */
-    \end{verbatim}
+\begin{verbatim}
+/* Dado un toroide queremos ver todas las matrices validas 
+   que encierran las posiciones vivas de ese toroide y 
+   quedarnos con la de area mínima.
+   Asi mismo, vemos las traslaciones pues puede haber una 
+   vista trasladada de un toroide cuya area que encierra 
+   a las posiciones vivas sea del menor a la del original. */
+\end{verbatim}
     
     \pred{areaQueCubrePosVivasIncrementa}{t: $toroide$}{
         \Exists{t_{1}}{toroide} ((esToroideValido(t$_{1}$) \yLuego esEvolucion(t$_{1}$, t)) $\wedge$ \bt
@@ -304,7 +304,7 @@
             (esAreaQueCubrePosVivas(t, b)) $\implica$ a $\leq$ b)
     }
     \enter
-    \pred{esAreaQueCubrePosVivas}{t: toroide, a: \ent}{
+    \pred{esAreaQueCubrePosVivas}{t: $toroide$, a: \ent}{
         \Exists{t_{d}}{toroide}
             ((esToroideValido(t$_{d}$) \yLuego esTraslacion(t$_{d}$, t)) $\wedge$ \btt 
             (\Exists{m}{\matriz{T}} \bttt
@@ -317,21 +317,21 @@
         cols(m) $\times$ rows(m)
     }
     
-    \begin{verbatim}
-    /* Queremos ver que si una posicion está viva en el toroide, 
-       esté contenida en la matriz que mide el area.
-       Para esto necesitamos poder comparar las coordenadas del 
-       toroide con las de la matriz.
-       El problema es que sus coordenadas no son las mismas, sino 
-       que pueden tener un desfazaje con respecto al toroide.
+\begin{verbatim}
+/* Queremos ver que si una posicion está viva en el toroide, 
+   esté contenida en la matriz que mide el area.
+   Para esto necesitamos poder comparar las coordenadas del 
+   toroide con las de la matriz.
+   El problema es que sus coordenadas no son las mismas, sino 
+   que pueden tener un desfazaje con respecto al toroide.
     
-       Este será la posicion del eje de coordenadas de la
-       matriz con respecto al del toroide.
+   Este será la posicion del eje de coordenadas de la
+   matriz con respecto al del toroide.
     
-       Por ejemplo, un toroide que tenga una sola posición 
-       viva en la esquina inferior derecha, tendrá una matriz que
-       la contenga con un desfazaje de (cols(t) - 1, 0)              */
-    \end{verbatim}
+   Por ejemplo, un toroide que tenga una sola posición 
+   viva en la esquina inferior derecha, tendrá una matriz que
+   la contenga con un desfazaje de (cols(t) - 1, 0)              */
+\end{verbatim}
     
     \pred{cubrePosicionesVivas}{t: $toroide$, m: \matriz{T}}{
         \Exists{e}{\tEnt} (esDesfazajeValido(e, m, t) \yLuego \btt
@@ -365,15 +365,15 @@
         (rows(t) $\geq$ 3) $\wedge$ %\bt
         (cols(t) $\geq$ 3)
     }
-    
+    \enter
     \pred{sonToroidesValidos}{ts: \TLista{toroide}}{
         \forAll{t}{toroide} (t $\in$ ts $\implica$ esToroideValido(t))
     }
     
     
-    \begin{verbatim}
-    /* Supone que es una posicion válida (no se va a ir de rango) */
-    \end{verbatim}
+\begin{verbatim}
+/* Supone que es una posicion válida (no se va a ir de rango) */
+\end{verbatim}
     
     \auxOneLiner{valorEn}{t: $toroide$, p: \tEnt}{\bool}{
         t[p$_{0}$][p$_{1}$]
@@ -392,7 +392,7 @@
         mismaDimension(t, t$_{0}$) \yLuego \bt
         \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t$_{0}$, p))
     }
-    
+    \enter
     \pred{mismaDimension}{t, t$_{0}$: $toroide$}{
         (cols(t) = cols(t$_{0}$)) $\wedge$ \bt
         (rows(t) = rows(t$_{0}$))
@@ -419,7 +419,7 @@
         tienePeriodicidadK-Esima(t, p) $\wedge$ \bt
         \forAll{q}{\ent} (tienePeriodicidadK-Esima(t, q) $\implica$ p $\leq$ q)
     }
-    
+    \enter
     \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
         (k $\geq$ 1) $\wedge$ (esK-EsimaEvolucion(t, t, k))
     }
@@ -430,10 +430,10 @@
     }
     \enter
     
-    \begin{verbatim}
-    /* Para traslaciones suponemos que son todos de la misma  
-       dimension                                             */
-    \end{verbatim}
+\begin{verbatim}
+/* Para traslaciones suponemos que son todos de la misma  
+   dimension                                             */
+\end{verbatim}
     
     \pred{esTraslacion}{t1, t2: $toroide$}{
         \Exists{d}{\tEnt} esTraslacionEnDireccion(t1, t2, d)
@@ -476,7 +476,7 @@
         (cantidadVecinosVivos(t, p) = 3)
     }
     
-    \aux{cantidadVecinosVivos}{t: toroide, p: \tEnt}{\tEnt}{
+    \aux{cantidadVecinosVivos}{t: $toroide$, p: \tEnt}{\tEnt}{
         $\sum_{i=-1}^1$ $\sum_{j=-1}^1$
         \IfThenElse{($\neg$ esPosicionViva(t, trasladar(t, p, (i, j))
             $\vee$ (i, j) = (0,0))\breakAndSpace{10em}}
@@ -486,9 +486,9 @@
     
     \subsection{Matrices}
     
-    \begin{verbatim}
-    /* Para rows y cols suponemos que m es una matriz */
-    \end{verbatim}
+\begin{verbatim}
+/* Para rows y cols suponemos que m es una matriz */
+\end{verbatim}
     
     \auxOneLiner{cols}{m: \matriz{T}}{\ent}{
         \longitud{m}
