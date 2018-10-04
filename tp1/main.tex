@@ -71,10 +71,10 @@
               (cantidadDePosicionesVivas(t) = \longitud{vivas})}
     \end{proc}
     
-    \pred{sonPosicionesValidas}{ps: \TLista{\tEnt}, t: toroide}{
-        \forAll{p}{\tEnt} (p $\in$ ps \implicaLuego  esPosicionValida(t, p))
+    \pred{sonPosicionesValidas}{ps: \TLista{\tEnt}, t: $toroide$}{
+        \forAll{p}{\tEnt} (p $\in$ ps $\implica$ esPosicionValida(t, p))
     }
-    
+    \enter
     \pred{sonPosicionesVivas}{vivas: \TLista{\tEnt}, t: toroide}{
         \forAll{p}{\tEnt} (p $\in$ vivas \implicaLuego esPosicionViva(t, p))
     }
@@ -372,11 +372,11 @@
         % Chequea que t[i,j] sea una pos viva.
         (valorEn(t, p) = \True)
     }
-    
-    \aux{cantidadDePosicionesVivas}{t: toroide}{\ent} {
-        cantidadDeAparicionesEnMat(True, t)
+    \enter
+    \aux{cantidadDePosicionesVivas}{t: $toroide$}{\ent} {
+        cantidadDeAparicionesEnMat(\True, t)
     }
-    
+    \enter
     \pred{esEvolucion}{t, t$_{0}$: toroide}{
         mismaDimension(t, t$_{0}$) \yLuego \bt
         \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t$_{0}$, p))
@@ -490,7 +490,7 @@
     
     \enter
     
-    \aux{cantidadDeAparicionesEnMat}{x: T, m: \matriz{T}}{\ent}{
+    \aux{cantidadDeAparicionesEnMat}{x: $T$, m: \matriz{T}}{\ent}{
         $\sum_{i=0}^{cols(m) - 1}$
         $\sum_{j=0}^{rows(m) - 1}$
         (\IfThenElse{s[i][j] = x}{1}{0})
