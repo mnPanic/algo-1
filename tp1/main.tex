@@ -134,11 +134,11 @@
     %Por ejemplo, en el siguiente caso el toroide es peri ́odico, y p = 2.
     
     \begin{proc}{esPeriodico}{
-            \In t : toroide, 
+            \In t : $toroide$, 
             \Inout p: \ent,
             \Out result : \bool}{}
         \pre{esToroideValido(t)}
-        \post{(result = \True \Sii tienePeriodicidad(t)) $\wedge$ 
+        \post{(result = \True \Sii tienePeriodicidad(t)) $\wedge$ \bqt
               esMinimaPeriodicidad(t, p)}
     \end{proc}
     
@@ -350,7 +350,7 @@
     
     \subsection{Toroides}
     
-    \pred{esToroideValido}{t: toroide}{
+    \pred{esToroideValido}{t: $toroide$}{
         esMatriz(t) $\wedge$ %\bt
         (rows(t) $\geq$ 3) $\wedge$ %\bt
         (cols(t) $\geq$ 3)
@@ -365,11 +365,11 @@
     /* Supone que es una posicion válida (no se va a ir de rango) */
     \end{verbatim}
     
-    \auxOneLiner{valorEn}{t: toroide, p: \tEnt}{\bool}{
+    \auxOneLiner{valorEn}{t: $toroide$, p: \tEnt}{\bool}{
         t[p$_{0}$][p$_{1}$]
     }
     
-    \pred{esPosicionViva}{t: toroide, p: \tEnt}{
+    \pred{esPosicionViva}{t: $toroide$, p: \tEnt}{
         % Chequea que t[i,j] sea una pos viva.
         (valorEn(t, p) = \True)
     }
@@ -397,7 +397,7 @@
                     esEvolucion(ts[i + 1], ts[i])))))
     }
     \enter
-    \pred{tienePeriodicidad}{t: toroide}{
+    \pred{tienePeriodicidad}{t: $toroide$}{
         \Exists{k}{\ent}(tienePeriodicidadK-Esima(t, k))
     }
     
@@ -405,16 +405,16 @@
     % - t tiene periodicidad p
     % - para todo q tal que t tiene periodicidad q-esima
     % => p $<$= q
-    \pred{esMinimaPeriodicidad}{t: toroide, p: \ent}{
+    \pred{esMinimaPeriodicidad}{t: $toroide$, p: \ent}{
         tienePeriodicidadK-Esima(t, p) $\wedge$ \bt
-        \forAll{q}{\ent} (tienePeriodicidadK-Esima(t, q) \implica p $\leq$ q)
+        \forAll{q}{\ent} (tienePeriodicidadK-Esima(t, q) $\implica$ p $\leq$ q)
     }
     
-    \pred{tienePeriodicidadK-Esima}{t: toroide, k: \ent}{
+    \pred{tienePeriodicidadK-Esima}{t: $toroide$, k: \ent}{
         (k $\geq$ 1) $\wedge$ (esK-EsimaEvolucion(t, t, k))
     }
     \enter
-    \aux{trasladar}{t: toroide, p: \tEnt, d: \tEnt}{\tEnt}{
+    \aux{trasladar}{t: $toroide$, p: \tEnt, d: \tEnt}{\tEnt}{
         (mod(p$_{0}$ + d$_{0}$, cols(t), \bt
         \ mod(p$_{1}$ + d$_{1}$, rows(t))
     }
@@ -522,6 +522,6 @@
               (\Exists{q}{\ent} n = q $\times$ m + result)}
     \end{proc}
     
-    \end{document}
+\end{document}
     
     
