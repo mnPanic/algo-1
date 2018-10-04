@@ -303,12 +303,19 @@ Primer Cuatrimestre 2018\\
 
 
 % Modificacion: Agrega un linebreak
-  \newcommand{\aux}[4]{%
+\newcommand{\aux}[4]{%
     {\normalfont\bfseries\ttfamily aux\ }%
     {\normalfont\ttfamily #1}%
-    \ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = \breakAndSpace{3.2em}#4%
+    \ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = \breakAndSpace{3.2em}#4
     {\normalfont\bfseries\,;\par}%
-  }
+}
+
+\newcommand{\auxOneLiner}[4]{%
+    {\normalfont\bfseries\ttfamily aux\ }%
+    {\normalfont\ttfamily #1}%
+    \ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = #4
+    {\normalfont\bfseries\,;\par}%
+}
 
 
 % \newcommand{\pre}[1]{\textsf{pre}\ensuremath{(#1)}}
