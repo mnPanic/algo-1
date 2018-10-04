@@ -26,7 +26,7 @@
     \newcommand{\forAll}[2]{\ensuremath{(\forall{\ #1: #2})}}
     \newcommand{\Exists}[2]{\ensuremath{(\exists{\ #1: #2})}}
     
-    \newcommand{\Sii}{$\Iff\ $}
+    \newcommand{\Sii}{$\ \Iff\ $}
     
     % -------- END MACROS ------
     
@@ -243,7 +243,7 @@
     
     \pred{compartenPosicionesVivas}{t1, t2, res: $toroide$}{
         \forAll{p}{\tEnt} (esPosicionValida(t1, p) \implicaLuego \btt
-            (esPosicionViva(res, p) \Sii (esPosicionViva(t1, p) $\wedge$ esPosicionViva(t2, p))))
+            (esPosicionViva(res, p)\Sii (esPosicionViva(t1, p) $\wedge$ esPosicionViva(t2, p))))
     }
     
     \subsection{vistaTrasladada}
@@ -255,11 +255,11 @@
     
     
     \begin{proc}{vistaTrasladada}{
-            \In t1: toroide,
-            \In t2: toroide,
+            \In t1: $toroide$,
+            \In t2: $toroide$,
             \Out res: \bool}{}
-        \pre{(esToroideValido(t1) $\wedge$
-             esToroideValido(t2)) \yLuego \bqt
+        \pre{esToroideValido(t1) $\wedge$ \bpqt
+             esToroideValido(t2) $\wedge$ \bpqt
              mismaDimension(t1, t2)}
         \post{res = \True \Sii esTraslacion(t1,t2)}
     \end{proc}
@@ -429,11 +429,17 @@
         \ mod(p$_{1}$ + d$_{1}$, rows(t))
     }
     \enter
-    \pred{esTraslacion}{t1, t2: toroide}{
+    
+    \begin{verbatim}
+    /* Para traslaciones suponemos que son todos de la misma  
+       dimension                                             */
+    \end{verbatim}
+    
+    \pred{esTraslacion}{t1, t2: $toroide$}{
         \Exists{d}{\tEnt} esTraslacionEnDireccion(t1, t2, d)
     }
-    
-    \pred{esTraslacionEnDireccion}{t, t$_{0}$: toroide, d: \tEnt}{
+    \enter
+    \pred{esTraslacionEnDireccion}{t, t$_{0}$: $toroide$, d: \tEnt}{
         \forAll{p}{\tEnt}
             (esPosicionValida(t$_{0}$, p) \implicaLuego \btt
                 (valorEn(t$_{0}$, p) = valorEn(t, trasladar(t$_{0}$, p, d))))
