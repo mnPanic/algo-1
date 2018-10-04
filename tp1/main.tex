@@ -157,8 +157,8 @@
     \end{proc}
     
     \begin{verbatim}
-    /* Chequeamos que k sea mayor o igual a cero porque
-       consideramos que un toroide es primo lejano de si mismo. */
+    /* Chequeamos que k sea mayor o igual a cero porque consideramos 
+       que un toroide es primo lejano de si mismo.                   */
     \end{verbatim}
     
     % si son primos lejanos quiere decir que 
@@ -198,7 +198,7 @@
     
     \begin{verbatim}
     /* Un toroide t muere en k ticks si en su k-esima evolución esta muerto
-       y en todas las anteriores esta vivo */
+       y en todas las anteriores esta vivo                                  */
     \end{verbatim}
     
     \pred{muereEnTick}{t: $toroide$, k: $\ent$}{
@@ -277,12 +277,12 @@
     
     
     \begin{verbatim}
-        /* Dado un toroide queremos ver todas las matrices validas 
-        que encierran las posiciones vivas de ese toroide y 
-        quedarnos con la de area mínima.
-        Asi mismo, vemos las traslaciones pues puede haber una vista
-        trasladada de un toroide cuya area que encierra a las 
-        posiciones vivas sea del menor a la del original. */
+    /* Dado un toroide queremos ver todas las matrices validas 
+       que encierran las posiciones vivas de ese toroide y 
+       quedarnos con la de area mínima.
+       Asi mismo, vemos las traslaciones pues puede haber una 
+       vista trasladada de un toroide cuya area que encierra 
+       a las posiciones vivas sea del menor a la del original. */
     \end{verbatim}
     
     \pred{areaQueCubrePosVivasIncrementa}{t: toroide}{
@@ -316,19 +316,19 @@
     }
     
     \begin{verbatim}
-        /* Queremos ver que si una posicion está viva en el toroide, 
-        esté contenida en la matriz que mide el area.
-        Para esto necesitamos poder comparar las coordenadas del 
-        toroide con las de la matriz.
-        El problema es que sus coordenadas no son las mismas, sino 
-        que pueden tener un desfazaje con respecto al toroide.
-        
-        Este será la posicion del eje de coordenadas de la
-        matriz con respecto al del toroide.
-        
-        Por ejemplo, un toroide que tenga una sola posicion 
-        viva en la esquina inferior derecha, tendrá una matriz que
-        la contenga con un desfazaje de (cols - 1, 0)*/
+    /* Queremos ver que si una posicion está viva en el toroide, 
+       esté contenida en la matriz que mide el area.
+       Para esto necesitamos poder comparar las coordenadas del 
+       toroide con las de la matriz.
+       El problema es que sus coordenadas no son las mismas, sino 
+       que pueden tener un desfazaje con respecto al toroide.
+    
+       Este será la posicion del eje de coordenadas de la
+       matriz con respecto al del toroide.
+    
+       Por ejemplo, un toroide que tenga una sola posicion 
+       viva en la esquina inferior derecha, tendrá una matriz que
+       la contenga con un desfazaje de (cols - 1, 0)              */
     \end{verbatim}
     
     \pred{cubrePosicionesVivas}{t: toroide, m: \matriz{T}}{
