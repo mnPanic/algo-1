@@ -17,6 +17,8 @@
     \newcommand{\btt}{\breakAndSpace{5.5em}}
     \newcommand{\bttt}{\breakAndSpace{7.5em}}
     \newcommand{\bqt}{\breakAndSpace{1.5em}}
+    \newcommand{\bpqt}{\breakAndSpace{0.9em}}
+    
     
     % espacio vertical
     \newcommand{\enter}{\vspace{1em}}
@@ -24,7 +26,7 @@
     \newcommand{\forAll}[2]{\ensuremath{(\forall{\ #1: #2})}}
     \newcommand{\Exists}[2]{\ensuremath{(\exists{\ #1: #2})}}
     
-    \newcommand{\Sii}{$\ \Iff\ $}
+    \newcommand{\Sii}{$\Iff\ $}
     
     % -------- END MACROS ------
     
@@ -227,20 +229,20 @@
             \In t1: $toroide$,
             \In t2: $toroide$,
             \Out res: $toroide$}{}
-        \pre{(esToroideValido(t1) $\wedge$ 
-             esToroideValido(t2)) \yLuego \bqt
+        \pre{esToroideValido(t1) $\wedge$ \bpqt
+             esToroideValido(t2) $\wedge$ \bpqt
              mismaDimension(t1, t2)}
-        \post{(esToroideValido(res) \yLuego \bqt 
+        \post{(esToroideValido(res) $\wedge$ \bqt 
               mismaDimension(t1, res)) \yLuego \bqt
               compartenPosicionesVivas(t1, t2, res)}
     \end{proc}
     
     \begin{verbatim}
-    /* Supone que t1, t2, y t_{r} tienen la misma dimension. */
+    /* Supone que t1, t2, y tr tienen la misma dimension. */
     \end{verbatim}
     
-    \pred{compartenPosicionesVivas}{t1, t2, tr}{
-        \forAll{p}{\tEnt} (esPosicionValida(t1, p) \implicaLuego \bt 
+    \pred{compartenPosicionesVivas}{t1, t2, res: $toroide$}{
+        \forAll{p}{\tEnt} (esPosicionValida(t1, p) \implicaLuego \btt
             (esPosicionViva(res, p) \Sii (esPosicionViva(t1, p) $\wedge$ esPosicionViva(t2, p))))
     }
     
