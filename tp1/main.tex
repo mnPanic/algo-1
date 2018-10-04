@@ -118,11 +118,11 @@
     % Que dado un toroide t y un natural k, devuelva el toroide resultante de evolucionar t por k ticks.
     
     \begin{proc}{evolucionMultiple}{
-            \In t : toroide, 
+            \In t : $toroide$, 
             \In k : \ent, 
-            \Out result : toroide}{}
-        \pre{(k $\geq$ 1) $\wedge$
-             esToroideValido(t)}
+            \Out result : $toroide$}{}
+        \pre{esToroideValido(t) $\wedge$
+            (k $\geq$ 1)}
         \post{esK-EsimaEvolucion(result, t, k)}
     \end{proc}
     
@@ -357,7 +357,7 @@
     }
     
     \pred{sonToroidesValidos}{ts: \TLista{toroide}}{
-        \forAll{t}{toroide} (t $\in$ ts \implicaLuego esToroideValido(t))
+        \forAll{t}{toroide} (t $\in$ ts $\implica$ esToroideValido(t))
     }
     
     
@@ -388,16 +388,15 @@
         (rows(t) = rows(t$_{0}$))
     }
     
-    
-    \pred{esK-EsimaEvolucion}{t, t$_{0}$: toroide, k: \ent}{
-        \Exists{ts}{\TLista{toroide}} \btt (
-            sonToroidesValidos(ts) \yLuego \bttt ( 
-                (ts[0] = t$_{0}$) $\wedge$
-                (ts[k] = t) $\wedge$ \bttt
-                \forAll{i}{\ent} (0 $\leq$ i $<$ \longitud{ts} - 1) \implicaLuego 
+    \enter
+    \pred{esK-EsimaEvolucion}{t, t$_{0}$: $toroide$, k: \ent}{
+        \Exists{ts}{\TLista{toroide}} \btt 
+            ((\longitud{ts} $>$ k) \yLuego sonToroidesValidos(ts) \yLuego \bttt
+            ((ts[0] = t$_{0}$) $\wedge$ (ts[k] = t) $\wedge$ \bttt
+                \forAll{i}{\ent} ((0 $\leq$ i $<$ \longitud{ts} - 1) \implicaLuego 
                     esEvolucion(ts[i + 1], ts[i])))))
     }
-    
+    \enter
     \pred{tienePeriodicidad}{t: toroide}{
         \Exists{k}{\ent}(tienePeriodicidadK-Esima(t, k))
     }
