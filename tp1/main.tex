@@ -18,6 +18,9 @@
     \newcommand{\bttt}{\breakAndSpace{7.5em}}
     \newcommand{\bqt}{\breakAndSpace{1.5em}}
     
+    % espacio vertical
+    \newcommand{\enter}{\vspace{1em}}
+    
     \newcommand{\forAll}[2]{\ensuremath{(\forall{\ #1: #2})}}
     \newcommand{\Exists}[2]{\ensuremath{(\exists{\ #1: #2})}}
     
@@ -50,17 +53,17 @@
     % Un toroide será válido si es una Matriz valida y no es vacío
     
     \begin{proc}{esValido}{
-            \In t: toroide,
+            \In t: $toroide$,
             \Out result: $\bool$}{}
         \pre{\True}
-        \post{result = true \Sii esToroideValido(t)}
+        \post{result = \True \Sii esToroideValido(t)}
     \end{proc}
     
     \subsection{posicionesVivas}
     % Ejercicio 2 : proc posicionesVivas(in t: toroide, out vivas : seq$<$Z × Zi$>$)
     % Que dado un toroide devuelva todas las posiciones vivas.
     \begin{proc}{posicionesVivas}{
-            \In t: toroide,
+            \In t: $toroide$,
             \Out vivas: \TLista{\tEnt}}{}
         \pre{esToroideValido(t)}
         \post{(sonPosicionesValidas(vivas, t) \yLuego \bqt
@@ -347,8 +350,8 @@
     \subsection{Toroides}
     
     \pred{esToroideValido}{t: toroide}{
-        esMatriz(t) $\wedge$ \bt
-        (rows(t) $\geq$ 3) $\wedge$ \bt
+        esMatriz(t) $\wedge$ %\bt
+        (rows(t) $\geq$ 3) $\wedge$ %\bt
         (cols(t) $\geq$ 3)
     }
     
@@ -468,19 +471,32 @@
     
     \subsection{Matrices}
     
-    %/* Para filas y columnas suponemos que m es una matriz */\\
-    \aux{cols}{m: \matriz{T}}{\ent}{\longitud{m}}
-    \aux{rows}{m: \matriz{T}}{\ent}{\IfThenElse{cols(m) $>$ 0}{\longitud{m[0]}}{0}}
+    \begin{verbatim}
+    /* Para rows y cols suponemos que m es una matriz */
+    \end{verbatim}
+    
+    \auxOneLiner{cols}{m: \matriz{T}}{\ent}{
+        \longitud{m}
+    }
+    
+    \auxOneLiner{rows}{m: \matriz{T}}{\ent}{
+        \IfThenElse{cols(m) $>$ 0}{\longitud{m[0]}}{0}
+    }
     
     \pred{esMatriz}{m: \matriz{T}}{
-        \paraTodo{i,j}{(0}{\longitud{m}} \implicaLuego \longitud{m[i]} = \longitud{m[j]})
+        \forAll{i,j}{\ent} ((0 $\leq$ i, j $<$ \longitud{m}) \implicaLuego 
+            \longitud{m[i]} = \longitud{m[j]})
     }
+    
+    \enter
     
     \aux{cantidadDeAparicionesEnMat}{x: T, m: \matriz{T}}{\ent}{
         $\sum_{i=0}^{cols(m) - 1}$
         $\sum_{j=0}^{rows(m) - 1}$
         (\IfThenElse{s[i][j] = x}{1}{0})
     }
+    
+    \enter
     
     \pred{esPosicionValida}{m: \matriz{T}, p: \tEnt}{
         % Chequea que ambos estén en rango
@@ -506,7 +522,7 @@
         \post{(result $\geq$ 0) $\wedge$
               (\Exists{q}{\ent} n = q $\times$ m + result)}
     \end{proc}
-
-\end{document}
+    
+    \end{document}
     
     
