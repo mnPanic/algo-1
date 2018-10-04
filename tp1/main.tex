@@ -182,36 +182,39 @@
                esElDeMuerteMasTardia(ts[res], ts))}
     \end{proc}
     
-    \pred{noMuere}{t: toroide}{
+    \pred{noMuere}{t: $toroide$}{
         tienePeriodicidad(t)
     }
-    
-    \pred{esElDeMuerteMasTardia}{t: toroide, ts: \TLista{toroide}}{
+    \enter
+    \pred{esElDeMuerteMasTardia}{t: $toroide$, ts: \TLista{toroide}}{
         \forAll{w}{toroide} (w $\in$ ts \implicaLuego muereDespues(t, w))
     }
-    
-    \pred{muereDespues}{t, w: toroide}{
-        \Exists{n, m}{\ent}((n, m $\geq$ 0) \yLuego (muereEnTick(t, n) $\wedge$ muereEnTick(w, m) $\wedge$ (n $\geq$ m)))
+    \enter
+    \pred{muereDespues}{t, w: $toroide$}{
+        \Exists{n, m}{\ent} ((n, m $\geq$ 0) \yLuego (muereEnTick(t, n) $\wedge$ muereEnTick(w, m) $\wedge$ (n $\geq$ m)))
     }
     
     \begin{verbatim}
     /* Un toroide t muere en k ticks si en su k-esima evolución esta muerto
-     y en todas las anteriores esta vivo */
+       y en todas las anteriores esta vivo */
     \end{verbatim}
     
-    TODO: ver overflow
-    \pred{muereEnTick}{t: toroide, k: $\ent$}{
-        \Exists{t_{k}}{toroide}
+    \pred{muereEnTick}{t: $toroide$, k: $\ent$}{
+        \Exists{t_{k}}{toroide} (esToroideValido(t$_{k}$) \yLuego \btt
             (esK-EsimaEvolucion(t$_{k}$, t, k) $\wedge$
-             estaMuerto(t$_{k}$)) $\wedge$ \bt
-        \forAll{q}{\ent}
-            ((0 $\leq$ q $<$ k) \implicaLuego
-                (\Exists{t_{q}}{toroide} 
-                    (esK-EsimaEvolucion(t$_{q}$, t, q) $\wedge$ 
-                     $\neg$ estaMuerto(t$_{k}$)))
+             estaMuerto(t$_{k}$) $\wedge$ \btt
+             lasEvolucionesAnterioresEstanVivas(t, k)))
     }
-    
-    \pred{estaMuerto}{t: toroide}{
+    \enter
+    \pred{lasEvolucionesAnterioresEstanVivas}{t: $toroide$, k: \ent}{
+        \forAll{q}{\ent}
+            ((0 $\leq$ q $<$ k) \implicaLuego \btt
+                (\Exists{t_{q}}{toroide} (esToroideValido(t$_{q}$) \yLuego \bttt
+                    (esK-EsimaEvolucion(t$_{q}$, t, q) $\wedge$ 
+                     $\neg$ estaMuerto(t$_{q}$)))))
+    }
+    \enter
+    \pred{estaMuerto}{t: $toroide$}{
         \forAll{p}{\tEnt} 
             (esPosicionValida(t, p) \implicaLuego $\neg$ esPosicionViva(t, p))
     }
@@ -221,9 +224,9 @@
     % Que dados dos toroides de la misma dimensi´on, devuelva otro (de la misma dimensi´on) que tenga vivas solo aquellas posiciones que estaban vivas en ambos toroides.
     
     \begin{proc}{fusionar}{
-            \In t1: toroide,
-            \In t2: toroide,
-            \Out res: toroide}{}
+            \In t1: $toroide$,
+            \In t2: $toroide$,
+            \Out res: $toroide$}{}
         \pre{(esToroideValido(t1) $\wedge$ 
              esToroideValido(t2)) \yLuego \bqt
              mismaDimension(t1, t2)}
