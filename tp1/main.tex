@@ -525,12 +525,16 @@
     Donde la primera representa a las columnas, y la segunda a las filas.
     Accederemos a ella mediante tuplas $(x, y) : \tEnt$, donde $x$ es la posición en la columna e $y$ en la fila.
     
+    \enter
+    
     - Tomamos como decisión que un toroide válido será aquel que sea al menos de $3 \times 3$, de forma tal que los 8 vecinos de cualquier posicion sean siempre diferentes entre sí.
+    
+    \enter
     
     - Asumimos que $mod$ es una función dada, que cumple con la siguiente especificación:
     
-    \begin{proc}{mod}{
-            \In n: \ent,
+    \begin{proc}{mod}
+            {\In n: \ent,
             \In m: \ent,
             \Out result: \ent}{}
         \pre{m $>$ 0}
