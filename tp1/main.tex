@@ -108,7 +108,7 @@
     \subsection{evolucionToroide}
     % Ejercicio 5 : proc evolucionToroide(inout t: toroide) Que dado un toroide lo evolucione un tick.
     \begin{proc}{evolucionToroide}{
-            \Inout t: toroide}{}
+            \Inout t: $toroide$}{}
         \pre{esToroideValido(t) $\wedge$ t = T$_{0}$}
         \post{esToroideValido(t) $\wedge$ esEvolucion(t, T$_{0}$)}
     \end{proc}
@@ -194,6 +194,7 @@
      y en todas las anteriores esta vivo */
     \end{verbatim}
     
+    TODO: ver overflow
     \pred{muereEnTick}{t: toroide, k: $\ent$}{
         \Exists{t_{k}}{toroide}
             (esK-EsimaEvolucion(t$_{k}$, t, k) $\wedge$
@@ -377,12 +378,12 @@
         cantidadDeAparicionesEnMat(\True, t)
     }
     \enter
-    \pred{esEvolucion}{t, t$_{0}$: toroide}{
+    \pred{esEvolucion}{t, t$_{0}$: $toroide$}{
         mismaDimension(t, t$_{0}$) \yLuego \bt
         \forAll{p}{\tEnt} (esPosicionValida(t, p) \implicaLuego valorEn(t, p) =  viveLuegoDeUnTick(t$_{0}$, p))
     }
     
-    \pred{mismaDimension}{t, t$_{0}$: toroide}{
+    \pred{mismaDimension}{t, t$_{0}$: $toroide$}{
         (cols(t) = cols(t$_{0}$)) $\wedge$ \bt
         (rows(t) = rows(t$_{0}$))
     }
