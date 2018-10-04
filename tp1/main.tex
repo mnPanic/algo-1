@@ -83,13 +83,13 @@
     % Ejercicio 3 : Que dado un toroide devuelva su densidad de poblaci ́on, es decir, la relaci ́on entre la cantidad de posiciones vivas y la cantidad total de posiciones.
     
     \begin{proc}{densidadPoblacion}{
-            \In t: toroide, 
+            \In t: $toroide$, 
             \Out result: $\float$}{}
         \pre{esToroideValido(t)}
         \post{result $\times$ cantidadTotalDePosiciones(t) = cantidadDePosicionesVivas(t)}
     \end{proc}
     
-    \aux{cantidadTotalDePosiciones}{t: toroide}{\ent}{
+    \auxOneLiner{cantidadTotalDePosiciones}{t: $toroide$}{\ent}{
         cols(t) $\times$ rows(t)
     }
     
