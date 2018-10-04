@@ -269,7 +269,7 @@
     % Que verifica si la menor superficie que cubre a todas las celdas vivas se va incrementar en el pr´oximo tick
     
     \begin{proc}{enCrecimiento}{
-            \In t: toroide,
+            \In t: $toroide$,
             \Out res: \bool}{}
         \pre{esToroideValido(t)}
         \post{res = \True \Sii areaQueCubrePosVivasIncrementa(t)}
@@ -285,33 +285,35 @@
        a las posiciones vivas sea del menor a la del original. */
     \end{verbatim}
     
-    \pred{areaQueCubrePosVivasIncrementa}{t: toroide}{
-        \Exists{t_{1}}{toroide}((esToroideValido(t$_{1}$) \yLuego esEvolucion(t$_{1}$, t)) $\wedge$ \bt
+    \pred{areaQueCubrePosVivasIncrementa}{t: $toroide$}{
+        \Exists{t_{1}}{toroide} ((esToroideValido(t$_{1}$) \yLuego esEvolucion(t$_{1}$, t)) $\wedge$ \bt
         \Exists{a, a_{1}}{\ent} \btt
-            ((esAreaValida(t, a) $\wedge$ esAreaValida(t, a$_{1}$)) \yLuego \bttt
-                (esMinimaAreaQueCubrePosVivas(t, a) $\wedge$ \bttt
-                esMinimaAreaQueCubrePosVivas(t$_{1}$, a$_{1}$) $\wedge$ \bttt
-                a $<$ a$_{1}$)))
+            (esAreaValida(t, a) $\wedge$ esAreaValida(t, a$_{1}$) $\wedge$ \btt
+            \ esMinimaAreaQueCubrePosVivas(t, a) $\wedge$ \btt
+            \ esMinimaAreaQueCubrePosVivas(t$_{1}$, a$_{1}$) $\wedge$ \btt
+            \ a $<$ a$_{1}$))
     }
-    
-    \pred{esAreaValida}{t: toroide, a: \ent}{
+    \enter
+    \pred{esAreaValida}{t: $toroide$, a: \ent}{
         0 $\leq$ a $\leq$ area(t)
     }
-    
-    \pred{esMinimaAreaQueCubrePosVivas}{t: toroide, a: \ent}{
+    \enter
+    \pred{esMinimaAreaQueCubrePosVivas}{t: $toroide$, a: \ent}{
         esAreaQueCubrePosVivas(t, a) $\wedge$ \bt
-        \forAll{a'}{\ent} 
-            (esAreaQueCubrePosVivas(t, a') $\implica$ a $\leq$ a')
+        \forAll{b}{\ent} ((esAreaValida(t, b) $\wedge$
+            (esAreaQueCubrePosVivas(t, b)) $\implica$ a $\leq$ b)
     }
-    
+    \enter
     \pred{esAreaQueCubrePosVivas}{t: toroide, a: \ent}{
         \Exists{t_{d}}{toroide}
             ((esToroideValido(t$_{d}$) \yLuego esTraslacion(t$_{d}$, t)) $\wedge$ \btt 
-            (\Exists{m}{\matriz{T}} (esMatriz(m) \yLuego \bttt
-                (area(m) = a $\wedge$ cubrePosicionesVivas(t$_{d}$, m)))))
+            (\Exists{m}{\matriz{T}} \bttt
+                (esMatriz(m) $\wedge$ \bttt
+                (area(m) = a) $\wedge$ \bttt
+                cubrePosicionesVivas(t$_{d}$, m))))
     }
-    
-    \aux{area}{m: \matriz{T}}{\ent}{
+    \enter
+    \auxOneLiner{area}{m: \matriz{T}}{\ent}{
         cols(m) $\times$ rows(m)
     }
     
@@ -326,31 +328,29 @@
        Este será la posicion del eje de coordenadas de la
        matriz con respecto al del toroide.
     
-       Por ejemplo, un toroide que tenga una sola posicion 
+       Por ejemplo, un toroide que tenga una sola posición 
        viva en la esquina inferior derecha, tendrá una matriz que
-       la contenga con un desfazaje de (cols - 1, 0)              */
+       la contenga con un desfazaje de (cols(t) - 1, 0)              */
     \end{verbatim}
     
-    \pred{cubrePosicionesVivas}{t: toroide, m: \matriz{T}}{
+    \pred{cubrePosicionesVivas}{t: $toroide$, m: \matriz{T}}{
         \Exists{e}{\tEnt} (esDesfazajeValido(e, m, t) \yLuego \btt
             (\forAll{p}{\tEnt}
                 (esPosicionValida(t, p) \yLuego
                  esPosicionViva(t, p)) \implicaLuego \bttt
-                    estaDentro(m, posicionRelativa(p, e))
-            )
-        )
+                    estaDentro(m, posicionRelativa(p, e))))
     }
-    
-    \pred{esDesfazajeValido}{e: \tEnt, m: \matriz{T}, t: toroide}{
+    \enter
+    \pred{esDesfazajeValido}{e: \tEnt, m: \matriz{T}, t: $toroide$}{
         (0 $\leq$ r$_{0}$ + cols(m) $\leq$ cols(t)) $\wedge$ \bt
         (0 $\leq$ r$_{1}$ + rows(m) $\leq$ rows(t))
     }
-    
+    \enter
     \pred{estaDentro}{m: \matriz{T}, p: \tEnt}{
         (0 $\leq$ p$_{0}$ $<$ cols(m)) $\wedge$ \bt
         (0 $\leq$ p$_{1}$ $<$ rows (m))
     }
-    
+    \enter
     \aux{posicionRelativa}{p: \tEnt, r: \tEnt}{\tEnt}{
         (p$_{0}$ - r$_{0}$,
         p$_{1}$ - r$_{1}$)
