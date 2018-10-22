@@ -13,7 +13,9 @@ set(SOURCE_FILES
         src/ej1/esPrimo.cpp
         test/ej1/esPrimoTEST.cpp
         src/ej2/puntaje.cpp
-        test/ej2/puntajeTEST.cpp)
+        test/ej2/puntajeTEST.cpp
+        src/ej2/llenarTaxis.cpp
+        test/ej2/llenarTaxisTEST.cpp)
 
 add_executable(Labo06 ${SOURCE_FILES})
 
