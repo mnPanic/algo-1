@@ -268,6 +268,23 @@ string subseqMasLarga(string s1, string s2) {
     return max;
 }
 
+/******************************** EJ 20 ********************************/
+
+void agregarElementos(vector<int>& to, int elem, int cant) {
+    for(int i = 0; i < cant; i++) {
+        to.push_back(elem);
+    }
+}
+
+vector<int> generateSeq(vector<int> s) {
+    vector<int> b;
+    for (int i = 0; i < s.size(); i++){
+        agregarElementos(b, i, s[i]);
+    }
+
+    return b;
+}
+
 int main() {
 
     /*
@@ -300,7 +317,7 @@ int main() {
     cout << mToS(generarSecuencias(2)) << endl;
     cout << "n = 3" << endl;
     cout << mToS(generarSecuencias(3)) << endl;
-     */
+
 
     cout << "--------------- Ejercicio 12 ---------------" << endl;
     cout << "s1 = 'hola' s2 = 'chau' -->" << isSubseq("hola", "chau") << endl;
@@ -316,6 +333,11 @@ int main() {
     string s3 = "hola, esto es un texto largo que comparte mucho con el primero";
     cout << subseqMasLarga(s1, s3) << endl;
     cout << subseqMasLarga(s3, s2) << endl;
+     */
+
+    cout << "--------------- Ejercicio 20 ---------------" << endl;
+    vector<int> a = {1, 2, 3, 1, 1, 1, 0, 0, 0};
+    cout << vToS(a) << " --> " << vToS(generateSeq(a)) << endl;
 
 
 
