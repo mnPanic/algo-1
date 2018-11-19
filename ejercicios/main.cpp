@@ -213,6 +213,61 @@ vector<vector<int>> generarSecuencias(int n) {
     }
 }
 
+/******************************** EJ 12 ********************************/
+/** a **/
+bool isSubseq(string s1, string s2) {
+    int i = 0;
+    int j = 0;
+    bool isSub = false;
+    while (i < s2.size() && !isSub) {
+        j = 0;
+        while (j < s1.size() && s1[j] == s2[i]) {
+            i++;
+            j++;
+        }
+        i++;
+        isSub = (j == s1.size());
+    }
+
+    return isSub;
+}
+
+/** b **/
+string subseq(string s, int from, int to) {
+    string res = "";
+
+    for (int i = from; i < to; i++) {
+        res += s[i];
+    }
+
+    return res;
+}
+
+string subseqCompartidaMasLargaDesde(string s1, int i, string s2) {
+    string ss = "";
+
+    int j = i;
+    while (j <= s1.size() && isSubseq(subseq(s1, i, j), s2)) {
+        ss = subseq(s1, i, j);
+        j++;
+    }
+
+    return ss;
+}
+
+string subseqMasLarga(string s1, string s2) {
+    string max = "";
+    string s;
+    for (int i = 0; i < s1.size(); i++) {
+        s = subseqCompartidaMasLargaDesde(s1, i, s2);
+        if (s.size() > max.size()) {
+            max = s;
+        }
+    }
+
+    return max;
+}
+
 int main() {
 
     /*
@@ -238,13 +293,32 @@ int main() {
 
     justificar(ss);
     cout << sVToS(ss) << endl;
-    */
+
 
     cout << "--------------- Ejercicio 10 ---------------" << endl;
     cout << "n = 2" << endl;
     cout << mToS(generarSecuencias(2)) << endl;
     cout << "n = 3" << endl;
     cout << mToS(generarSecuencias(3)) << endl;
+     */
+
+    cout << "--------------- Ejercicio 12 ---------------" << endl;
+    cout << "s1 = 'hola' s2 = 'chau' -->" << isSubseq("hola", "chau") << endl;
+    cout << "s1 = 'a' s2 = 'chau' -->"    << isSubseq("a", "chau")    << endl;
+    cout << "s1 = 'hau' s2 = 'chau' -->"  << isSubseq("hau", "chau")  << endl;
+    cout << "s1 = 'hauu' s2 = 'chau' -->"  << isSubseq("hauu", "chau")  << endl;
+    cout << subseqMasLarga("hola", "chau") << endl;
+    cout << subseqMasLarga("holaa", "chaaau") << endl;
+    string s1 = "hola esto es un texto largo para probar la eficiencia del algoritmo";
+    string s2 = "hola, esto NO es texto que comparta, pero si la palabra mas larga algoritmo";
+    cout << subseqMasLarga(s1, s2) << endl;
+
+    string s3 = "hola, esto es un texto largo que comparte mucho con el primero";
+    cout << subseqMasLarga(s1, s3) << endl;
+    cout << subseqMasLarga(s3, s2) << endl;
+
+
+
     return 0;
 }
 
