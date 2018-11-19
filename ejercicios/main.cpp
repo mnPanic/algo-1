@@ -185,8 +185,37 @@ void justificar(vector<string> &ss) {
     }
 }
 
+
+/******************************** EJ 10 ********************************/
+void agregarDigitosASecuencia(vector<int> s, vector<vector<int>>& to) {
+    // itero sobre todos los dígitos posibles
+    for(int n = 0; n <= 9; n++) {
+        vector<int> s_copy = s;
+        s_copy.push_back(n);
+        to.push_back(s_copy);
+    }
+}
+
+vector<vector<int>> agregarDigitosATodas(vector<vector<int>> ss) {
+    vector<vector<int>> res;
+    for (int i = 0; i < ss.size(); i++) {
+        agregarDigitosASecuencia(ss[i], res);
+    }
+
+    return res;
+}
+
+vector<vector<int>> generarSecuencias(int n) {
+    if (n == 0){
+        return {{}};
+    } else {
+        return agregarDigitosATodas(generarSecuencias(n - 1));
+    }
+}
+
 int main() {
 
+    /*
     cout << "--------------- Ejercicio 5 ---------------" << endl;
     cout << "<1, 2, 3, 4, 5>"       << endl << mToS(comprimir({1,2,3,4,5}))     << endl;
     cout << "<1, 2, 3, 10, 11>"     << endl << mToS(comprimir({1,2,3,10,11}))   << endl;
@@ -209,7 +238,13 @@ int main() {
 
     justificar(ss);
     cout << sVToS(ss) << endl;
+    */
 
+    cout << "--------------- Ejercicio 10 ---------------" << endl;
+    cout << "n = 2" << endl;
+    cout << mToS(generarSecuencias(2)) << endl;
+    cout << "n = 3" << endl;
+    cout << mToS(generarSecuencias(3)) << endl;
     return 0;
 }
 
