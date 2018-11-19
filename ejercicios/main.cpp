@@ -23,6 +23,22 @@ string vToS(vector<int> s) {
     return repr;
 }
 
+string sVToS(vector<string> s) {
+    string repr = "{";
+
+    for (int i = 0; i < s.size(); i++) {
+        repr += s[i];
+
+        if (i != s.size() - 1) {
+            repr += ", ";
+        }
+    }
+
+    repr += "}";
+
+    return repr;
+}
+
 string mToS(vector<vector<int>> s) {
     string repr = "{";
 
@@ -92,6 +108,83 @@ vector<int> meseta(vector<int> s) {
     return max;
 }
 
+/******************************** EJ 9 ********************************/
+
+int mod(int n, int m) {
+    while (n >= m || n < 0) {
+        n = (n < 0) ? n + m : n - m;
+    }
+    return n;
+}
+
+vector<int> obtenerCantEspacios(int palabras, int espacios) {
+    vector<int> cant(palabras, 0);
+    int i = -1;
+    while (espacios > 0) {
+        cant[mod(i, palabras - 1)]++;
+        espacios--;
+        i--;
+    }
+    return cant;
+}
+
+string generarOracion(vector<string> palabras, int espacios) {
+    string res = "";
+    vector<int> cantEspacios = obtenerCantEspacios(palabras.size(), espacios);
+
+    for (int i = 0; i < palabras.size(); i ++) {
+        res += palabras[i];
+        int e = cantEspacios[i];
+        for (int j = 0; j < e; j++) {
+            res += "#";
+        }
+    }
+
+    return res;
+}
+
+int cantApariciones(string s, char c) {
+    int ap = 0;
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == c) {
+            ap ++;
+        }
+    }
+
+    return ap;
+}
+
+
+vector<string> split(string s, char delim) {
+    vector<string> res;
+    string word;
+    int i = 0;
+    while (i <= s.size()) {
+        if(i != s.size() && s[i] != delim) {
+            word += s[i];
+        } else if (word != ""){
+            res.push_back(word);
+            word = "";
+        }
+        i++;
+    }
+
+    return res;
+}
+
+void justificarOracion(string &s) {
+    char space = '#';
+    vector<string> palabras = split(s, space);
+    int espacios = cantApariciones(s, space);
+    s = generarOracion(palabras, espacios);
+}
+
+void justificar(vector<string> &ss) {
+    for(int i = 0; i < ss.size(); i++) {
+        justificarOracion(ss[i]);
+    }
+}
+
 int main() {
 
     cout << "--------------- Ejercicio 5 ---------------" << endl;
@@ -106,6 +199,16 @@ int main() {
     cout << "<1, 1, 2, 3, 4> -> "       << vToS(meseta({1,1,2,3,4})) << endl;
     cout << "<1, 1, 2, 2, 3, 3, 3> -> " << vToS(meseta({1, 1, 2, 2, 3, 3, 3})) << endl;
 
+
+    cout << "--------------- Ejercicio 9 ---------------" << endl;
+    vector<string> ss = {
+            "justifying#lines#by########",
+            "inserting#extra#blanks#is##",
+            "one#task#of#a#text#editor.#",
+    };
+
+    justificar(ss);
+    cout << sVToS(ss) << endl;
 
     return 0;
 }
