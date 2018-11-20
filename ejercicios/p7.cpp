@@ -2,7 +2,7 @@
 #include "vector"
 #include <string>
 
-#include "utilidades.cpp"
+#include "utilidades.h"
 
 using namespace std;
 
@@ -232,7 +232,7 @@ vector<int> generateSeq(vector<int> s) {
 }
 
 
-int mainP7() {
+void mainP7() {
 
     /*
     cout << "--------------- Ejercicio 5 ---------------" << endl;

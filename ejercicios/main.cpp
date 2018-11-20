@@ -2,13 +2,14 @@
 #include "vector"
 #include <string>
 
-#include "utilidades.cpp"
-#include "p7.cpp"
+#include "p7.h"
+#include "p8.h"
 
 using namespace std;
 
 int main() {
-    mainP7();
+    //mainP7();
+    mainP8();
     return 0;
 }
 
