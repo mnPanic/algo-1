@@ -9,6 +9,7 @@ using namespace std;
 
 typedef vector<vector<int>> matriz;
 typedef tuple<int, int, int> tripla;
+typedef tuple<int, int> tupla;
 
 /******************************** GENERALES ********************************/
 
@@ -25,6 +26,14 @@ string tToS(tripla t) {
     repr += to_string(get<0>(t)) + ", ";
     repr += to_string(get<1>(t)) + ", ";
     repr += to_string(get<2>(t));
+    repr += ")";
+
+    return repr;
+}
+string tupleToS(tupla t) {
+    string repr = "(";
+    repr += to_string(get<0>(t)) + ", ";
+    repr += to_string(get<1>(t));
     repr += ")";
 
     return repr;
@@ -194,6 +203,23 @@ matriz aMatriz(vector<tripla> ps) {
     return m;
 }
 
+/******************************** EJ 9 ********************************/
+
+tupla indexOf(matriz m, int x) {
+    tupla ini(-1, -1);
+    tupla pos = ini;
+
+    for(int i = 0; i < rows(m) && pos == ini; i++) {
+        for(int j = 0; j < cols(m) && pos == ini; j++) {
+            if (m[i][j] == x) {
+                pos = tupla(i, j);
+            }
+        }
+    }
+
+    return pos;
+
+}
 void mainP8(){
     /*
     cout << "--------------- Ejercicio 4a ---------------" << endl;
@@ -230,6 +256,7 @@ void mainP8(){
     cout << mToS(redimensionar(A, 6, 2)) << endl;
     */
 
+    /*
     cout << "--------------- Ejercicio 7 ---------------" << endl;
     matriz m = {
             {1, 0, 0, 0, 0, 0},
@@ -253,7 +280,17 @@ void mainP8(){
     // b
     cout << "ts a matriz: " << endl;
     cout << mToS(aMatriz(ts)) << endl;
+     */
 
+    cout << "--------------- Ejercicio 9 ---------------" << endl;
 
+    matriz m = {
+            {1,  2,  3},
+            {4,  5,  6},
+            {7,  8,  9},
+            {10, 11, 12}
+    };
 
+    cout << tupleToS(indexOf(m, 8)) << endl;
+    cout << tupleToS(indexOf(m, 1234)) << endl;
 }
