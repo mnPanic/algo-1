@@ -2,8 +2,7 @@
 #include "vector"
 #include <string>
 
-#include "p7.h"
-#include "p8.h"
+#include "ps.h"
 
 using namespace std;
 
