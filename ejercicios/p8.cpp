@@ -42,19 +42,51 @@ matriz mult(matriz m1, matriz m2) {
 }
 
 /******************************** EJ 4 ********************************/
-
+/** a **/
 vector<int> multFila(matriz m, int i) {
     matriz fila = {m[i]};
     vector<int> filaMultiplicada = mult(fila, m)[0];
     return filaMultiplicada;
 }
 
+
+/** b **/
+matriz trasponer(matriz m) {
+    // defino la matriz traspuesta con las dimensiones opuestas
+    matriz t(cols(m), vector<int>(rows(m), 0));
+
+    for (int i = 0; i < rows(t); i++) {
+        for(int j = 0; j < cols(t); j++) {
+            t[i][j] = m[j][i];
+        }
+    }
+
+    return t;
+}
+
+matriz multTras(matriz m) {
+    return mult(m ,trasponer(m));
+}
+
+
 void mainP8(){
-    cout << "--------------- Ejercicio 4 ---------------" << endl;
+    cout << "--------------- Ejercicio 4a ---------------" << endl;
     matriz m = {
             {1, 2, 3},
             {4, 5, 6},
             {7, 8, 9}
     };
     cout << vToS(multFila(m, 1)) << endl;
+
+    cout << "--------------- Ejercicio 4b ---------------" << endl;
+    matriz m2 = {
+            {1, 2},
+            {3, 4},
+            {5, 6}
+    };
+    cout << mToS(m2) << endl;
+    cout << mToS(trasponer(m2)) << endl;
+    cout << mToS(trasponer(trasponer(m2))) << endl;
+    cout << mToS(multTras(m2)) << endl;
+
 }
