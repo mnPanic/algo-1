@@ -146,6 +146,54 @@ vector<tripla> aTriplas(matriz m) {
     return triplas;
 }
 
+/** b **/
+void getMinDim(vector<tripla> ps, int &c, int &f) {
+    int maxF = get<0>(ps[0]);
+    int maxC = get<1>(ps[0]);
+
+    for(int i = 1; i < ps.size(); i++) {
+        int valorF = get<0>(ps[i]);
+        int valorC = get<1>(ps[i]);
+
+        if(valorF > maxF) {
+            maxF = valorF;
+        }
+
+        if(valorC > maxC) {
+            maxC = valorC;
+        }
+    }
+
+    // + 1 ya que los maximos son las posiciones maximas
+    // de indexación, no los tamaños.
+    f = maxF + 1;
+    c = maxC + 1;
+}
+
+matriz aMatriz(vector<tripla> ps) {
+    int cm;
+    int fm;
+    // Obtengo la minima dimensión,
+    //  = minimos indices + 1;
+    getMinDim(ps, cm, fm);
+
+    // Creo una matriz con la minima dimensión posible
+    // con todos los valores en 0.
+    matriz m(fm, vector<int>(cm, 0));
+
+    // Itero sobre los valores que no son 0
+    // y los seteo en la matriz.
+    for(int i = 0; i < ps.size(); i++) {
+        int f = get<0>(ps[i]);
+        int c = get<1>(ps[i]);
+        int v = get<2>(ps[i]);
+
+        m[f][c] = v;
+    }
+
+    return m;
+}
+
 void mainP8(){
     /*
     cout << "--------------- Ejercicio 4a ---------------" << endl;
@@ -182,7 +230,7 @@ void mainP8(){
     cout << mToS(redimensionar(A, 6, 2)) << endl;
     */
 
-    cout << "--------------- Ejercicio 7a ---------------" << endl;
+    cout << "--------------- Ejercicio 7 ---------------" << endl;
     matriz m = {
             {1, 0, 0, 0, 0, 0},
             {0, 2, 0, 0, 0, 0},
@@ -196,7 +244,15 @@ void mainP8(){
 
     cout << "m: " << endl;
     cout << mToS(m) << endl;
-    cout << tVToS(aTriplas(m)) << endl;
+
+    // a
+    vector<tripla> ts = aTriplas(m);
+    cout << "ts: " << endl;
+    cout << tVToS(ts) << endl;
+
+    // b
+    cout << "ts a matriz: " << endl;
+    cout << mToS(aMatriz(ts)) << endl;
 
 
 
