@@ -1,11 +1,14 @@
 #include "iostream"
 #include "vector"
+#include "tuple"
+#include "string"
 #include "utilidades.h"
 
 using namespace std;
 
 
 typedef vector<vector<int>> matriz;
+typedef tuple<int, int, int> tripla;
 
 /******************************** GENERALES ********************************/
 
@@ -15,6 +18,33 @@ int rows(matriz m) {
 
 int cols(matriz m) {
     return (rows(m) > 0) ? m[0].size() : 0;
+}
+
+string tToS(tripla t) {
+    string repr = "(";
+    repr += to_string(get<0>(t)) + ", ";
+    repr += to_string(get<1>(t)) + ", ";
+    repr += to_string(get<2>(t));
+    repr += ")";
+
+    return repr;
+}
+
+// vector de triplas a string
+string tVToS(vector<tripla> s) {
+    string repr = "{";
+
+    for (int i = 0; i < s.size(); i++) {
+        repr += tToS(s[i]);
+
+        if (i != s.size() - 1) {
+            repr += ", ";
+        }
+    }
+
+    repr += "}";
+
+    return repr;
 }
 
 
@@ -98,6 +128,24 @@ matriz redimensionar(matriz m, int n2, int m2) {
     return r;
 }
 
+/******************************** EJ 7 ********************************/
+/** a **/
+vector<tripla> aTriplas(matriz m) {
+    vector<tripla> triplas;
+
+    for(int i = 0; i < rows(m); i++) {
+        for(int j = 0; j < cols(m); j++) {
+            int valor = m[i][j];
+
+            if (valor != 0) {
+                triplas.push_back(tripla(i, j, valor));
+            }
+        }
+    }
+
+    return triplas;
+}
+
 void mainP8(){
     /*
     cout << "--------------- Ejercicio 4a ---------------" << endl;
@@ -118,7 +166,6 @@ void mainP8(){
     cout << mToS(trasponer(m2)) << endl;
     cout << mToS(trasponer(trasponer(m2))) << endl;
     cout << mToS(multTras(m2)) << endl;
-     */
 
     cout << "--------------- Ejercicio 6 ---------------" << endl;
     matriz m1 = {
@@ -133,5 +180,24 @@ void mainP8(){
     };
     cout << mToS(redimensionar(m1, 2, 3)) << endl;
     cout << mToS(redimensionar(A, 6, 2)) << endl;
+    */
+
+    cout << "--------------- Ejercicio 7a ---------------" << endl;
+    matriz m = {
+            {1, 0, 0, 0, 0, 0},
+            {0, 2, 0, 0, 0, 0},
+            {0, 0, 3, 0, 0, 0},
+            {0, 0, 0, 4, 0, 0},
+            {0, 0, 0, 0, 5, 0},
+            {0, 0, 0, 0, 0, 6},
+            {0, 0, 0, 0, 0, 0},
+            {123, 0, 0, 0, 0, 0},
+    };
+
+    cout << "m: " << endl;
+    cout << mToS(m) << endl;
+    cout << tVToS(aTriplas(m)) << endl;
+
+
 
 }
