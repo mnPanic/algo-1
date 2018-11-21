@@ -69,7 +69,37 @@ matriz multTras(matriz m) {
 }
 
 
+/******************************** EJ 6 ********************************/
+vector<int> aplanar(matriz m) {
+    vector<int> mA;
+
+    for(int i = 0; i < rows(m); i++) {
+        for(int j = 0; j < cols(m); j++) {
+            mA.push_back(m[i][j]);
+        }
+    }
+
+    return mA;
+}
+
+matriz redimensionar(matriz m, int n2, int m2) {
+    matriz r(m2, vector<int>(n2, 0));
+
+    vector<int> mA = aplanar(m);
+    int k = 0;
+
+    for(int i = 0; i < rows(r); i++) {
+        for(int j = 0; j < cols(r); j++) {
+            r[i][j] = mA[k];
+            k++;
+        }
+    }
+
+    return r;
+}
+
 void mainP8(){
+    /*
     cout << "--------------- Ejercicio 4a ---------------" << endl;
     matriz m = {
             {1, 2, 3},
@@ -88,5 +118,20 @@ void mainP8(){
     cout << mToS(trasponer(m2)) << endl;
     cout << mToS(trasponer(trasponer(m2))) << endl;
     cout << mToS(multTras(m2)) << endl;
+     */
+
+    cout << "--------------- Ejercicio 6 ---------------" << endl;
+    matriz m1 = {
+            {1, 2, 3},
+            {4, 5, 6}
+    };
+
+    matriz A = {
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10, 11, 12},
+    };
+    cout << mToS(redimensionar(m1, 2, 3)) << endl;
+    cout << mToS(redimensionar(A, 6, 2)) << endl;
 
 }
