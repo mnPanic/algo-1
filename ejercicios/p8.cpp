@@ -8,6 +8,7 @@ using namespace std;
 
 
 typedef vector<vector<int>> matriz;
+typedef tuple<int, int> posicion;
 typedef tuple<int, int, int> tripla;
 typedef tuple<int, int> tupla;
 
@@ -48,6 +49,42 @@ string tVToS(vector<tripla> s) {
 
         if (i != s.size() - 1) {
             repr += ", ";
+        }
+    }
+
+    repr += "}";
+
+    return repr;
+}
+
+string tupleVToS(vector<posicion> s) {
+    string repr = "{";
+
+    for (int i = 0; i < s.size(); i++) {
+        repr += tupleToS(s[i]);
+
+        if (i != s.size() - 1) {
+            repr += ", ";
+        }
+    }
+
+    repr += "}";
+
+    return repr;
+}
+
+string posMToS(vector<vector<posicion>> m) {
+    string repr = "{";
+
+    for (int i = 0; i < m.size(); i++) {
+        if (i != 0) {
+            repr += " ";
+        }
+
+        repr += tupleVToS(m[i]);
+
+        if (i != m.size() - 1) {
+            repr += ",\n";
         }
     }
 
@@ -218,79 +255,126 @@ tupla indexOf(matriz m, int x) {
     }
 
     return pos;
-
 }
+
+/******************************** EJ 13 ********************************/
+/** a **/
+int valorEn(matriz m, posicion p) {
+    return m[get<0>(p)][get<1>(p)];
+}
+
+bool enRango(matriz m, posicion p) {
+    return (get<0>(p) < rows(m)) &&
+           (get<1>(p) < cols(m)) &&
+           (get<0>(p) > 0)       &&
+           (get<1>(p) > 0);
+}
+
+vector<posicion> posMenoresAdy(matriz m, posicion p) {
+    vector<posicion> ps;
+
+    int f = get<0>(p);
+    int c = get<1>(p);
+    int valor = valorEn(m, p);
+
+    for (int i = -1; i <= 1; i++) {
+        for(int j = -1; j <= 1; j++) {
+            posicion actual(f + i, c + j);
+            if (enRango(m, actual) && valorEn(m, actual) < valor) {
+                ps.push_back(actual);
+            }
+        }
+    }
+
+    return ps;
+}
+
+bool esValle(matriz m, posicion p){
+    return posMenoresAdy(m, p).size() == 0;
+}
+
+posicion valle(matriz m, posicion from) {
+    posicion actual = from;
+    while(!esValle(m, actual)) {
+        actual = posMenoresAdy(m, actual)[0];
+    }
+
+    return actual;
+}
+
+/** b **/
+
+posicion menorValleDesde(matriz m, posicion from) {
+    if (esValle(m, from)) {
+        return from;
+    } else {
+        vector<posicion> posMenores = posMenoresAdy(m, from);
+        posicion minValle = menorValleDesde(m, posMenores[0]);
+
+        for (int i = 1; i < posMenores.size(); i++) {
+            posicion valle = menorValleDesde(m, posMenores[i]);
+
+            if (valorEn(m, valle) < valorEn(m, minValle)) {
+                minValle = valle;
+            }
+        }
+
+        return minValle;
+    }
+}
+
+/** c **/
+typedef vector<posicion> camino;
+
+
+vector<posicion> addFirst(vector<posicion> ps, posicion p) {
+    vector<posicion> res(ps.size() + 1, posicion(0, 0));
+
+    res[0] = p;
+    for (int i = 1; i < res.size(); i++) {
+        res[i] = ps[i - 1];
+    }
+
+    return res;
+}
+
+void agregarATodos(vector<camino> &caminos, vector<camino> &caminosSiguientes, posicion from) {
+    for (int i = 0; i < caminosSiguientes.size(); i++) {
+        caminos.push_back(addFirst(caminosSiguientes[i], from));
+    }
+}
+
+vector<camino> caminosAVallesDesde(matriz m, posicion from) {
+    if(esValle(m, from)) {
+        return {{from}};
+    } else {
+        vector<camino> caminos;
+        vector<posicion> posMenores = posMenoresAdy(m, from);
+        for (int i = 0; i < posMenores.size(); i++) {
+            vector<camino> caminosSiguientes = caminosAVallesDesde(m, posMenores[i]);
+
+            agregarATodos(caminos, caminosSiguientes, from);
+        }
+
+        return caminos;
+    }
+}
+
 void mainP8(){
-    /*
-    cout << "--------------- Ejercicio 4a ---------------" << endl;
+    cout << "--------------- Ejercicio 13 ---------------" << endl;
     matriz m = {
-            {1, 2, 3},
-            {4, 5, 6},
-            {7, 8, 9}
-    };
-    cout << vToS(multFila(m, 1)) << endl;
-
-    cout << "--------------- Ejercicio 4b ---------------" << endl;
-    matriz m2 = {
-            {1, 2},
-            {3, 4},
-            {5, 6}
-    };
-    cout << mToS(m2) << endl;
-    cout << mToS(trasponer(m2)) << endl;
-    cout << mToS(trasponer(trasponer(m2))) << endl;
-    cout << mToS(multTras(m2)) << endl;
-
-    cout << "--------------- Ejercicio 6 ---------------" << endl;
-    matriz m1 = {
-            {1, 2, 3},
-            {4, 5, 6}
+            {10, 8, 1, 2, 13},
+            {11, 7, -1, 3, 14},
+            {12, 6, 5, 4, 15},
+            {24, 16, 17, 18, 27},
+            {25, 23, 0, 19, 28},
+            {26, 22, 21, 20, 29}
     };
 
-    matriz A = {
-            {1, 2, 3, 4},
-            {5, 6, 7, 8},
-            {9, 10, 11, 12},
-    };
-    cout << mToS(redimensionar(m1, 2, 3)) << endl;
-    cout << mToS(redimensionar(A, 6, 2)) << endl;
-    */
+    cout << "un valle esta en la pos: " << tupleToS(valle(m, posicion(0,0))) << endl;
+    cout << "el mínimo valle esta en la pos: " << tupleToS(menorValleDesde(m, posicion(3,0))) << endl;
+    cout << "todos los caminos que llevan a valles desde el (3,0) son ->" << endl;
+    cout << posMToS(caminosAVallesDesde(m, posicion(3, 0))) << endl;
 
-    /*
-    cout << "--------------- Ejercicio 7 ---------------" << endl;
-    matriz m = {
-            {1, 0, 0, 0, 0, 0},
-            {0, 2, 0, 0, 0, 0},
-            {0, 0, 3, 0, 0, 0},
-            {0, 0, 0, 4, 0, 0},
-            {0, 0, 0, 0, 5, 0},
-            {0, 0, 0, 0, 0, 6},
-            {0, 0, 0, 0, 0, 0},
-            {123, 0, 0, 0, 0, 0},
-    };
 
-    cout << "m: " << endl;
-    cout << mToS(m) << endl;
-
-    // a
-    vector<tripla> ts = aTriplas(m);
-    cout << "ts: " << endl;
-    cout << tVToS(ts) << endl;
-
-    // b
-    cout << "ts a matriz: " << endl;
-    cout << mToS(aMatriz(ts)) << endl;
-     */
-
-    cout << "--------------- Ejercicio 9 ---------------" << endl;
-
-    matriz m = {
-            {1,  2,  3},
-            {4,  5,  6},
-            {7,  8,  9},
-            {10, 11, 12}
-    };
-
-    cout << tupleToS(indexOf(m, 8)) << endl;
-    cout << tupleToS(indexOf(m, 1234)) << endl;
 }

@@ -25,11 +25,7 @@ void countingSort(vector<int> &s, int k) {
 
 int main() {
     //mainP7();
-    //mainP8();
-    vector<int> s = {1,2,3,3,3,1,1,1,2,2,2,3,1,2,3,1,2,3,1,2,3,3,3,2,1,2,3};
-    cout << vToS(s) << endl;
-    countingSort(s, 3+1);
-    cout << vToS(s) << endl;
+    mainP8();
     return 0;
 }
 
